@@ -1,0 +1,844 @@
+*version
+3
+data-file-overflow=false
+clock=dual
+elapsed-time-usec=385411
+num-method-calls=3830
+clock-call-overhead-nsec=3343
+vm=dalvik
+*threads
+1	main
+12	Binder_4
+11	Binder_3
+10	Binder_2
+9	Binder_1
+8	FinalizerWatchdogDaemon
+7	FinalizerDaemon
+6	ReferenceQueueDaemon
+5	Compiler
+4	JDWP
+3	Signal Catcher
+2	GC
+*methods
+0x6d00b6c8	java/util/concurrent/locks/LockSupport	parkNanos	(Ljava/lang/Object;J)V	LockSupport.java	196
+0x6d00b770	java/util/concurrent/locks/LockSupport	setBlocker	(Ljava/lang/Thread;Ljava/lang/Object;)V	LockSupport.java	109
+0x6d00b7a8	java/util/concurrent/locks/LockSupport	unpark	(Ljava/lang/Thread;)V	LockSupport.java	124
+0x6ce299e8	java/util/LinkedHashMap$ValueIterator	next	()Ljava/lang/Object;	LinkedHashMap.java	374
+0x6ce29970	java/util/LinkedHashMap$ValueIterator	<init>	(Ljava/util/LinkedHashMap;)V	LinkedHashMap.java	373
+0x6ce299a8	java/util/LinkedHashMap$ValueIterator	<init>	(Ljava/util/LinkedHashMap;Ljava/util/LinkedHashMap$1;)V	LinkedHashMap.java	373
+0x6ce65230	android/app/LoadedApk$ServiceDispatcher$InnerConnection	connected	(Landroid/content/ComponentName;Landroid/os/IBinder;)V	LoadedApk.java	952
+0x6ce651f0	android/app/LoadedApk$ServiceDispatcher$InnerConnection	<init>	(Landroid/app/LoadedApk$ServiceDispatcher;)V	LoadedApk.java	947
+0x6ce55b10	android/app/ContextImpl	bindService	(Landroid/content/Intent;Landroid/content/ServiceConnection;I)Z	ContextImpl.java	1406
+0x6ce55b48	android/app/ContextImpl	bindService	(Landroid/content/Intent;Landroid/content/ServiceConnection;II)Z	ContextImpl.java	1417
+0x6ce55b80	android/app/ContextImpl	bindService	(Landroid/content/Intent;Landroid/content/ServiceConnection;IILandroid/app/IActivityManager;)Z	ContextImpl.java	1432
+0x6ce560f8	android/app/ContextImpl	getActivityToken	()Landroid/os/IBinder;	ContextImpl.java	1936
+0x6ce56280	android/app/ContextImpl	getContentResolver	()Landroid/content/ContentResolver;	ContextImpl.java	582
+0x6ce56478	android/app/ContextImpl	getOuterContext	()Landroid/content/Context;	ContextImpl.java	1932
+0x6ce55ad0	android/app/ContextImpl	warnIfCallingFromSystemProcess	()V	ContextImpl.java	1734
+0x6cda43a8	java/lang/Enum	hashCode	()I	Enum.java	119
+0x6cda4418	java/lang/Enum	ordinal	()I	Enum.java	88
+0x6cda4450	java/lang/Enum	toString	()Ljava/lang/String;	Enum.java	99
+0x6d042548	com/squareup/wire/WireType	value	()I	WireType.java	47
+0x6d042498	com/squareup/wire/WireType	valueOf	(I)Lcom/squareup/wire/WireType;	WireType.java	28
+0x6cdc1bf0	sun/misc/Unsafe	compareAndSwapInt	(Ljava/lang/Object;JII)Z	Unsafe.java	-2
+0x6cdc1c60	sun/misc/Unsafe	compareAndSwapObject	(Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z	Unsafe.java	-2
+0x6cdc1e20	sun/misc/Unsafe	park	(ZJ)V	Unsafe.java	320
+0x6cdc1f38	sun/misc/Unsafe	putObject	(Ljava/lang/Object;JLjava/lang/Object;)V	Unsafe.java	-2
+0x6cdc2050	sun/misc/Unsafe	unpark	(Ljava/lang/Object;)V	Unsafe.java	336
+0x6d0460a8	java/util/concurrent/Semaphore$NonfairSync	tryAcquireShared	(I)I	Semaphore.java	202
+0x6d046068	java/util/concurrent/Semaphore$NonfairSync	<init>	(I)V	Semaphore.java	198
+0x6cda52a0	java/util/HashMap	addNewEntry	(Ljava/lang/Object;Ljava/lang/Object;II)V	HashMap.java	476
+0x6cda53f0	java/util/HashMap	containsKey	(Ljava/lang/Object;)Z	HashMap.java	-1
+0x6cda5498	java/util/HashMap	get	(Ljava/lang/Object;)Ljava/lang/Object;	HashMap.java	-1
+0x6cda5540	java/util/HashMap	keySet	()Ljava/util/Set;	HashMap.java	681
+0x6cda5690	java/util/HashMap	put	(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;	HashMap.java	386
+0x6cda5770	java/util/HashMap	values	()Ljava/util/Collection;	HashMap.java	707
+0x6cda4e70	java/util/HashMap	<init>	()V	HashMap.java	125
+0x6cda5068	java/util/HashMap	doubleCapacity	()[Ljava/util/HashMap$HashMapEntry;	HashMap.java	569
+0x6cda50d8	java/util/HashMap	makeTable	(I)[Ljava/util/HashMap$HashMapEntry;	HashMap.java	555
+0x6cda5228	java/util/HashMap	secondaryHash	(I)I	HashMap.java	973
+0x6ce2d7d0	android/os/UserHandle	getUserId	(I)I	UserHandle.java	114
+0x6ce269a0	java/util/Arrays	checkOffsetAndCount	(III)V	Arrays.java	1730
+0x6cd76bd8	java/lang/VMThread	currentThread	()Ljava/lang/Thread;	VMThread.java	-2
+0x6cd76c10	java/lang/VMThread	interrupted	()Z	VMThread.java	-2
+0x6d03faa8	com/squareup/wire/Message	equals	(Ljava/lang/Object;Ljava/lang/Object;)Z	Message.java	241
+0x6d03fb18	com/squareup/wire/Message	getUnknownFieldsSerializedSize	()I	Message.java	237
+0x6d03fb50	com/squareup/wire/Message	toByteArray	()[B	Message.java	200
+0x6d03fb88	com/squareup/wire/Message	toString	()Ljava/lang/String;	Message.java	250
+0x6d03fc68	com/squareup/wire/Message	writeUnknownFieldMap	(Lcom/squareup/wire/WireOutput;)V	Message.java	222
+0x6d03f8a8	com/squareup/wire/Message	<init>	(Lcom/squareup/wire/Message$Builder;)V	Message.java	148
+0x6d03f8e0	com/squareup/wire/Message	access$000	(Lcom/squareup/wire/Message;)Lcom/squareup/wire/UnknownFieldMap;	Message.java	31
+0x6d03f918	com/squareup/wire/Message	access$100	()Lcom/squareup/wire/Wire;	Message.java	31
+0x6cdb1fa8	java/lang/AbstractStringBuilder	append0	(Ljava/lang/String;)V	AbstractStringBuilder.java	138
+0x6cdb2718	java/lang/AbstractStringBuilder	toString	()Ljava/lang/String;	AbstractStringBuilder.java	-1
+0x6cdb1da8	java/lang/AbstractStringBuilder	<init>	()V	AbstractStringBuilder.java	74
+0x6cdb1e50	java/lang/AbstractStringBuilder	enlargeBuffer	(I)V	AbstractStringBuilder.java	-1
+0x6d041be8	com/squareup/wire/Message$Label	isPacked	()Z	Message.java	131
+0x6d041c20	com/squareup/wire/Message$Label	isRepeated	()Z	Message.java	127
+0x6d0466b0	edu/ucla/nesl/sigma/base/SigmaDebug	LogDebug	(Ljava/lang/String;Ljava/lang/String;)V	SigmaDebug.java	34
+0x6cdbe430	android/os/Process	myUid	()I	Process.java	-2
+0x6ce14148	android/content/ContextWrapper	bindService	(Landroid/content/Intent;Landroid/content/ServiceConnection;I)Z	ContextWrapper.java	473
+0x6d045be8	java/util/concurrent/Semaphore	acquire	()V	Semaphore.java	285
+0x6d045e50	java/util/concurrent/Semaphore	release	()V	Semaphore.java	399
+0x6d045fa0	java/util/concurrent/Semaphore	tryAcquire	(JLjava/util/concurrent/TimeUnit;)Z	Semaphore.java	382
+0x6d045b70	java/util/concurrent/Semaphore	<init>	(I)V	Semaphore.java	237
+0x6ce26418	java/lang/ThreadLocal$Values	put	(Ljava/lang/ThreadLocal;Ljava/lang/Object;)V	ThreadLocal.java	-1
+0x6ce26218	java/lang/ThreadLocal$Values	access$000	(Ljava/lang/ThreadLocal$Values;)[Ljava/lang/Object;	ThreadLocal.java	144
+0x6ce26250	java/lang/ThreadLocal$Values	access$100	(Ljava/lang/ThreadLocal$Values;)I	ThreadLocal.java	144
+0x6ce26288	java/lang/ThreadLocal$Values	cleanUp	()V	ThreadLocal.java	254
+0x6ce26330	java/lang/ThreadLocal$Values	next	(I)I	ThreadLocal.java	531
+0x6ce26368	java/lang/ThreadLocal$Values	rehash	()Z	ThreadLocal.java	-1
+0x6d046570	edu/ucla/nesl/sigma/base/SigmaServerBase$1	onServiceConnected	(Landroid/content/ComponentName;Landroid/os/IBinder;)V	SigmaServerBase.java	293
+0x6d046530	edu/ucla/nesl/sigma/base/SigmaServerBase$1	<init>	(Ledu/ucla/nesl/sigma/base/SigmaServerBase$1Holder;Ljava/util/concurrent/Semaphore;)V	SigmaServerBase.java	290
+0x6cd72170	java/lang/Class	getComponentType	()Ljava/lang/Class;	Class.java	-2
+0x6cd723d8	java/lang/Class	getDeclaringClass	()Ljava/lang/Class;	Class.java	-2
+0x6cd72448	java/lang/Class	getEnclosingConstructor	()Ljava/lang/reflect/Constructor;	Class.java	-2
+0x6cd72480	java/lang/Class	getEnclosingMethod	()Ljava/lang/reflect/Method;	Class.java	-2
+0x6cd726b0	java/lang/Class	getName	()Ljava/lang/String;	Class.java	996
+0x6cd72800	java/lang/Class	getSimpleName	()Ljava/lang/String;	Class.java	1012
+0x6cd72918	java/lang/Class	isAnonymousClass	()Z	Class.java	-2
+0x6cd72950	java/lang/Class	isArray	()Z	Class.java	1208
+0x6cd72a68	java/lang/Class	isLocalClass	()Z	Class.java	-1
+0x6cd72aa0	java/lang/Class	isMemberClass	()Z	Class.java	1280
+0x6cd72b48	java/lang/Class	newInstance	()Ljava/lang/Object;	Class.java	1319
+0x6cd71f38	java/lang/Class	newInstanceImpl	()Ljava/lang/Object;	Class.java	-2
+0x6d040eb0	edu/ucla/nesl/sigma/P/URI$Builder	_interface	(Ljava/lang/String;)Ledu/ucla/nesl/sigma/P/URI$Builder;	URI.java	214
+0x6d040ee8	edu/ucla/nesl/sigma/P/URI$Builder	build	()Lcom/squareup/wire/Message;	URI.java	122
+0x6d040f20	edu/ucla/nesl/sigma/P/URI$Builder	build	()Ledu/ucla/nesl/sigma/P/URI;	URI.java	220
+0x6d040f58	edu/ucla/nesl/sigma/P/URI$Builder	className	(Ljava/lang/String;)Ledu/ucla/nesl/sigma/P/URI$Builder;	URI.java	180
+0x6d0410a8	edu/ucla/nesl/sigma/P/URI$Builder	protocol	(Ledu/ucla/nesl/sigma/P/URI$Protocol;)Ledu/ucla/nesl/sigma/P/URI$Builder;	URI.java	154
+0x6d0410e0	edu/ucla/nesl/sigma/P/URI$Builder	type	(Ledu/ucla/nesl/sigma/P/URI$ObjectType;)Ledu/ucla/nesl/sigma/P/URI$Builder;	URI.java	159
+0x6d041118	edu/ucla/nesl/sigma/P/URI$Builder	uuid	(Ljava/lang/String;)Ledu/ucla/nesl/sigma/P/URI$Builder;	URI.java	164
+0x6d040e38	edu/ucla/nesl/sigma/P/URI$Builder	<init>	()V	URI.java	135
+0x6d040e70	edu/ucla/nesl/sigma/P/URI$Builder	<init>	(Ledu/ucla/nesl/sigma/P/URI;)V	URI.java	139
+0x6d042ac0	com/squareup/wire/BuilderAdapter	checkRequiredFields	(Lcom/squareup/wire/Message$Builder;)V	BuilderAdapter.java	71
+0x6ce4c8e8	android/os/Handler	dispatchMessage	(Landroid/os/Message;)V	Handler.java	91
+0x6ce4cbf8	android/os/Handler	post	(Ljava/lang/Runnable;)Z	Handler.java	323
+0x6ce4cf78	android/os/Handler	sendMessageAtTime	(Landroid/os/Message;J)Z	Handler.java	580
+0x6ce4cfb0	android/os/Handler	sendMessageDelayed	(Landroid/os/Message;J)Z	Handler.java	555
+0x6ce4c800	android/os/Handler	enqueueMessage	(Landroid/os/MessageQueue;Landroid/os/Message;J)Z	Handler.java	614
+0x6ce4c838	android/os/Handler	getPostMessage	(Ljava/lang/Runnable;)Landroid/os/Message;	Handler.java	712
+0x6ce4c8a8	android/os/Handler	handleCallback	(Landroid/os/Message;)V	Handler.java	725
+0x6cd71670	java/lang/Throwable	fillInStackTrace	()Ljava/lang/Throwable;	Throwable.java	161
+0x6cd71390	java/lang/Throwable	<init>	()V	Throwable.java	83
+0x6cd713c8	java/lang/Throwable	<init>	(Ljava/lang/String;)V	Throwable.java	95
+0x6cd71518	java/lang/Throwable	nativeFillInStackTrace	()Ljava/lang/Object;	Throwable.java	-2
+0x6ce756a0	android/content/Intent	readFromParcel	(Landroid/os/Parcel;)V	Intent.java	6679
+0x6ce75828	android/content/Intent	resolveType	(Landroid/content/ContentResolver;)Ljava/lang/String;	Intent.java	4025
+0x6ce75898	android/content/Intent	resolveTypeIfNeeded	(Landroid/content/ContentResolver;)Ljava/lang/String;	Intent.java	4049
+0x6ce758d0	android/content/Intent	setAction	(Ljava/lang/String;)Landroid/content/Intent;	Intent.java	4796
+0x6ce75908	android/content/Intent	setAllowFds	(Z)V	Intent.java	4134
+0x6ce75e48	android/content/Intent	writeToParcel	(Landroid/os/Parcel;I)V	Intent.java	-1
+0x6ce74010	android/content/Intent	<init>	(Landroid/os/Parcel;)V	Intent.java	6674
+0x6d046480	edu/ucla/nesl/sigma/base/SigmaServerBase$1Holder	setValue	(Ljava/lang/Object;)V	SigmaServerBase.java	285
+0x6d046440	edu/ucla/nesl/sigma/base/SigmaServerBase$1Holder	<init>	()V	SigmaServerBase.java	281
+0x6cdbf050	android/os/Binder	attachInterface	(Landroid/os/IInterface;Ljava/lang/String;)V	Binder.java	179
+0x6cdbed70	android/os/Binder	<init>	()V	Binder.java	159
+0x6cdbeda8	android/os/Binder	clearCallingIdentity	()J	Binder.java	-2
+0x6cdbee18	android/os/Binder	execTransact	(IIII)Z	Binder.java	-1
+0x6cdbee50	android/os/Binder	flushPendingCommands	()V	Binder.java	-2
+0x6cdbef68	android/os/Binder	init	()V	Binder.java	-2
+0x6cda2c40	java/util/AbstractMap	<init>	()V	AbstractMap.java	171
+0x6cdfec98	android/os/Debug	startMethodTracing	(Ljava/lang/String;)V	Debug.java	-1
+0x6cdfed08	android/os/Debug	startMethodTracing	(Ljava/lang/String;II)V	Debug.java	490
+0x6cdfee20	android/os/Debug	stopMethodTracing	()V	Debug.java	536
+0x6ce64fd8	android/app/LoadedApk$ServiceDispatcher$ConnectionInfo	<init>	()V	LoadedApk.java	939
+0x6ce65010	android/app/LoadedApk$ServiceDispatcher$ConnectionInfo	<init>	(Landroid/app/LoadedApk$1;)V	LoadedApk.java	939
+0x6ce650c8	android/app/LoadedApk$ServiceDispatcher$DeathMonitor	<init>	(Landroid/app/LoadedApk$ServiceDispatcher;Landroid/content/ComponentName;Landroid/os/IBinder;)V	LoadedApk.java	1131
+0x6cd7ff38	java/lang/ref/FinalizerReference	<init>	(Ljava/lang/Object;Ljava/lang/ref/ReferenceQueue;)V	FinalizerReference.java	42
+0x6cd7ff70	java/lang/ref/FinalizerReference	add	(Ljava/lang/Object;)V	FinalizerReference.java	54
+0x6d0426f0	com/squareup/wire/EnumAdapter	fromInt	(I)Ljava/lang/Enum;	EnumAdapter.java	52
+0x6d042728	com/squareup/wire/EnumAdapter	toInt	(Ljava/lang/Enum;)I	EnumAdapter.java	48
+0x6cdc4230	android/os/Parcel	createByteArray	()[B	Parcel.java	1605
+0x6cdc4540	android/os/Parcel	enforceInterface	(Ljava/lang/String;)V	Parcel.java	469
+0x6cdc47e0	android/os/Parcel	readBundle	()Landroid/os/Bundle;	Parcel.java	1579
+0x6cdc4818	android/os/Parcel	readBundle	(Ljava/lang/ClassLoader;)Landroid/os/Bundle;	Parcel.java	1589
+0x6cdc49d8	android/os/Parcel	readException	()V	Parcel.java	1397
+0x6cdc4a48	android/os/Parcel	readExceptionCode	()I	Parcel.java	1418
+0x6cdc4b60	android/os/Parcel	readInt	()I	Parcel.java	1464
+0x6cdc4e38	android/os/Parcel	readString	()Ljava/lang/String;	Parcel.java	1494
+0x6cdc4f18	android/os/Parcel	readStrongBinder	()Landroid/os/IBinder;	Parcel.java	1509
+0x6cdc5030	android/os/Parcel	recycle	()V	Parcel.java	316
+0x6cdc5260	android/os/Parcel	writeBundle	(Landroid/os/Bundle;)V	Parcel.java	621
+0x6cdc52d0	android/os/Parcel	writeByteArray	([B)V	Parcel.java	-1
+0x6cdc5308	android/os/Parcel	writeByteArray	([BII)V	Parcel.java	489
+0x6cdc5538	android/os/Parcel	writeInt	(I)V	Parcel.java	502
+0x6cdc55a8	android/os/Parcel	writeInterfaceToken	(Ljava/lang/String;)V	Parcel.java	465
+0x6cdc56f8	android/os/Parcel	writeNoException	()V	Parcel.java	-1
+0x6cdc5880	android/os/Parcel	writeString	(Ljava/lang/String;)V	Parcel.java	534
+0x6cdc5928	android/os/Parcel	writeStrongBinder	(Landroid/os/IBinder;)V	Parcel.java	551
+0x6cdc3700	android/os/Parcel	freeBuffer	()V	Parcel.java	2219
+0x6cdc3738	android/os/Parcel	init	(I)V	Parcel.java	2209
+0x6cdc37e0	android/os/Parcel	nativeCreateByteArray	(I)[B	Parcel.java	-2
+0x6cdc3930	android/os/Parcel	nativeEnforceInterface	(ILjava/lang/String;)V	Parcel.java	-2
+0x6cdc3968	android/os/Parcel	nativeFreeBuffer	(I)V	Parcel.java	-2
+0x6cdc3b60	android/os/Parcel	nativeReadInt	(I)I	Parcel.java	-2
+0x6cdc3c08	android/os/Parcel	nativeReadString	(I)Ljava/lang/String;	Parcel.java	-2
+0x6cdc3c40	android/os/Parcel	nativeReadStrongBinder	(I)Landroid/os/IBinder;	Parcel.java	-2
+0x6cdc3d90	android/os/Parcel	nativeWriteByteArray	(I[BII)V	Parcel.java	-2
+0x6cdc3e70	android/os/Parcel	nativeWriteInt	(II)V	Parcel.java	-2
+0x6cdc3ea8	android/os/Parcel	nativeWriteInterfaceToken	(ILjava/lang/String;)V	Parcel.java	-2
+0x6cdc3f50	android/os/Parcel	nativeWriteString	(ILjava/lang/String;)V	Parcel.java	-2
+0x6cdc3f88	android/os/Parcel	nativeWriteStrongBinder	(ILandroid/os/IBinder;)V	Parcel.java	-2
+0x6cdc3fc0	android/os/Parcel	obtain	()Landroid/os/Parcel;	Parcel.java	293
+0x6cdc3ff8	android/os/Parcel	obtain	(I)Landroid/os/Parcel;	Parcel.java	2182
+0x6ce6d2b0	android/content/ComponentName	hashCode	()I	ComponentName.java	202
+0x6ce6cef0	android/content/ComponentName	<init>	(Landroid/os/Parcel;)V	ComponentName.java	277
+0x6ce6cf98	android/content/ComponentName	readFromParcel	(Landroid/os/Parcel;)Landroid/content/ComponentName;	ComponentName.java	252
+0x6ce6d008	android/content/ComponentName	writeToParcel	(Landroid/content/ComponentName;Landroid/os/Parcel;)V	ComponentName.java	233
+0x6cd7c2a8	java/lang/reflect/Method	invoke	(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;	Method.java	508
+0x6cd7be40	java/lang/reflect/Method	invokeNative	(Ljava/lang/Object;[Ljava/lang/Object;Ljava/lang/Class;[Ljava/lang/Class;Ljava/lang/Class;IZ)Ljava/lang/Object;	Method.java	-2
+0x6cdc0c38	android/os/StrictMode	hasGatheredViolations	()Z	StrictMode.java	1399
+0x6cdc0d50	android/os/StrictMode	onBinderStrictModePolicyChange	(I)V	StrictMode.java	1683
+0x6cdc0f48	android/os/StrictMode	setBlockGuardPolicy	(I)V	StrictMode.java	765
+0x6cd86a58	java/lang/Integer	hashCode	()I	Integer.java	303
+0x6cd86a90	java/lang/Integer	intValue	()I	Integer.java	313
+0x6cd86858	java/lang/Integer	valueOf	(I)Ljava/lang/Integer;	Integer.java	707
+0x6d040b08	com/squareup/wire/MessageAdapter	getFieldValue	(Lcom/squareup/wire/Message;Lcom/squareup/wire/MessageAdapter$FieldInfo;)Ljava/lang/Object;	MessageAdapter.java	98
+0x6d040b40	com/squareup/wire/MessageAdapter	getFields	()Ljava/util/Collection;	MessageAdapter.java	89
+0x6d040b78	com/squareup/wire/MessageAdapter	getSerializedSize	(Lcom/squareup/wire/Message;)I	MessageAdapter.java	207
+0x6d040be8	com/squareup/wire/MessageAdapter	read	(Lcom/squareup/wire/WireInput;)Lcom/squareup/wire/Message;	MessageAdapter.java	514
+0x6d040c20	com/squareup/wire/MessageAdapter	setBuilderField	(Lcom/squareup/wire/Message$Builder;ILjava/lang/Object;)V	MessageAdapter.java	110
+0x6d040c58	com/squareup/wire/MessageAdapter	toByteArray	(Lcom/squareup/wire/Message;)[B	MessageAdapter.java	352
+0x6d040c90	com/squareup/wire/MessageAdapter	toString	(Lcom/squareup/wire/Message;)Ljava/lang/String;	MessageAdapter.java	365
+0x6d040cc8	com/squareup/wire/MessageAdapter	write	(Lcom/squareup/wire/Message;Lcom/squareup/wire/WireOutput;)V	MessageAdapter.java	280
+0x6d040550	com/squareup/wire/MessageAdapter	getEnumClass	(I)Ljava/lang/Class;	MessageAdapter.java	703
+0x6d040588	com/squareup/wire/MessageAdapter	getEnumSize	(Ljava/lang/Enum;)I	MessageAdapter.java	447
+0x6d040780	com/squareup/wire/MessageAdapter	getSerializedSize	(ILjava/lang/Object;Lcom/squareup/wire/Message$Datatype;)I	MessageAdapter.java	396
+0x6d0407b8	com/squareup/wire/MessageAdapter	getSerializedSizeNoTag	(Ljava/lang/Object;Lcom/squareup/wire/Message$Datatype;)I	MessageAdapter.java	404
+0x6d040860	com/squareup/wire/MessageAdapter	readValue	(Lcom/squareup/wire/WireInput;ILcom/squareup/wire/Message$Datatype;)Ljava/lang/Object;	MessageAdapter.java	586
+0x6d0408d0	com/squareup/wire/MessageAdapter	utf8Length	(Ljava/lang/String;)I	MessageAdapter.java	428
+0x6d040908	com/squareup/wire/MessageAdapter	writeEnum	(Ljava/lang/Enum;Lcom/squareup/wire/WireOutput;)V	MessageAdapter.java	505
+0x6d040a20	com/squareup/wire/MessageAdapter	writeValue	(Lcom/squareup/wire/WireOutput;ILjava/lang/Object;Lcom/squareup/wire/Message$Datatype;)V	MessageAdapter.java	459
+0x6d040a58	com/squareup/wire/MessageAdapter	writeValueNoTag	(Lcom/squareup/wire/WireOutput;Ljava/lang/Object;Lcom/squareup/wire/Message$Datatype;)V	MessageAdapter.java	468
+0x6cd74398	java/lang/String	_getChars	(II[CI)V	String.java	903
+0x6cd743d0	java/lang/String	charAt	(I)C	String.java	-2
+0x6cd74670	java/lang/String	equals	(Ljava/lang/Object;)Z	String.java	-2
+0x6cd74750	java/lang/String	getBytes	(Ljava/lang/String;)[B	String.java	835
+0x6cd74788	java/lang/String	getBytes	(Ljava/nio/charset/Charset;)[B	String.java	849
+0x6cd747f8	java/lang/String	hashCode	()I	String.java	907
+0x6cd74910	java/lang/String	intern	()Ljava/lang/String;	String.java	-2
+0x6cd74980	java/lang/String	lastIndexOf	(I)I	String.java	1088
+0x6cd74a60	java/lang/String	length	()I	String.java	-2
+0x6cd74d70	java/lang/String	substring	(I)Ljava/lang/String;	String.java	1432
+0x6cd74e88	java/lang/String	toString	()Ljava/lang/String;	String.java	1510
+0x6cd73ad0	java/lang/String	<init>	(II[C)V	String.java	431
+0x6cd73d70	java/lang/String	<init>	([BIILjava/lang/String;)V	String.java	213
+0x6cd73da8	java/lang/String	<init>	([BIILjava/nio/charset/Charset;)V	String.java	245
+0x6ce23888	java/util/HashMap$KeySet	iterator	()Ljava/util/Iterator;	HashMap.java	899
+0x6ce23768	java/util/HashMap$KeySet	<init>	(Ljava/util/HashMap;)V	HashMap.java	897
+0x6ce237a0	java/util/HashMap$KeySet	<init>	(Ljava/util/HashMap;Ljava/util/HashMap$1;)V	HashMap.java	897
+0x6ce61c10	android/util/AndroidRuntimeException	<init>	(Ljava/lang/String;)V	AndroidRuntimeException.java	27
+0x6d042390	com/squareup/wire/MessageAdapter$Storage	getTags	()Ljava/util/Set;	MessageAdapter.java	674
+0x6d0422a8	com/squareup/wire/MessageAdapter$Storage	<init>	()V	MessageAdapter.java	661
+0x6d0422e0	com/squareup/wire/MessageAdapter$Storage	<init>	(Lcom/squareup/wire/MessageAdapter$1;)V	MessageAdapter.java	661
+0x6cda0110	java/util/Collections	emptyList	()Ljava/util/List;	Collections.java	2409
+0x6d03f148	edu/ucla/nesl/sigma/base/SigmaWire	parseFrom	([BLjava/lang/Class;)Lcom/squareup/wire/Message;	SigmaWire.java	37
+0x6d03f180	edu/ucla/nesl/sigma/base/SigmaWire	parseURI	([B)Ledu/ucla/nesl/sigma/P/URI;	SigmaWire.java	32
+0x6d03f108	edu/ucla/nesl/sigma/base/SigmaWire	getInstance	()Ledu/ucla/nesl/sigma/base/SigmaWire;	SigmaWire.java	19
+0x6cd71128	java/lang/Object	getClass	()Ljava/lang/Class;	Object.java	-2
+0x6cd71160	java/lang/Object	hashCode	()I	Object.java	-2
+0x6d0096d0	java/util/concurrent/TimeUnit	x	(JJJ)J	TimeUnit.java	137
+0x6cda4bb8	java/util/LinkedHashMap	get	(Ljava/lang/Object;)Ljava/lang/Object;	LinkedHashMap.java	-1
+0x6cda4bf0	java/util/LinkedHashMap	init	()V	LinkedHashMap.java	137
+0x6cda4c60	java/util/LinkedHashMap	newKeyIterator	()Ljava/util/Iterator;	LinkedHashMap.java	384
+0x6cda4c98	java/util/LinkedHashMap	newValueIterator	()Ljava/util/Iterator;	LinkedHashMap.java	387
+0x6cda4910	java/util/LinkedHashMap	<init>	()V	LinkedHashMap.java	66
+0x6d006c18	java/util/concurrent/locks/AbstractQueuedSynchronizer$Node	predecessor	()Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;	AbstractQueuedSynchronizer.java	471
+0x6d006b30	java/util/concurrent/locks/AbstractQueuedSynchronizer$Node	<init>	()V	AbstractQueuedSynchronizer.java	478
+0x6d006ba0	java/util/concurrent/locks/AbstractQueuedSynchronizer$Node	<init>	(Ljava/lang/Thread;Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;)V	AbstractQueuedSynchronizer.java	481
+0x6d042e38	edu/ucla/nesl/sigma/impl/_native/NativeSigmaManager	getSelfURI	()[B	NativeSigmaManager.java	110
+0x6d042ea8	edu/ucla/nesl/sigma/impl/_native/NativeSigmaManager	getServiceURI	([BLandroid/content/Intent;)[B	NativeSigmaManager.java	138
+0x6d043030	edu/ucla/nesl/sigma/impl/_native/NativeSigmaManager	startTracing	(Ljava/lang/String;)V	NativeSigmaManager.java	166
+0x6d0430a0	edu/ucla/nesl/sigma/impl/_native/NativeSigmaManager	stopTracing	()V	NativeSigmaManager.java	170
+0x6ce29c38	java/util/LinkedHashMap$LinkedHashIterator	hasNext	()Z	LinkedHashMap.java	345
+0x6ce29c70	java/util/LinkedHashMap$LinkedHashIterator	nextEntry	()Ljava/util/LinkedHashMap$LinkedEntry;	LinkedHashMap.java	349
+0x6ce29a88	java/util/LinkedHashMap$LinkedHashIterator	<init>	(Ljava/util/LinkedHashMap;)V	LinkedHashMap.java	339
+0x6ce29ac0	java/util/LinkedHashMap$LinkedHashIterator	<init>	(Ljava/util/LinkedHashMap;Ljava/util/LinkedHashMap$1;)V	LinkedHashMap.java	339
+0x6ce25cc0	dalvik/system/BlockGuard	getThreadPolicy	()Ldalvik/system/BlockGuard$Policy;	BlockGuard.java	140
+0x6ce25cf8	dalvik/system/BlockGuard	setThreadPolicy	(Ldalvik/system/BlockGuard$Policy;)V	BlockGuard.java	150
+0x6d0421e8	com/squareup/wire/MessageAdapter$FieldInfo	access$000	(Lcom/squareup/wire/MessageAdapter$FieldInfo;)Ljava/lang/reflect/Field;	MessageAdapter.java	43
+0x6d042220	com/squareup/wire/MessageAdapter$FieldInfo	access$100	(Lcom/squareup/wire/MessageAdapter$FieldInfo;)Ljava/lang/reflect/Method;	MessageAdapter.java	43
+0x6cda1338	java/util/AbstractCollection	<init>	()V	AbstractCollection.java	36
+0x6cef8e28	android/os/StrictMode$AndroidBlockGuardPolicy	<init>	(I)V	StrictMode.java	1058
+0x6ce76118	android/content/Intent$1	createFromParcel	(Landroid/os/Parcel;)Landroid/content/Intent;	Intent.java	6666
+0x6ce76150	android/content/Intent$1	createFromParcel	(Landroid/os/Parcel;)Ljava/lang/Object;	Intent.java	6664
+0x6d0456e0	com/squareup/wire/WireOutput	writeRawByte	(B)V	WireOutput.java	219
+0x6d045718	com/squareup/wire/WireOutput	writeRawByte	(I)V	WireOutput.java	228
+0x6d045750	com/squareup/wire/WireOutput	writeRawBytes	([B)V	WireOutput.java	233
+0x6d045788	com/squareup/wire/WireOutput	writeRawBytes	([BII)V	WireOutput.java	238
+0x6d0457f8	com/squareup/wire/WireOutput	writeTag	(ILcom/squareup/wire/WireType;)V	WireOutput.java	250
+0x6d045830	com/squareup/wire/WireOutput	writeVarint32	(I)V	WireOutput.java	269
+0x6d0452b0	com/squareup/wire/WireOutput	<init>	([BII)V	WireOutput.java	159
+0x6d045358	com/squareup/wire/WireOutput	makeTag	(ILcom/squareup/wire/WireType;)I	WireOutput.java	152
+0x6d045400	com/squareup/wire/WireOutput	newInstance	([B)Lcom/squareup/wire/WireOutput;	WireOutput.java	172
+0x6d045438	com/squareup/wire/WireOutput	newInstance	([BII)Lcom/squareup/wire/WireOutput;	WireOutput.java	182
+0x6d0454a8	com/squareup/wire/WireOutput	varint32Size	(I)I	WireOutput.java	196
+0x6d045518	com/squareup/wire/WireOutput	varintTagSize	(I)I	WireOutput.java	187
+0x6d041338	com/squareup/wire/Message$Builder	checkRequiredFields	()V	Message.java	315
+0x6d041170	com/squareup/wire/Message$Builder	<init>	()V	Message.java	263
+0x6d0411a8	com/squareup/wire/Message$Builder	<init>	(Lcom/squareup/wire/Message;)V	Message.java	270
+0x6cd775c0	java/lang/Exception	<init>	(Ljava/lang/String;)V	Exception.java	47
+0x6cdbfac8	android/os/BinderProxy	getInterfaceDescriptor	()Ljava/lang/String;	Binder.java	-2
+0x6cdbfb38	android/os/BinderProxy	linkToDeath	(Landroid/os/IBinder$DeathRecipient;I)V	Binder.java	-2
+0x6cdbfbe0	android/os/BinderProxy	transact	(ILandroid/os/Parcel;Landroid/os/Parcel;I)Z	Binder.java	-2
+0x6cda2420	java/util/AbstractSet	<init>	()V	AbstractSet.java	33
+0x6cd895b0	java/nio/charset/Charset	name	()Ljava/lang/String;	Charset.java	379
+0x6cd891b8	java/nio/charset/Charset	forName	(Ljava/lang/String;)Ljava/nio/charset/Charset;	Charset.java	277
+0x6cd891f0	java/nio/charset/Charset	forNameUEE	(Ljava/lang/String;)Ljava/nio/charset/Charset;	Charset.java	314
+0x6ceeb688	android/net/Uri$1	createFromParcel	(Landroid/os/Parcel;)Landroid/net/Uri;	Uri.java	1762
+0x6ceeb6c0	android/net/Uri$1	createFromParcel	(Landroid/os/Parcel;)Ljava/lang/Object;	Uri.java	1760
+0x6ce64ca0	android/app/LoadedApk$ServiceDispatcher	connected	(Landroid/content/ComponentName;Landroid/os/IBinder;)V	LoadedApk.java	1025
+0x6ce64d10	android/app/LoadedApk$ServiceDispatcher	doConnected	(Landroid/content/ComponentName;Landroid/os/IBinder;)V	LoadedApk.java	1057
+0x6ce64df0	android/app/LoadedApk$ServiceDispatcher	getIServiceConnection	()Landroid/app/IServiceConnection;	LoadedApk.java	1009
+0x6ce64c60	android/app/LoadedApk$ServiceDispatcher	<init>	(Landroid/content/ServiceConnection;Landroid/content/Context;Landroid/os/Handler;I)V	LoadedApk.java	963
+0x6cd774d8	java/lang/RuntimeException	<init>	(Ljava/lang/String;)V	RuntimeException.java	46
+0x6d040080	com/squareup/wire/WireInput	getPosition	()J	WireInput.java	412
+0x6d0400b8	com/squareup/wire/WireInput	isAtEnd	()Z	WireInput.java	-1
+0x6d040240	com/squareup/wire/WireInput	readRawByte	()B	WireInput.java	421
+0x6d0402b0	com/squareup/wire/WireInput	readString	()Ljava/lang/String;	WireInput.java	114
+0x6d0402e8	com/squareup/wire/WireInput	readTag	()I	WireInput.java	-1
+0x6d040320	com/squareup/wire/WireInput	readVarint32	()I	WireInput.java	154
+0x6d03fe48	com/squareup/wire/WireInput	<init>	([BII)V	WireInput.java	310
+0x6d03fe80	com/squareup/wire/WireInput	bytesRemaining	()I	WireInput.java	126
+0x6d03ff60	com/squareup/wire/WireInput	newInstance	([B)Lcom/squareup/wire/WireInput;	WireInput.java	64
+0x6d03ffd0	com/squareup/wire/WireInput	refillBuffer	(I)V	WireInput.java	-1
+0x6ce64208	android/app/LoadedApk	getServiceDispatcher	(Landroid/content/ServiceConnection;Landroid/content/Context;Landroid/os/Handler;I)Landroid/app/IServiceConnection;	LoadedApk.java	856
+0x6ce653a0	android/app/LoadedApk$ServiceDispatcher$RunConnection	run	()V	LoadedApk.java	1117
+0x6ce65360	android/app/LoadedApk$ServiceDispatcher$RunConnection	<init>	(Landroid/app/LoadedApk$ServiceDispatcher;Landroid/content/ComponentName;Landroid/os/IBinder;I)V	LoadedApk.java	1110
+0x6ce6d480	android/content/ComponentName$1	createFromParcel	(Landroid/os/Parcel;)Landroid/content/ComponentName;	ComponentName.java	259
+0x6ce6d4b8	android/content/ComponentName$1	createFromParcel	(Landroid/os/Parcel;)Ljava/lang/Object;	ComponentName.java	257
+0x6cdc29f0	java/lang/ThreadLocal	get	()Ljava/lang/Object;	ThreadLocal.java	53
+0x6cdc2ad0	java/lang/ThreadLocal	set	(Ljava/lang/Object;)V	ThreadLocal.java	86
+0x6cdc2b08	java/lang/ThreadLocal	values	(Ljava/lang/Thread;)Ljava/lang/ThreadLocal$Values;	ThreadLocal.java	121
+0x6cdc2978	java/lang/ThreadLocal	access$200	(Ljava/lang/ThreadLocal;)I	ThreadLocal.java	33
+0x6cdc29b0	java/lang/ThreadLocal	access$300	(Ljava/lang/ThreadLocal;)Ljava/lang/ref/Reference;	ThreadLocal.java	33
+0x6d043ac0	edu/ucla/nesl/sigma/impl/_native/NativeSigmaManager$Server	getSelfURI	()Ledu/ucla/nesl/sigma/P/URI;	NativeSigmaManager.java	36
+0x6cef71f8	android/os/Message	clearForRecycle	()V	Message.java	-1
+0x6cef73b8	android/os/Message	isInUse	()Z	Message.java	-1
+0x6cef73f0	android/os/Message	markInUse	()V	Message.java	423
+0x6cef7460	android/os/Message	recycle	()V	Message.java	249
+0x6cef6ff8	android/os/Message	obtain	()Landroid/os/Message;	Message.java	107
+0x6cda3838	java/util/ArrayList	get	(I)Ljava/lang/Object;	ArrayList.java	303
+0x6cda3a68	java/util/ArrayList	size	()I	ArrayList.java	315
+0x6d03f7b8	edu/ucla/nesl/sigma/P/URI	equals	(Ljava/lang/Object;)Z	URI.java	-1
+0x6d03f740	edu/ucla/nesl/sigma/P/URI	<init>	(Ledu/ucla/nesl/sigma/P/URI$Builder;)V	URI.java	73
+0x6d03f778	edu/ucla/nesl/sigma/P/URI	<init>	(Ledu/ucla/nesl/sigma/P/URI$Builder;Ledu/ucla/nesl/sigma/P/URI$1;)V	URI.java	14
+0x6cd80978	dalvik/system/VMDebug	startMethodTracing	(Ljava/lang/String;II)V	VMDebug.java	171
+0x6cd80b00	dalvik/system/VMDebug	stopMethodTracing	()V	VMDebug.java	-2
+0x6cda59d0	java/util/HashMap$HashMapEntry	<init>	(Ljava/lang/Object;Ljava/lang/Object;ILjava/util/HashMap$HashMapEntry;)V	HashMap.java	729
+0x6ce60920	android/app/IServiceConnection$Stub	asBinder	()Landroid/os/IBinder;	IServiceConnection.java	35
+0x6ce60958	android/app/IServiceConnection$Stub	onTransact	(ILandroid/os/Parcel;Landroid/os/Parcel;I)Z	IServiceConnection.java	-1
+0x6ce60770	android/app/IServiceConnection$Stub	<init>	()V	IServiceConnection.java	15
+0x6d043600	edu/ucla/nesl/sigma/api/ISigmaManager$Stub	onTransact	(ILandroid/os/Parcel;Landroid/os/Parcel;I)Z	ISigmaManager.java	-1
+0x6d0067c8	java/util/concurrent/locks/AbstractOwnableSynchronizer	<init>	()V	AbstractOwnableSynchronizer.java	30
+0x6ce68230	android/app/ServiceConnectionLeaked	<init>	(Ljava/lang/String;)V	LoadedApk.java	63
+0x6cdb13f8	java/lang/StringBuilder	append	(Ljava/lang/Object;)Ljava/lang/StringBuilder;	StringBuilder.java	199
+0x6cdb1430	java/lang/StringBuilder	append	(Ljava/lang/String;)Ljava/lang/StringBuilder;	StringBuilder.java	216
+0x6cdb1cf0	java/lang/StringBuilder	toString	()Ljava/lang/String;	StringBuilder.java	663
+0x6cdb1070	java/lang/StringBuilder	<init>	()V	StringBuilder.java	54
+0x6ce29850	java/util/HashMap$Values	iterator	()Ljava/util/Iterator;	HashMap.java	922
+0x6d03f338	com/squareup/wire/Wire	builderAdapter	(Ljava/lang/Class;)Lcom/squareup/wire/BuilderAdapter;	Wire.java	92
+0x6d03f370	com/squareup/wire/Wire	enumAdapter	(Ljava/lang/Class;)Lcom/squareup/wire/EnumAdapter;	Wire.java	105
+0x6d03f3a8	com/squareup/wire/Wire	messageAdapter	(Ljava/lang/Class;)Lcom/squareup/wire/MessageAdapter;	Wire.java	78
+0x6d03f450	com/squareup/wire/Wire	parseFrom	([BLjava/lang/Class;)Lcom/squareup/wire/Message;	Wire.java	118
+0x6d03f2f8	com/squareup/wire/Wire	parseFrom	(Lcom/squareup/wire/WireInput;Ljava/lang/Class;)Lcom/squareup/wire/Message;	Wire.java	143
+0x6d041900	com/squareup/wire/Message$Datatype	wireType	()Lcom/squareup/wire/WireType;	Message.java	84
+0x6d0060a0	java/util/concurrent/locks/AbstractQueuedSynchronizer	acquireSharedInterruptibly	(I)V	AbstractQueuedSynchronizer.java	1276
+0x6d006110	java/util/concurrent/locks/AbstractQueuedSynchronizer	compareAndSetState	(II)Z	AbstractQueuedSynchronizer.java	542
+0x6d006298	java/util/concurrent/locks/AbstractQueuedSynchronizer	getState	()I	AbstractQueuedSynchronizer.java	517
+0x6d006538	java/util/concurrent/locks/AbstractQueuedSynchronizer	releaseShared	(I)Z	AbstractQueuedSynchronizer.java	1316
+0x6d006570	java/util/concurrent/locks/AbstractQueuedSynchronizer	setState	(I)V	AbstractQueuedSynchronizer.java	526
+0x6d0066f8	java/util/concurrent/locks/AbstractQueuedSynchronizer	tryAcquireSharedNanos	(IJ)Z	AbstractQueuedSynchronizer.java	1300
+0x6d005ae8	java/util/concurrent/locks/AbstractQueuedSynchronizer	<init>	()V	AbstractQueuedSynchronizer.java	275
+0x6d005b20	java/util/concurrent/locks/AbstractQueuedSynchronizer	addWaiter	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;)Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;	AbstractQueuedSynchronizer.java	582
+0x6d005b90	java/util/concurrent/locks/AbstractQueuedSynchronizer	compareAndSetHead	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;)Z	AbstractQueuedSynchronizer.java	2278
+0x6d005c00	java/util/concurrent/locks/AbstractQueuedSynchronizer	compareAndSetTail	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;)Z	AbstractQueuedSynchronizer.java	2285
+0x6d005c38	java/util/concurrent/locks/AbstractQueuedSynchronizer	compareAndSetWaitStatus	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;II)Z	AbstractQueuedSynchronizer.java	2294
+0x6d005d50	java/util/concurrent/locks/AbstractQueuedSynchronizer	doAcquireSharedNanos	(IJ)Z	AbstractQueuedSynchronizer.java	990
+0x6d005d88	java/util/concurrent/locks/AbstractQueuedSynchronizer	doReleaseShared	()V	AbstractQueuedSynchronizer.java	-1
+0x6d005dc0	java/util/concurrent/locks/AbstractQueuedSynchronizer	enq	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;)Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;	AbstractQueuedSynchronizer.java	561
+0x6d005ed8	java/util/concurrent/locks/AbstractQueuedSynchronizer	setHead	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;)V	AbstractQueuedSynchronizer.java	-1
+0x6d005f10	java/util/concurrent/locks/AbstractQueuedSynchronizer	setHeadAndPropagate	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;I)V	AbstractQueuedSynchronizer.java	685
+0x6d005f48	java/util/concurrent/locks/AbstractQueuedSynchronizer	shouldParkAfterFailedAcquire	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;)Z	AbstractQueuedSynchronizer.java	-1
+0x6d005f80	java/util/concurrent/locks/AbstractQueuedSynchronizer	unparkSuccessor	(Ljava/util/concurrent/locks/AbstractQueuedSynchronizer$Node;)V	AbstractQueuedSynchronizer.java	620
+0x6ce46a60	android/app/ActivityManagerProxy	bindService	(Landroid/app/IApplicationThread;Landroid/os/IBinder;Landroid/content/Intent;Ljava/lang/String;Landroid/app/IServiceConnection;II)I	ActivityManagerNative.java	-1
+0x6cdb4030	android/os/SystemClock	uptimeMillis	()J	SystemClock.java	-2
+0x6d043da0	edu/ucla/nesl/sigma/base/SigmaServerBase	getServiceURI	(Landroid/content/Intent;)Ledu/ucla/nesl/sigma/P/URI;	SigmaServerBase.java	153
+0x6d043ef0	edu/ucla/nesl/sigma/base/SigmaServerBase	serveBinder	(Landroid/os/IBinder;Landroid/content/ServiceConnection;)Ledu/ucla/nesl/sigma/P/URI;	SigmaServerBase.java	64
+0x6d043c80	edu/ucla/nesl/sigma/base/SigmaServerBase	getService	(Landroid/content/Context;Landroid/content/Intent;)Landroid/util/Pair;	SigmaServerBase.java	-1
+0x6d046198	java/util/concurrent/Semaphore$Sync	nonfairTryAcquireShared	(I)I	Semaphore.java	152
+0x6d046208	java/util/concurrent/Semaphore$Sync	tryReleaseShared	(I)Z	Semaphore.java	162
+0x6d0460e8	java/util/concurrent/Semaphore$Sync	<init>	(I)V	Semaphore.java	142
+0x6cd80248	java/lang/ref/Reference	get	()Ljava/lang/Object;	Reference.java	132
+0x6cd80160	java/lang/ref/Reference	<init>	(Ljava/lang/Object;Ljava/lang/ref/ReferenceQueue;)V	Reference.java	84
+0x6cda6288	java/lang/ref/WeakReference	<init>	(Ljava/lang/Object;)V	WeakReference.java	95
+0x6d00a1f0	java/util/concurrent/TimeUnit$3	toNanos	(J)J	TimeUnit.java	66
+0x6cd7b230	java/lang/reflect/Field	get	(Ljava/lang/Object;)Ljava/lang/Object;	Field.java	269
+0x6cd7adc8	java/lang/reflect/Field	getField	(Ljava/lang/Object;Ljava/lang/Class;Ljava/lang/Class;IZ)Ljava/lang/Object;	Field.java	-2
+0x6cd93a70	java/nio/charset/Charsets	toUtf8Bytes	([CII)[B	Charsets.java	-2
+0x6ce3ffa8	android/app/ActivityManagerNative	getDefault	()Landroid/app/IActivityManager;	ActivityManagerNative.java	74
+0x6ce4b238	android/app/ApplicationThreadNative	asBinder	()Landroid/os/IBinder;	ApplicationThreadNative.java	597
+0x6cdc34b8	android/util/Singleton	get	()Ljava/lang/Object;	Singleton.java	32
+0x6cd75c28	java/lang/Thread	parkFor	(J)V	Thread.java	-1
+0x6cd75fa8	java/lang/Thread	unpark	()V	Thread.java	-1
+0x6cd755c8	java/lang/Thread	currentThread	()Ljava/lang/Thread;	Thread.java	476
+0x6cd75718	java/lang/Thread	interrupted	()Z	Thread.java	696
+0x6cda6378	java/util/LinkedHashMap$LinkedEntry	<init>	()V	LinkedHashMap.java	-1
+0x6cdff720	android/os/MessageQueue	enqueueMessage	(Landroid/os/Message;J)Z	MessageQueue.java	-1
+0x6cdff838	android/os/MessageQueue	next	()Landroid/os/Message;	MessageQueue.java	118
+0x6cdff670	android/os/MessageQueue	nativePollOnce	(II)V	MessageQueue.java	-2
+0x6cdff6a8	android/os/MessageQueue	nativeWake	(I)V	MessageQueue.java	-2
+0x6ce0f280	android/app/ActivityThread	getApplicationThread	()Landroid/app/ActivityThread$ApplicationThread;	ActivityThread.java	1868
+0x6ce0f328	android/app/ActivityThread	getHandler	()Landroid/os/Handler;	ActivityThread.java	1739
+0x6cd92530	java/lang/System	arraycopy	(Ljava/lang/Object;ILjava/lang/Object;II)V	System.java	-2
+0x6cd92b50	java/lang/System	nanoTime	()J	System.java	-2
+0x6ced0d78	java/util/LinkedHashMap$KeyIterator	<init>	(Ljava/util/LinkedHashMap;)V	LinkedHashMap.java	369
+0x6ced0db0	java/util/LinkedHashMap$KeyIterator	<init>	(Ljava/util/LinkedHashMap;Ljava/util/LinkedHashMap$1;)V	LinkedHashMap.java	369
+0x6cf18350	android/util/Pair	<init>	(Ljava/lang/Object;Ljava/lang/Object;)V	Pair.java	36
+0x6cee9308	android/net/Uri	writeToParcel	(Landroid/os/Parcel;Landroid/net/Uri;)V	Uri.java	-1
+*end
+SLOW   ö=7sò                
+ y	Øl    %  
+ 	íßl    %  
+ ™ìßl    %  
+ 10m   D  
+ øVÜl   D  
+ 8Ül   D  
+ ğ)Ül   D  
+ ÈU×l   D  
+ Øk×l   D  
+ Ùk×l   b  
+ ÉU×l=   b  
+ +Ül=   b  
+ 	+Ül=   b  
+ bâl=   b  
+ bâl=   b  
+ Pbâl=   b  
+ Qbâl=   b  
+ ñ)Ül=   b  
+ 9Ül=     
+ 8UÜl[     
+ p>Ül[     
+ q>Ül[     
+ 9UÜl[     
+ ùVÜl[     
+ 6m[     
+ 0PÜlz   Ÿ  
+  7Ülz   Ÿ  
+ 7Ülz   Ÿ  
+ 1PÜlz   Ÿ  
+ 0PÜlz   Ÿ  
+  7Ülz   Ÿ  
+ 7Ülz   Ÿ  
+ 1PÜlz   Ÿ  
+ îÛl˜   ¾  
+ PÜl˜   ¾  
+ HÜl˜   ¾  
+ ø\âl˜   ¾  
+ Ğ*Ül˜   ¾  
+ ÈU×l˜   Ü  
+ Øk×l·   Ü  
+ Ùk×l·   Ü  
+ ÉU×l·   Ü  
+ +Ül·   Ü  
+ 	+Ül·   Ü  
+ dâl·   Ü  
+ ˆbâl·   Ü  
+ hcâl·   Ü  
+ icâl·   û  
+ 0câlÕ   û  
+ 1câlÕ   û  
+ 0câlÕ   û  
+ 1câlÕ   û  
+ HØlÕ   û  
+ IØlÕ   û  
+ 0câlÕ   û  
+ 1câlÕ     
+ 0câlô     
+ 1câlô     
+ 0câlô     
+ 1câlô     
+ HØlô     
+ IØlô     
+ 0câlô     
+ 1câlô     
+ ‰bâlô     
+ x)Ül  8  
+ y)Ül  8  
+ °)Ül  8  
+ ±)Ül  8  
+ dâl  8  
+ Ñ*Ül  8  
+ ù\âl  8  
+ IÜl  8  
+ QÜl  8   îÛl    ,   ø?Ül    ,   87Ül    ,   97Ül    ,   ù?Ül    K   ø?Ül   K   87Ül   K   97Ül   K   ù?Ül   K    6m   K   @EÜl   K   09Ül   K   PÜl=   i   HÜl=   i   À\âl=   i   ğ)Ül=   i   ÈU×l=   i   Øk×l=   ˆ   Ùk×l\   ˆ   ÉU×l\   ˆ   +Ül\   ˆ   	+Ül\   ˆ   bâl\   ˆ   bâl\   ˆ   Pbâl\   ˆ   Qbâl\   ˆ   ñ)Ül\   ¦   Á\âlz   ¦   (ïlz   ¦   pNÚlz   ¦   @,Úlz   ¦   A,Úlz   Å   qNÚl™   Å   )ïl™   Å   ø\âl™   Å   Ğ*Ül™   Å   ÈU×l™   Å   Øk×l™   Å   Ùk×l™   Å   ÉU×l™   Å   +Ül™   ã   	+Ül·   ã   dâl·   ã   ˆbâl·   ã   hcâl·   ã   icâl·   ã   0câl·   ã   1câl·   ã   0câl·   ã   1câl·      0câlÖ      1câlÖ      0câlÖ      1câlÖ      0câlÖ      1câlÖ      0câlÖ      1câlÖ      ‰bâlÖ      x)Ülô       y)Ülô       °)Ülô       ±)Ülô       dâlô       Ñ*Ülô       ù\âlô       IÜlô       QÜlô       19Ül  ?   AEÜl  ?   8.m  ?   Pûm  ?   (×l  ?   )×l  ?   ¨óm  ?   ¸KÚl1  ]   `×l1  ]   a×l1  ]   ¹KÚl1  ]   ©óm1  ]   Xm1  ]   xm1  ]   @mP  |   pWÚlP  |   qWÚlP  |   AmP  |   P˜âlP  |   ˜LÚlP  |   ¨™âlP  |   p™âlP  š   Àšâln  š   ˆšâln  š   ‰šâln  š   Ášâln  š   q™âln  š   ©™âln  š   ™LÚln  š   Q˜âln  š   8œâln  ¹   9œâl  ¹   è™âl  ¹   pœâl  ¹   qœâl  ¹   é™âl  ¹   m  ¹   è!m  ¹   é!m  ¹   è!m«  ×   é!m«  ×   0²×l«  ×   È­×l«  ×   É­×l«  ×   1²×l«  ×   	m«  ×   8œâlÊ  ö   9œâlÊ  ö   è™âlÊ  ö   pœâlÊ  ö   qœâlÊ  ö   é™âlÊ  ö   mÊ  ö   è!mÊ  ö   é!mÊ  ö   è!mÊ     é!mè     0²×lè     È­×lè     É­×lè     1²×lè     	mè      mè     !mè  3   €m  3   Um  3   XSm  3   H%m  3   I%m  3   YSm  3   ¨Tm  3   ©Tm  R   Um%  R   ¸m%  R   DÚl%  R   DÚl%  R   Ğm%  R   `J×lD  p   aJ×lD  p   ĞC×lD     ÑC×lb     ĞC×lb     ÑC×lb     ĞC×lb     ÑC×lb     ĞC×lb     ÑC×lb     ĞC×lb     ÑC×lb     ĞC×l  ­   ÑC×l  ­   ĞC×l  ­   ÑC×l  ­   ĞC×l  ­   ÑC×l  ­   ĞC×l  ­   ÑC×l  ­   ĞC×l  ­   ÑC×l  ­   ĞC×l   Ì   ÑC×l   Ì   ĞC×l   Ì   ÑC×l   Ì   ĞC×l   Ì   ÑC×l   Ì   ĞC×l   Ì   ÑC×l¾  ê   ĞC×l¾  ê   ÑC×l¾  ê   ĞC×l¾  ê   ÑC×l¾  ê   ĞC×l¾  ê   ÑC×l¾  ê   ĞC×l¾  ê   ÑC×l¾  ê   ĞC×l¾  	   ÑC×lİ  	   ĞC×lİ  	   ÑC×lİ  	   ĞC×lİ  	   ÑC×lİ  	   ĞC×lİ  	   ÑC×lİ  	   ĞC×lİ  	   ÑC×lİ  	   ĞC×lİ  '   ÑC×lû  '   ĞC×lû  '   ÑC×lû  '   ĞC×lû  '   ÑC×lû  '   ĞC×lû  '   ÑC×lû  '   ĞC×lû  '   ÑC×lû  '   ĞC×l  F   ÑC×l  F   ĞC×l  F   ÑC×l  F   ĞC×l  F   ÑC×l  F   ĞC×l  F   ÑC×l  F   ĞC×l  F   ÑC×l  F   ĞC×l8  d   ÑC×l8  d   ĞC×l8  d   ÑC×l8  d   ĞC×l8  d   ÑC×l8  d   ĞC×l8  d   ÑC×l8  d   ĞC×l8  d   ÑC×l8  ƒ   ÑmW  ƒ   ¨TmW  ƒ   ©TmW  ƒ   ¹mW  ƒ   mW  ƒ   8œâlW  ƒ   9œâlW  ƒ   è™âlW  ƒ   pœâlW  ¡   qœâlu  ¡   é™âlu  ¡   mu  ¡   è!mu  ¡   é!mu  ¡   è!mu  ¡   é!mu  ¡   0²×lu  ¡   È­×lu  ¡   É­×l”  À   1²×l”  À   	m”  À   8œâl”  À   9œâl”  À   è™âl”  À   pœâl”  À   qœâl”  À   é™âl”  À   m²  Ş   è!m²  Ş   é!m²  Ş   è!m²  Ş   é!m²  Ş   0²×l²  Ş   È­×l²  Ş   É­×l²  Ş   1²×l²  Ş   	mÑ  ı   8œâlÑ  ı   9œâlÑ  ı   è™âlÑ  ı   pœâlÑ  ı   qœâlÑ  ı   é™âlÑ  ı   mÑ  ı   è!mÑ  ı   é!mï     è!mï     é!mï     0²×lï     È­×lï     É­×lï     1²×lï     	mï     8œâlï     9œâl  :   è™âl  :   pœâl  :   qœâl  :   é™âl  :   m  :   è!m  :   é!m  :   è!m  :   é!m  X   0²×l,  X   È­×l,  X   É­×l,  X   1²×l,  X   	m,  X   8œâl,  X   9œâl,  X   è™âl,  X   pœâl,  w   qœâlK  w   é™âlK  w   mK  w   è!mK  w   é!mK  w   è!mK  w   é!mK  w   0²×lK  w   È­×lK  w   É­×li  •   1²×li  •   	mi  •   8œâli  •   9œâli  •   è™âli  •   pœâli  •   qœâli  •   é™âli  •   mˆ  ´   è!mˆ  ´   é!mˆ  ´   è!mˆ  ´   é!mˆ  ´   0²×lˆ  ´   È­×lˆ  ´   É­×lˆ  ´   1²×lˆ  ´   	m¦  Ò    m¦  Ò   !m¦  Ò   €m¦  Ò   Um¦  Ò   XSm¦  Ò   H%m¦  Ò   I%m¦  Ò   YSm¦  Ò   ¨TmÅ  ñ   ©TmÅ  ñ   UmÅ  ñ   ¸mÅ  ñ   DÚlÅ  ñ   DÚlÅ  ñ   ˆmÅ  ñ   (×lÅ  ñ   )×lÅ  ñ   pómã  	   ¸KÚlã  	   `×lã  	   a×lã  	   ¹KÚlã  	   qómã  	   ('mã  	   ¸KÚlã  	   ¨CÚl  .	   øG×l  .	   ùG×l  .	   ©CÚl  .	   ¹KÚl  .	   jØl  .	   ‘jØl  .	   )'m  .	   ¨Tm  M	   ©Tm   M	   ‰m   M	   ¹m   M	   m   M	   8œâl   M	   9œâl   M	   è™âl   M	   pœâl   M	   qœâl   M	   é™âl?  k	   m?  k	   è!m?  k	   é!m?  k	   è!m?  k	   é!m?  k	   0²×l?  k	   È­×l?  k	   É­×l?  Š	   1²×l^  Š	   	m^  Š	    m^  Š	   !m^  Š	   €m^  Š	   Um^  Š	   XSm^  Š	   H%m^  Š	   I%m^  Š	   YSm|  ¨	   ¨Tm|  ¨	   ©Tm|  ¨	   Um|  ¨	   ¸m|  ¨	   DÚl|  ¨	   DÚl|  ¨	   ˆm|  ¨	   (×l|  ¨	   )×l|  Ç	   póm›  Ç	   ¸KÚl›  Ç	   `×l›  Ç	   a×l›  Ç	   ¹KÚl›  Ç	   qóm›  Ç	   ('m›  Ç	   ¸KÚl›  Ç	   ¨CÚl›  å	   øG×l¹  å	   ùG×l¹  å	   ©CÚl¹  å	   ¹KÚl¹  å	   jØl¹  å	   ‘jØl¹  å	   )'m¹  å	   ¨Tm¹  å	   ©Tm¹  
+   ‰mØ  
+   ¹mØ  
+   mØ  
+   8œâlØ  
+   9œâlØ  
+   è™âlØ  
+   pœâlØ  
+   qœâlØ  
+   é™âlØ  
+   mö  "
+   è!mö  "
+   é!mö  "
+   è!mö  "
+   é!mö  "
+   0²×lö  "
+   È­×lö  "
+   É­×lö  "
+   1²×lö  "
+   	mö  A
+   8œâl  A
+   9œâl  A
+   ûm  A
+   ûm  A
+   ym  A
+    Tm  A
+   8Tm  A
+   °Rm3  _
+   ±Rm3  _
+   9Tm3  _
+   Tm3  _
+   Èm3  _
+   @m3  _
+   pWÚl3  _
+   qWÚl3  _
+   Am3  ~
+   P˜âlR  ~
+   ˜LÚlR  ~
+   ¨™âlR  ~
+   p™âlR  ~
+   ÀšâlR  ~
+   ˆšâlR  ~
+   ‰šâlR  ~
+   ÁšâlR  ~
+   q™âlR  œ
+   ©™âlp  œ
+   ™LÚlp  œ
+   Q˜âlp  œ
+   8œâlp  œ
+   9œâlp  œ
+   è™âlp  œ
+   pœâlp  œ
+   qœâlp  œ
+   é™âlp  »
+   m  »
+   è!m  »
+   é!m  »
+   è!m  »
+   é!m  »
+   0²×l  »
+   È­×l  »
+   É­×l  »
+   1²×l  Ù
+   	m­  Ù
+   8œâl­  Ù
+   9œâl­  Ù
+   è™âl­  Ù
+   pœâl­  Ù
+   qœâl­  Ù
+   é™âl­  Ù
+   m­  Ù
+   è!m­  Ù
+   é!mÌ  ø
+   è!mÌ  ø
+   é!mÌ  ø
+   0²×lÌ  ø
+   È­×lÌ  ø
+   É­×lÌ  ø
+   1²×lÌ  ø
+   	mÌ  ø
+    mÌ  ø
+   !mê      
+mê      mê     DÚlê     DÚlê     mê     øWmê     XSmê     H%m	  5   I%m	  5   YSm	  5   0Xm	  5   Wm	  5   àVm	  5   áVm	  5   Wm	  5   1Xm	  5   ùWm'  S   X
+m'  S   DÚl'  S   DÚl'  S   PG×l'  S   ğ‘Øl'  S   ¸‘Øl'  S   ˜TÚl'  S   øG×lF  r   ùG×lF  r   pF×lF  r   qF×lF  r   ™TÚlF  r   ¹‘ØlF  r   ñ‘ØlF  r   ˆG×lF     °•Øld     ±•Øld     pF×ld     qF×ld     p:Ùld     q:Ùlƒ  ¯   ‰G×lƒ  ¯   QG×lƒ  ¯   0Xmƒ  ¯   Wmƒ  ¯   àVmƒ  Í   áVm¡  Í   Wm¡  Í   1Xm¡  Í   PWm¡  Í   ˆWm¡  Í   0%Ùl¡  Í   1%Ùl¡  Í   ‰Wm¡  Í   QWm¡  ì   Y
+mÀ  ì   !
+mÀ  ì   8œâlÀ  ì   9œâlÀ  ì   è™âlÀ  ì   pœâlÀ  ì   qœâlÀ  ì   é™âlÀ  ì   mÀ  
+   è!mŞ  
+   é!mŞ  
+   è!mŞ  
+   é!mŞ  
+   0²×lŞ  
+   È­×lŞ  
+   É­×lŞ  
+   1²×lŞ  
+   	mŞ  )   8œâlı  )   9œâlı  )   è™âlı  )   pœâlı  )   qœâlı  )   é™âlı  )   mı  )   è!mı  )   é!mı  )   è!m  H   é!m  H   0²×l  H   È­×l  H   É­×l  H   1²×l  H   	m  H   8œâl  H   9œâl  H   è™âl:  f   pœâl:  f   qœâl:  f   é™âl:  f   m:  f   è!m:  f   é!m:  f   è!m:  f   é!m:  f   0²×l:  f   È­×lY  …   É­×lY  …   1²×lY  …   	mY  …   8œâlY  …   9œâlY  …   è™âlY  …   pœâlY  …   qœâlY  …   é™âlw  £   mw  £   è!mw  £   é!mw  £   è!mw  £   é!mw  £   0²×lw  £   È­×lw  £   É­×lw  £   1²×lw  Â   	m–  Â   8œâl–  Â   9œâl–  Â   è™âl–  Â   pœâl–  Â   qœâl–  Â   é™âl–  Â   m–  Â   è!m–  Â   é!m´  à   è!m´  à   é!m´  à   0²×l´  à   È­×l´  à   É­×l´  à   1²×l´  à   	m´  à   8œâl´  à   9œâl´  ÿ   è™âlÓ  ÿ   pœâlÓ  ÿ   qœâlÓ  ÿ   é™âlÓ  ÿ   mÓ  ÿ   è!mÓ  ÿ   é!mÓ  ÿ   è!mÓ  ÿ   é!mÓ  ÿ   0²×lÓ     È­×lñ     É­×lñ     1²×lñ     	mñ      mñ     !mñ      
+mñ      mñ     DÚlñ  <   DÚl	  <   m	  <   øWm	  <   XSm	  <   H%m	  <   I%m	  <   YSm	  <   0Xm	  <   Wm	  <   àVm.	  Z   áVm.	  Z   Wm.	  Z   1Xm.	  Z   ùWm.	  Z   X
+m.	  Z   DÚl.	  Z   DÚl.	  Z   	m.	  Z   (×l.	  y   )×lM	  y   pómM	  y   ¸KÚlM	  y   `×lM	  y   a×lM	  y   ¹KÚlM	  y   qómM	  y   ('mM	  y   ¸KÚlM	  —   ¨CÚlk	  —   øG×lk	  —   ùG×lk	  —   ©CÚlk	  —   ¹KÚlk	  —   jØlk	  —   ‘jØlk	  —   )'mk	  —   0Xmk	  —   WmŠ	  ¶   àVmŠ	  ¶   áVmŠ	  ¶   WmŠ	  ¶   1XmŠ	  ¶   		mŠ	  ¶   Y
+mŠ	  ¶   !
+mŠ	  ¶   8œâlŠ	  ¶   9œâlŠ	  ¶   è™âl¨	  Ô   pœâl¨	  Ô   qœâl¨	  Ô   é™âl¨	  Ô   m¨	  Ô   è!m¨	  Ô   é!m¨	  Ô   è!m¨	  Ô   é!m¨	  Ô   0²×l¨	  ó   È­×lÇ	  ó   É­×lÇ	  ó   1²×lÇ	  ó   	mÇ	  ó    mÇ	  ó   !mÇ	  ó    
+mÇ	  ó    mÇ	  ó   DÚlÇ	     DÚlå	     må	     øWmå	     XSmå	     H%må	     I%må	     YSmå	     0Xmå	     Wmå	     àVm
+  0   áVm
+  0   Wm
+  0   1Xm
+  0   ùWm
+  0   X
+m
+  0   DÚl
+  0   DÚl
+  0   	m
+  0   (×l
+  N   )×l"
+  N   póm"
+  N   ¸KÚl"
+  N   `×l"
+  N   a×l"
+  N   ¹KÚl"
+  N   qóm"
+  N   ('m"
+  N   ¸KÚl"
+  N   ¨CÚlA
+  m   øG×lA
+  m   ùG×lA
+  m   ©CÚlA
+  m   ¹KÚlA
+  m   jØlA
+  m   ‘jØlA
+  m   )'mA
+  m   0XmA
+  m   Wm_
+  ‹   àVm_
+  ‹   áVm_
+  ‹   Wm_
+  ‹   1Xm_
+  ‹   		m_
+  ‹   Y
+m_
+  ‹   !
+m_
+  ‹   8œâl_
+  ‹   9œâl_
+  ª   è™âl~
+  ª   pœâl~
+  ª   qœâl~
+  ª   é™âl~
+  ª   m~
+  ª   è!m~
+  ª   é!m~
+  ª   è!m~
+  ª   é!m~
+  ª   0²×l~
+  È   È­×lœ
+  È   É­×lœ
+  È   1²×lœ
+  È   	mœ
+  È   8œâlœ
+  È   9œâlœ
+  È   hümœ
+  È   iümœ
+  È   Ém»
+  ç   Ym»
+  ç   Qûm»
+  ç   9.m»
+  ç   øVÜl»
+  ç   8Ül»
+  ç   ğ)Ül»
+  ç   ÈU×l»
+  ç   Øk×l»
+  ç   Ùk×l»
+     ÉU×lÙ
+     +ÜlÙ
+     	+ÜlÙ
+     bâlÙ
+     bâlÙ
+     PbâlÙ
+     QbâlÙ
+     ñ)ÜlÙ
+     9ÜlÙ
+     8UÜlø
+  $   p>Ülø
+  $   q>Ülø
+  $   9UÜlø
+  $   ùVÜlø
+  $   ĞRÜlø
+  $   SÜlø
+  $    iâlø
+  $   ¡iâl  C   =Ül  C   ‘=Ül  C   	SÜl  C   ÑRÜl  C   6m  C   0PÜl5  a    7Ül5  a   7Ül5  a   1PÜl5  a   0PÜl5  a    7Ül5  a   7Ül5  a   1PÜl5  a   îÛl5  a   PÜlT  €   HÜlT  €   ø\âlT  €   Ğ*ÜlT  €   ÈU×lT  €   Øk×lT  €   Ùk×lT  €   ÉU×lT  €   +ÜlT     	+Ülr     dâlr     ˆbâlr     hcâlr     icâlr     0câlr     1câlr     0câlr     1câlr     0câl‘  ½   1câl‘  ½   0câl‘  ½   1câl‘  ½   0câl‘  ½   1câl‘  ½   0câl‘  ½   1câl‘  ½   ‰bâl‘  ½   x)Ül¯  Û   y)Ül¯  Û   °)Ül¯  Û   ±)Ül¯  Û   dâl¯  Û   Ñ*Ül¯  Û   ù\âl¯  Û   IÜl¯  Û   QÜl¯  Û  	 îÛl    ©  	 ø?Ül    ©  	 87Ül    ©  	 97Ül   Ç  	 ù?Ül   Ç  	 ø?Ül   Ç  	 87Ül   Ç  	 97Ül   Ç  	 ù?Ül   Ç  	  6m   Ç  	 @EÜl   Ç  	 09Ül   Ç  	 PÜl=   æ  	 HÜl=   æ  	 À\âl=   æ  	 ğ)Ül=   æ  	 ÈU×l=   æ  	 Øk×l=   æ  	 Ùk×l\     	 ÉU×l\     	 +Ül\     	 	+Ül\     	 bâl\     	 bâl\     	 Pbâl\     	 Qbâl\     	 ñ)Ül\     	 Á\âlz   #  	 (ïlz   #  	 pNÚlz   #  	 @,Úlz   #  	 A,Úlz   #  	 qNÚlz   #  	 )ïlz   #  	 ø\âlz   A  	 Ğ*Ül™   A  	 ÈU×l™   A  	 Øk×l™   A  	 Ùk×l™   A  	 ÉU×l™   A  	 +Ül™   A  	 	+Ül™   A  	 dâl™   A  	 ˆbâl™   A  	 hcâl·   `  	 icâl·   `  	 0câl·   `  	 1câl·   `  	 0câl·   `  	 1câl·   `  	 0câl·   `  	 1câl·   `  	 0câl·   `  	 1câlÖ   ~  	 0câlÖ   ~  	 1câlÖ   ~  	 0câlÖ   ~  	 1câlÖ   ~  	 ‰bâlÖ   ~  	 x)ÜlÖ   ~  	 y)ÜlÖ   ~  	 °)ÜlÖ   ~  	 ±)ÜlÖ     	 dâlô     	 Ñ*Ülô     	 ù\âlô     	 IÜlô     	 QÜlô     	 19Ülô     	 AEÜlô     	 0BÜlô     	 à7Ülô   »  	 á7Ül  »  	 1BÜl  »  	 `KÜl  »  	 `;Ül  »  	 a;Ül  »  	 aKÜl  »  	 Paçl1  Ú  	 açl1  Ú  	 @çl1  Ú  	  Vçl1  Ú  	 8NÜl1  Ú  	 <Ül1  Ú  	 	<Ül1  ø  	 9NÜlP  ø  	 ĞXçlP  ø  	 I×lP  ø  	 I×lP  ø  	 ÑXçlP  ø  	 À¶îlP  ø  	 ˆ¶îlP  ø  	 `KÜln    	 `;Üln    	 a;Üln    	 aKÜln    	 ‰¶îln    	 Á¶îln    	 8NÜln    	 <Üln    	 	<Üln    	 9NÜl  5  	 `KÜl  5  	 `;Ül  5  	 a;Ül  5  	 aKÜl  5  	 8NÜl  5  	 <Ül  5  	 	<Ül  5  	 9NÜl  5  	 ˜Ïæl«  T  	 8NÜl«  T  	 <Ül«  T  	 	<Ül«  T  	 9NÜl«  T  	 ™Ïæl«  T  	 `KÜl«  T  	 `;Ül«  T  	 a;Ül«  T  	 aKÜlÊ  r  	 `KÜlÊ  r  	 `;ÜlÊ  r  	 a;ÜlÊ  r  	 aKÜlÊ  r  	 `KÜlÊ  r  	 `;ÜlÊ  r  	 a;ÜlÊ  r  	 aKÜlÊ  r  	 `KÜlÊ  ‘  	 `;Ülè  ‘  	 a;Ülè  ‘  	 aKÜlè  ‘  	 àGÜlè  ‘  	 HÜlè  ‘  	 `KÜlè  ‘  	 `;Ülè  ‘  	 a;Ülè  ‘  	 aKÜlè  ¯  	 HÜl  ¯  	 áGÜl  ¯  	 ¡Vçl  ¯  	 @çl  ¯  	 açl  ¯  	 Qaçl  ¯  	 ¨.m  ¯  	 ñm  ¯  	 	ñm%  Î  	 €ñm%  Î  	 Hñm%  Î  	 Pôm%  Î  	 `ÿm%  Î  	 Hşm%  Î  	 Işm%  Î  	 aÿm%  í  	 øòmD  í  	 ¨ómD  í  	 ¸KÚlD  í  	 `×lD  í  	 a×lD  í  	 ¹KÚlD  í  	 ©ómD  í  	 èmD  í  	 H+×lb    	 8×lb    	 8mb    	 pmb    	 qmb    	 9mb    	 9×l  *  	 I+×l  *  	 à"m  *  	 ¨"m  *  	 IÚl  *  	 pNÚl  *  	 @,Úl  *  	 A,Úl  H  	 qNÚlŸ  H  	 ğKÚlŸ  H  	 xcÚlŸ  H  	 ĞYÚlŸ  H  	 ÑYÚlŸ  H  	 ycÚlŸ  H  	 ñKÚlŸ  H  	 IÚlŸ  H  	 ©"m¾  g  	 á"m¾  g  	 èm¾  g  	 ¸ m¾  g  	 € m¾  g  	  m¾  g  	 Ğÿm¾  g  	 Ñÿm¾  g  	 €şm¾  …  	 şmÜ  ¤  	 ¹ mû  Â  	  mû  Â  	 @mû  Â  	 Ğÿmû  Â  	 Ñÿmû  Â  	 €şmû  Â  	 şmû  Â  	 Amû  Â  	 !mû  Â  	 émû  á  	 ˜$m  á  	 ™$m  á  	 XhØl  á  	 YhØl  á  	 ¸KÚl  á  	 XjØl  á  	 YjØl  á  	 ¹KÚl  ÿ  	 èm8  ÿ  	 ém8  ÿ  	 `m8  ÿ  	 DÚl8  ÿ  	 DÚl8  ÿ  	 °m8  ÿ  	  m8  ÿ  	 @m8  ÿ  	 Ğÿm8    	 ÑÿmW    	 €şmW    	 şmW    	 AmW    	 !mW    	 €şmW    	 şmW    	 p=×lW    	 ğ‘Ølu  <  	 ¸‘Ølu  <  	 ˜TÚlu  <  	 øG×lu  <  	 ùG×lu  <  	 pF×lu  <  	 qF×lu  <  	 ™TÚlu  <  	 ¹‘Ølu  <  	 ñ‘Øl”  [  	 ¨=×l”  [  	 °•Øl”  [  	 ±•Øl”  [  	 pF×l”  [  	 qF×l”  [  	 ©=×l²  y  	 q=×l²  y  	 ±m²  y  	 am²  y  	  m²  y  	 !m²  y  	  m²  y  	 XhØl²  y  	 YhØl²  y  	 ¸KÚlÑ  ˜  	 XjØlÑ  ˜  	 YjØlÑ  ˜  	 ¹KÚlÑ  ˜  	  "mÑ  ˜  	 !"mÑ  ˜  	 ¨Â×lÑ  ˜  	 @¾×lÑ  ˜  	 Xmï  ¶  	 Ymï  ¶  	 A¾×lï  ¶  	 ©Â×lï  ¶  	 !mï  ¶  	 èmï  ¶  	 ¸ mï  ¶  	 € mï  ¶  	  m  Õ  	 Ğÿm  Õ  	 Ñÿm  Õ  	 €şm  Õ  	 şm  Õ  	 ¹ m  Õ  	  m  Õ  	 @m  Õ  	 Ğÿm  Õ  	 Ñÿm  ó  	 €şm,  ó  	 şm,  ó  	 Am,  ó  	 !m,  ó  	 ém,  ó  	 ˜$m,  ó  	 ™$m,  ó  	 XhØl,  ó  	 YhØl,  ó  	 ¸KÚlK     	 XjØlK     	 YjØlK     	 ¹KÚlK     	 èmK     	 émK     	 `mK     	 DÚlK     	 DÚlK  0   	 Pmi  0   	 XhØli  0   	 YhØli  0   	 ¸KÚli  0   	 XjØli  0   	 YjØli  0   	 ¹KÚli  0   	 Qmi  0   	 pómi  0   	 ¸KÚlˆ  O   	 `×lˆ  O   	 a×lˆ  O   	 ¹KÚlˆ  O   	 qómˆ  O   	  mˆ  O   	 @mˆ  O   	 Ğÿmˆ  O   	 Ñÿmˆ  O   	 €şm¦  m   	 şm¦  m   	 Am¦  m   	 !m¦  m   	 ğ&m¦  m   	 XhØl¦  m   	 YhØl¦  m   	 ¸KÚl¦  m   	 XjØl¦  m   	 YjØl¦  Œ   	 ¹KÚlÅ  Œ   	 ñ&mÅ  Œ   	 amÅ  Œ   	  mÅ  Œ   	 !mÅ  Œ   	  mÅ  Œ   	 XhØlÅ  Œ   	 YhØlÅ  Œ   	 ¸KÚlÅ  «   	 XjØlã  «   	 YjØlã  «   	 ¹KÚlã  «   	  "mã  «   	 !"mã  «   	 ¨Â×lã  «   	 @¾×lã  «   	 ¨mã  É   	 ©m  É   	 A¾×l  É   	 ©Â×l  É   	 !m  É   	 èm  É   	 ¸ m  É   	 € m  É   	  m  É   	 Ğÿm  è   	 Ñÿm   è   	 €şm   è   	 şm   è   	 ¹ m   è   	  m   è   	 @m   è   	 Ğÿm   è   	 Ñÿm   è   	 €şm   è   	 şm?  !  	 Am?  !  	 !m?  !  	 ém?  !  	 ˜$m?  !  	 ™$m?  !  	 XhØl?  !  	 YhØl?  !  	 ¸KÚl?  !  	 XjØl?  %!  	 YjØl]  %!  	 ¹KÚl]  %!  	 èm]  %!  	 ém]  %!  	 `m]  %!  	 DÚl]  %!  	 DÚl]  %!  	 Pm]  %!  	 XhØl]  C!  	 YhØl|  C!  	 ¸KÚl|  C!  	 XjØl|  C!  	 YjØl|  C!  	 ¹KÚl|  C!  	 Qm|  C!  	 póm|  C!  	 ¸KÚl|  C!  	 `×l|  b!  	 a×lš  b!  	 ¹KÚlš  b!  	 qómš  b!  	  mš  b!  	 @mš  b!  	 Ğÿmš  b!  	 Ñÿmš  b!  	 €şmš  b!  	 şmš  b!  	 Am¹  €!  	 !m¹  €!  	 ğ&m¹  €!  	 XhØl¹  €!  	 YhØl¹  €!  	 ¸KÚl¹  €!  	 XjØl¹  €!  	 YjØl¹  €!  	 ¹KÚl¹  €!  	 ñ&m×  Ÿ!  	 am×  Ÿ!  	  m×  Ÿ!  	 !m×  Ÿ!  	  m×  Ÿ!  	 XhØl×  Ÿ!  	 YhØl×  Ÿ!  	 ¸KÚl×  Ÿ!  	 XjØl×  Ÿ!  	 YjØl×  ½!  	 ¹KÚlö  ½!  	  "mö  ½!  	 !"mö  ½!  	 ¨Â×lö  ½!  	 @¾×lö  ½!  	 àmö  ½!  	 ámö  ½!  	 A¾×lö  Ü!  	 ©Â×l  Ü!  	 !m  Ü!  	 èm  Ü!  	 ¸ m  Ü!  	 € m  Ü!  	  m  Ü!  	 Ğÿm  Ü!  	 Ñÿm  Ü!  	 €şm  Ü!  	 şm3  ú!  	 ¹ m3  ú!  	 ém3  ú!  	 ˜$m3  ú!  	 ™$m3  ú!  	 #m3  ú!  	 @UÚl3  ú!  	  7âl3  ú!  	 h7âlR  "  	  $ÚlR  "  	 8ÚlR  "  	 9ÚlR  "  	 !$ÚlR  "  	 i7âlR  "  	 ¡7âlR  "  	 AUÚlR  "  	 ‘#mR  "  	 ˆ8âlp  7"  	 `LÚlp  7"  	 °ílp  7"  	 xílp  7"  	 Àšâlp  7"  	 ˆšâlp  7"  	 ‰šâlp  7"  	 Ášâlp  7"  	 yílp  V"  	 ±íl  V"  	 aLÚl  V"  	 ‰8âl  V"  	 8œâl  V"  	 9œâl  V"  	 èm  V"  	  m  V"  	 8m  V"  	 ùm  t"  	 ùm­  t"  	 (×l­  t"  	 )×l­  t"  	 8óm­  t"  	 ¸KÚl­  t"  	 `×l­  t"  	 a×l­  t"  	 ¹KÚl­  t"  	 9óm­  “"  	 À*mÌ  “"  	 h:ÚlÌ  “"  	 i:ÚlÌ  “"  	 88ÚlÌ  “"  	 98ÚlÌ  “"  	 0²×lÌ  “"  	 È­×lÌ  “"  	 É­×lê  ±"  	 1²×lê  ±"  	 88Úlê  ±"  	 98Úlê  ±"  	 0²×lê  ±"  	 È­×lê  ±"  	 É­×lê  ±"  	 1²×lê  ±"  	 Á*mê  Ğ"  	 9m	  Ğ"  	 x÷m	  Ğ"  	 @÷m	  Ğ"  	 ¨øm	  Ğ"  	 ©øm	  Ğ"  	 A÷m	  Ğ"  	 y÷m	  Ğ"  	 !m	  Ğ"  	 ém'  î"  	 ém'  î"  	 ùòm'  î"  	 Qôm'  î"  	 Iñm'  î"  	 ñm'  î"  	 ¸÷m'  î"  	 ¨úm'  î"  	 ©úm'  î"  	 ¨úm'  #  	 ©úmF  #  	 ¨úmF  #  	 ©úmF  #  	 ¨úmF  #  	 ©úmF  #  	 ¨úmF  #  	 pF×lF  #  	 qF×lF  #  	 ©úmF  +#  	 ¨úmd  +#  	 ©úmd  +#  	 ¨úmd  +#  	 ©úmd  +#  	 ¨úmd  +#  	 ©úmd  +#  	 ¨úmd  +#  	 ©úmd  +#  	 ¨úmd  +#  	 ©úmƒ  J#  	 ¹÷mƒ  J#  	  =mƒ  J#  	 €<mƒ  J#  	 p[mƒ  J#  	 h`mƒ  J#  	 è`mƒ  h#  	 èZ m¡  h#  	 Èg m¡  h#  	 Ég m¡  h#  	 éZ m¡  h#  	 pe m¡  h#  	 qe m¡  h#  	 é`m¡  h#  	 i`m¡  ‡#  	 q[mÀ  ‡#  	 è[mÀ  ‡#  	  ` mÀ  ‡#  	 W×lÀ  ‡#  	 l×lÀ  ‡#  	 l×lÀ  ‡#  	 W×lÀ  ‡#  	 ¨`mÀ  ‡#  	 ˜amŞ  ¦#  	 ˜b mŞ  ¦#  	 ™b mŞ  ¦#  	 a mŞ  ¦#  	 ğÜlŞ  ¦#  	 ñÜlŞ  ¦#  	 a mŞ  ¦#  	 ™amŞ  ¦#  	 ©`mı  Ä#  	 ¡` mı  Ä#  	 é[mı  Ä#  	 @dmı  Ä#  	 Admı  Ä#  	 0emı  Ä#  	 1emı  Ä#  	 HAálı  ã#  	 [ål  ã#  	 ĞZål  ã#  	 0äÛl  ã#  	 1äÛl  ã#  	 ÑZål  ã#  	 0äÛl  ã#  	 1äÛl  $  	 Ğ×âl:  $  	 Ñ×âl:  $  	 H[ål:  $  	 ¨ÿãl:  $  	 ¸4Ül:  $  	 ¹4Ül:  $  	 ©ÿãl:  $  	 €[ålX   $  	 xdålX   $  	 ydålX   $  	 (óàlX   $  	 )óàlX   $  	 BælX   $  	 ˜TÚlX   $  	 `×lw  >$  	 a×lw  >$  	 ™TÚlw  >$  	 ˜TÚlw  >$  	 `×lw  >$  	 a×lw  >$  	 ™TÚlw  >$  	 `Lælw  ]$  	 pNÚl•  ]$  	 @,Úl•  ]$  	 A,Úl•  ]$  	 qNÚl•  ]$  	 ğQæl•  ]$  	 pæl•  ]$  	 píÛl•  ]$  	 pÿ×l´  {$  	 8ÿ×l´  {$  	 `Øl´  {$  	 aØl´  {$  	 9ÿ×l´  {$  	 qÿ×l´  {$  	 hïÛlÒ  š$  	 iïÛlÒ  š$  	 qíÛlÒ  š$  	 PğÛlÒ  š$  	 QğÛlÒ  š$  	 qælÒ  š$  	 ˆbÚlñ  ¸$  	 `Ølñ  ¸$  	 aØlñ  ¸$  	 ‰bÚlñ  ¸$  	 ñQælñ  ¸$  	 0‚ælñ  ¸$  	 ælñ  ¸$  	 Øt×l	  ×$  	 Àu×l	  ×$  	 È×l	  ×$  	 ×l	  ×$  	 Úl	  ×$  	 Úl	  ×$  	 p×l	  ×$  	 ×l	  ×$  	 ×l.	  õ$  	 q×l.	  õ$  	 ‘×l.	  õ$  	 É×l.	  õ$  	 Áu×l.	  õ$  	 Ùt×l.	  õ$  	 æl.	  õ$  	 1‚ælM	  %  	 p×lM	  %  	 ×lM	  %  	 ×lM	  %  	 q×lM	  %  	 aLælM	  %  	 VÚlM	  %  	 `×lM	  %  	 a×lk	  2%  	 (RÚlk	  2%  	 )RÚlk	  2%  	  RÚlk	  2%  	 ĞYÚlk	  2%  	 ÑYÚlk	  2%  	 ¡RÚlk	  2%  	 ‘VÚlk	  Q%  	 ğMælŠ	  Q%  	 ñMælŠ	  Q%  	 	BælŠ	  Q%  	 ø`ålŠ	  Q%  	 ù`ålŠ	  Q%  	 YçlŠ	  Q%  	 	YçlŠ	  Q%  	 €òàlŠ	  Q%  	 òàl¨	  o%  	 ø`ål¨	  o%  	 ù`ål¨	  o%  	 €bål¨	  o%  	 bål¨	  o%  	 ˜Xçl¨	  o%  	 (Xçl¨	  o%  	 )Xçl¨	  o%  	 ™Xçl¨	  o%  	 `jälÇ	  %  	 À?ÜlÇ	  %  	 Á?ÜlÇ	  %  	 À?ÜlÇ	  %  	 Á?ÜlÇ	  %  	 ¨UÜlÇ	  %  	 ¨>ÜlÇ	  %  	 ©>Ülå	  ¬%  	 ©UÜlå	  ¬%  	 8²älå	  ¬%  	 9²älå	  ¬%  	 (YÜlå	  ¬%  	 ˆ?Ül
+  Ë%  	 ‰?Ül
+  Ë%  	 )YÜl
+  Ë%  	 (YÜl
+  Ë%  	 ˆ?Ül
+  Ë%  	 ‰?Ül"
+  é%  	 )YÜl"
+  é%  	 H^çl"
+  é%  	 €XÜl"
+  é%  	 P?Ül"
+  é%  	 Q?Ül"
+  é%  	 XÜlA
+  &  	 “îlA
+  &  	 8UÜlA
+  &  	 p>ÜlA
+  &  	 q>ÜlA
+  &  	 9UÜlA
+  &  	 	“îlA
+  &  	 €XÜlA
+  &  	 P?ÜlA
+  &  	 Q?Ül_
+  &&  	 XÜl_
+  &&  	 8UÜl_
+  &&  	 p>Ül_
+  &&  	 q>Ül_
+  &&  	 9UÜl_
+  &&  	 €XÜl_
+  &&  	 P?Ül_
+  &&  	 Q?Ül_
+  &&  	 XÜl~
+  E&  	 Ğæl~
+  E&  	 €XÜl~
+  E&  	 P?Ül~
+  E&  	 Q?Ül~
+  E&  	 XÜl~
+  E&  	 	Ğæl~
+  E&  	 8UÜl~
+  E&  	 p>Ül~
+  E&  	 q>Ülœ
+  c&  	 9UÜlœ
+  c&  	 8UÜlœ
+  c&  	 p>Ülœ
+  c&  	 q>Ülœ
+  c&  	 9UÜlœ
+  c&  	 8UÜlœ
+  c&  	 p>Ülœ
+  c&  	 q>Ülœ
+  c&  	 9UÜl»
+  ‚&  	 8UÜl»
+  ‚&  	 p>Ül»
+  ‚&  	 q>Ül»
+  ‚&  	 9UÜl»
+  ‚&  	 `RÜl»
+  ‚&  	 8UÜl»
+  ‚&  	 p>Ül»
+  ‚&  	 q>Ül»
+  ‚&  	 9UÜlÙ
+  ¡&  	 aRÜlÙ
+  ¡&  	 I^çlÙ
+  ¡&  	 €XÜlÙ
+  ¡&  	 P?ÜlÙ
+  ¡&  	 Q?ÜlÙ
+  ¡&  	 XÜlÙ
+  ¡&  	  	ælÙ
+  ¡&  	 !	ælÙ
+  ¿&  	 (YÜlø
+  ¿&  	 ˆ?Ülø
+  ¿&  	 ‰?Ülø
+  ¿&  	 )YÜlø
+  ¿&  	 8UÜl  Ş&  	 p>Ül  Ş&  	 q>Ül  Ş&  	 9UÜl  Ş&  	 8UÜl  Ş&  	 p>Ül  Ş&  	 q>Ül  Ş&  	 9UÜl  Ş&  	 àûÛl  Ş&   îÛl    q*   ø?Ül    q*   87Ül    q*   97Ül    q*   ù?Ül   *   ø?Ül   *   87Ül   *   97Ül   *   ù?Ül   *   X	æl   *   @EÜl   ®*  	 áûÛl  ®*   09Ül=   ®*  	 ØIÜl¯  ®*  	 HJÜl¯  ®*  	 `KÜl¯  ®*  	 `;Ül¯  ®*   19Ül=   ®*  	 a;Ül¯  ®*  	 aKÜl¯  ®*   AEÜl=   ®*  	 IJÜl¯  ®*   `KÜl=   ®*  	 ÙIÜl¯  Í*   `;Ül\   Í*  	 `KÜlÍ  Í*  	 `;ÜlÍ  Í*   a;Ül\   Í*  	 a;ÜlÍ  Í*   aKÜl\   Í*  	 aKÜlÍ  Í*  	 0PÜlÍ  Í*   ¸Ôæl\   Í*  	  7ÜlÍ  Í*  	 h9ÜlÍ  Í*   €Ôæl\   Í*  	 i9ÜlÍ  ë*   ğÎælz   ë*  	 7Ülì  ë*   8NÜlz   ë*  	 1PÜlì  ë*   <Ülz   ë*  	 0PÜlì  ë*  	  7Ülì  ë*  	 h9Ülì  ë*  	 i9Ülì  ë*   	<Ülz   ë*  	 7Ülì  ë*   9NÜlz   ë*  	 1PÜlì  ë*   8NÜl™   
++  	 ajäl  
++   <Ül™   
++  	 [ål  
++  	 I[ål  
++  	 [ål  
++  	 IAál  
++   	<Ül™   
++  	  _m  
++   9NÜl™   
++  	 ğ¡ m  
++   ñÎæl™   
++   Ôæl™   (+  	 Ğ– m  
++   ¹Ôæl·   (+  	 Ñ– m)  (+  	 ñ¡ m)  (+   OÜl·   (+  	 øf m)  (+   @<Ül·   (+  	 W×l)  (+  	 l×l)  (+  	 l×l)  (+  	 W×l)  (+  	 ¨`m)  (+   HØl·   G+  	 ˜am)  G+  	 ˜b mH  G+   IØlÖ   G+  	 ™b mH  G+  	 ™amH  G+   A<ÜlÖ   G+  	 ©`mH  G+   OÜlÖ   G+  	 P] mH  G+   0RælÖ   G+  	 P+ÙlH  G+   HØlÖ   G+  	 Q+ÙlH  G+   IØlÖ   G+  	  [ mH  G+    Lælô   e+  	 ÈU×lf  e+  	 Øk×lf  e+   `Sælô   e+  	 Ùk×lf  e+  	 ÉU×lf  e+   aSælô   e+  	  k mf  e+   øËälô   e+  	 ¡k mf  e+   8Èälô   e+  	 À] mf  e+   øoïlô   „+  	 0k m…  „+  	 1k m…  „+   ùoïl  „+  	 [ m…  „+   9Èäl  „+  	 `Ül…  „+   °Ïäl  „+  	 aÜl…  „+  	 ‘[ m…  „+   0@Ûl  „+  	  \ m…  „+  	 `Ül…  „+  	 aÜl…  ¢+  	 \ m£  ¢+  	 Á] m£  ¢+  	 ![ m£  ¢+  	 l m£  ¢+  	 l m£  ¢+  	 ¨`m£  ¢+  	 ˜am£  ¢+  	 ˜b m£  ¢+  	 ™b m£  Á+  	 ™amÂ  Á+  	 ©`mÂ  Á+  	 H_ mÂ  Á+  	 8\ mÂ  Á+  	 ğÜlÂ  Á+  	 ñÜlÂ  Á+  	 9\ mÂ  Á+  	 I_ mÂ  Á+  	 P+ÙlÂ  ß+  	 Q+Ùlà  ß+  	 W×là  ß+  	 l×là  ß+  	 l×là  ß+  	 W×là  ß+  	 l mà  ß+  	 l mà  ß+  	 ¨`mà  ß+  	 ˜amà  ş+   1@ÛlP  ş+  	 ˜b mÿ  ş+  	 ™b mÿ  ş+   xÏälP  ş+  	 ™amÿ  ş+  	 ©`mÿ  ş+    ÈälP  ş+  	 H_ mÿ  ş+  	 I_ mÿ  ş+    ÷ßlP  ş+  	 È¶ mÿ  ş+   ¸sïlP  ş+  	 ÈU×lÿ  ş+  	 Øk×lÿ  ,   ¹sïlP  ,  	 Ùk×l  ,  	 ÉU×l  ,   ¨ößlo  ,  	 p· m  ,  	 8Ül  ,  	 9Ül  ,  	 q· m  ,  	  Ül  ,   ©ößl  ;,   !÷ßl  ;,   Èäl  ;,   yÏäl  ;,   ±Ïäl  ;,   ùËäl¬  Z,   ¡Læl¬  Z,   0@Ûl    Z,   1Ræl¬  Z,   1@Ûl    Z,   Y	æl¬  Z,   ğsïl    Z,   ñsïl    Z,   9øßl    Z,   èÈäl   x,   0PÜlÊ  x,   ¨Èäl   x,    7ÜlÊ  x,    Sæl   x,   7ÜlÊ  x,   Mæl   x,   ˜TÚl   x,   1PÜlÊ  x,   °Òæl   x,   0PÜlÊ  x,   øG×l   x,    7ÜlÊ  x,   ùG×l   x,   7ÜlÊ  —,   øG×l   —,   ùG×l=   —,   1PÜlé  —,   ±Òæl=   —,   îÛlé  —,   ™TÚl=   —,   Pæl=   —,   ØOæl=   —,   ÙOæl=   —,   Pæl=   —,   ÈPæl[   µ,   ÉPæl[   µ,   8ûÛl[   µ,   9ûÛlz   Ô,   VÚlz   Ô,   °Òælz   Ô,   øG×lz   Ô,   ùG×lz   Ô,   øG×lz   Ô,   ùG×lz   Ô,   ±Òælz   Ô,   (RÚl˜   ò,   )RÚl˜   ò,   hPÚl˜   ò,   ØPÚl˜   ò,   ÙPÚl˜   ò,   iPÚl˜   ò,    RÚl˜   ò,   ĞYÚl·   -   ÑYÚl·   -   ¡RÚl·   -   ‘VÚl·   -   pem·   -   ÈúÛl·   -   ÉúÛlÕ   /-   pÛlÕ   /-   ¨ÛlÕ   /-   ©ÛlÕ   /-   qÛlÕ   /-   0Ûlô   N-   ¨Ûlô   N-   `J×lô   N-   aJ×lô   N-   PÛlô   N-   0%Ùlô   N-   1%Ùlô   N-   QÛlô   l-   ˜C×l  l-   0%Ùl  l-   1%Ùl  l-   ™C×l  l-   ©Ûl  l-   1Ûl  l-   0Ûl  l-   ¨Ûl  l-   `J×l  ‹-   aJ×l1  ‹-   PÛl1  ‹-   0%Ùl1  ‹-   1%Ùl1  ‹-   QÛl1  ‹-   ˜C×l1  ‹-   0%Ùl1  ‹-   1%Ùl1  ‹-   ™C×lP  ©-   ©ÛlP  ©-   1ÛlP  ©-   ğÛlP  ©-   'ÛlP  ©-   Ğ:×lP  ©-   Ñ:×lP  ©-   'ÛlP  ©-   ñÛln  È-   °fmn  È-   ±fmn  È-   €dmn  È-   dmn  È-   P^mn  È-   8e mn  È-   bmn  È-   ˜b m  æ-   ™b m  æ-   a m  æ-   ğÜl  æ-   ñÜl  æ-   a m  æ-   	bm  æ-   ˆ] m  æ-   8\ m  æ-   ğÜl«  .   ñÜl«  .   9\ m«  .   €_ m«  .   ¨· m«  .   P Ül«  .   ¨_×l«  .   ©_×l«  #.   Q ÜlÊ  #.   ©· mÊ  #.   _ mÊ  #.   ‰] mÊ  #.   9e mÊ  #.   Q^mÊ  #.   qemÊ  #.   MælÊ  #.   ¡SælÊ  #.   ©Èälè  B.   éÈälè  B.   ¨íÛlè  B.   ©íÛlè  B.   `tïlè  B.   øqïlè  B.   ùqïlè  B.   atïl  `.   8øßl  `.   pößl  `.   qößl  `.   0@Ûl  `.   1@Ûl  .   h:Úl%  .   i:Úl%  .   PîÛl%  .   QîÛl%  .   pößl%  .  	 ÈU×lZ  .  	 Øk×lZ  .  	 Ùk×lZ  .  	 ÉU×lZ  .  	 (\×lZ  .  	 )\×lZ  .  	 !ÜlZ  .  	 p· mZ  ¼.  	 8Üly  ¼.  	 9Üly  ¼.  	 q· my  ¼.  	 É¶ my  ¼.  	 P+Ùly  ¼.  	 Q+Ùly  ¼.  	 W×ly  ¼.  	 l×ly  ¼.  	 l×ly  Ú.  	 W×l—  Ú.  	 l m—  Ú.  	 l m—  Ú.  	 ¨`m—  Ú.  	 ˜am—  Ú.  	 ˜b m—  Ú.  	 ™b m—  Ú.  	 a m—  Ú.  	 ğÜl—  Ú.  	 ñÜl¶  ù.  	 a m¶  ù.  	 ™am¶  ù.  	 ©`m¶  ù.  	 _ m¶  ù.  	 Ø^ m¶  ù.  	 Ù^ m¶  ù.  	 _ m¶  ù.  	 Q] m¶  ù.  	 ùf mÔ  /  	 ¡_mÔ  /  	 PƒñlÔ  /  	 QƒñlÔ  /  	 <mÔ  /  	 ğ>mÔ  /  	 ğSÚlÔ  6/  	 `×ló  6/  	 a×ló  6/  	 ñSÚló  6/  	 ˜TÚló  6/  	 `×ló  6/  	 a×ló  6/  	 ™TÚló  6/  	 ÈúÛló  6/  	 ÉúÛl  U/  	 À:m  U/  	 Á:m  U/  	 pm  U/  	 ¨m  U/  	 àøm  s/  	 áøm0  s/  	 ©m0  s/  	 qm0  s/  	 àm0  s/  	 ám0  s/  	 m0  s/  	 m0  s/  	 °m0  s/  	 ±m0  ’/  	  mN  ’/  	 8mN  ’/  	 ùmN  ’/  	 ùmN  ’/  	 (×lN  ’/  	 )×lN  ’/  	 8ómN  ’/  	 ¸KÚlN  ’/  	 `×lN  °/  	 a×lm  °/  	 ¹KÚlm  °/  	 9ómm  °/  	 À*mm  °/  	 h:Úlm  °/  	 i:Úlm  °/  	 88Úlm  °/  	 98Úlm  °/  	 0²×l‹  Ï/  	 È­×l‹  Ï/  	 É­×l‹  Ï/  	 1²×l‹  Ï/  	 88Úl‹  Ï/  	 98Úl‹  Ï/  	 0²×l‹  Ï/  	 È­×l‹  Ï/  	 É­×l‹  í/  	 1²×lª  í/  	 Á*mª  í/  	 9mª  í/  	 x÷mª  í/  	 @÷mª  í/  	 ¨ømª  í/  	 ©ømª  í/  	 A÷mª  í/  	 y÷mÉ  0  	 !mÉ  0  	 pÛlÉ  0  	 ¨ÛlÉ  0  	 ©ÛlÉ  0  	 qÛlÉ  0  	 0ÛlÉ  0  	 ¨ÛlÉ  0  	 `J×lç  *0  	 aJ×lç  *0  	 PÛlç  *0  	 0%Ùlç  *0  	 1%Ùlç  *0  	 QÛlç  *0  	 ˜C×lç  *0  	 0%Ùlç  *0  	 1%Ùl  I0  	 ™C×l  I0  	 ©Ûl  I0  	 1Ûl  I0  	 ˆûm  I0  	 (×l  I0  	 )×l  I0  	 ¨óm  I0  	 ¸KÚl  I0  	 `×l$  g0  	 a×l$  g0  	 ¹KÚl$  g0  	 ©óm$  g0  	 m$  g0  	 pÛl$  g0  	 ¨Ûl$  g0  	 ©Ûl$  g0  	 qÛlC  †0  	  (×lC  †0  	 P)×lC  †0  	 p!×lC  †0  	 q!×lC  †0  	 Q)×lC  †0  	 °&×lC  †0  	 ±&×lC  †0  	 )×la  ¤0  	 )×la  ¤0  	  *×la  ¤0  	 Ø#×la  ¤0  	 Ù#×la  ¤0  	 ¡*×la  ¤0  	 h*×la  ¤0  	 €$×l€  Ã0  	 $×l€  Ã0  	 H$×l€  Ã0  	 I$×l€  Ã0  	 i*×l€  Ã0  	 €I×l€  Ã0  	 I×l€  Ã0  	 pM×l€  Ã0  	 Ğ:×l  á0  	 Ñ:×l  á0  	 qM×l  á0  	 (×l  á0  	 0Ûl  á0  	 ¨Ûl  á0  	 `J×l  á0  	 aJ×l  á0  	 ˜C×l  á0  	 0%Ùl½   1  	 1%Ùl½   1  	 ™C×l½   1  	 ©Ûl½   1  	 1Ûl½   1  	 0Ûl½   1  	 ¨Ûl½   1  	 `J×l½   1  	 aJ×l½   1  	 ˜C×lÛ  1  	 0%ÙlÛ  1  	 1%ÙlÛ  1  	 ™C×lÛ  1  	 ©ÛlÛ  1  	 1ÛlÛ  1  	 @mÛ  1  	 pWÚlÛ  1  	 qWÚlÛ  1  	 Amú  =1  	 P˜âlú  =1  	 ˜LÚlú  =1  	 ¨™âlú  =1  	 p™âlú  =1  	 Àšâlú  =1  	 ˆšâlú  =1  	 ‰šâlú  =1  	 Ášâlú  =1  	 q™âl  [1  	 ©™âl  [1  	 ™LÚl  [1  	 Q˜âl  [1  	 8œâl  [1  	 9œâl  [1  	 è™âl  [1  	 pœâl  [1  	 qœâl  [1  	 é™âl  z1  	 m7  z1  	 è!m7  z1  	 é!m7  z1  	 è!m7  z1  	 é!m7  z1  	 0²×l7  z1  	 È­×l7  z1  	 É­×l7  z1  	 1²×lU  ˜1  	 	mU  ˜1  	 0ÛlU  ˜1  	 ¨ÛlU  ˜1  	 `J×lU  ˜1  	 aJ×lU  ˜1  	 ˜C×lU  ˜1  	 0%ÙlU  ˜1  	 1%ÙlU  ˜1  	 ™C×lU  ·1  	 ©Ûlt  ·1  	 1Ûlt  ·1  	 0Ûlt  ·1  	 ¨Ûlt  ·1  	 `J×lt  ·1  	 aJ×lt  ·1  	 ˜C×lt  ·1  	 0%Ùlt  ·1  	 1%Ùlt  Õ1  	 ™C×l’  Õ1  	 ©Ûl’  Õ1  	 1Ûl’  Õ1  	 0Ûl’  Õ1  	 ¨Ûl’  Õ1  	 `J×l’  Õ1  	 aJ×l’  Õ1  	 ˜C×l’  Õ1  	 0%Ùl’  Õ1  	 1%Ùl±  ô1  	 ™C×l±  ô1  	 ©Ûl±  ô1  	 1Ûl±  ô1  	 øÛl±  ô1  	 ˆN×l±  ô1  	 ‰N×l±  ô1  	 ¨Ûl±  ô1  	 `J×l±  ô1  	 aJ×lÏ  2  	 PÛlÏ  2  	 0%ÙlÏ  2  	 1%ÙlÏ  2  	 QÛlÏ  2  	 ˜C×lÏ  2  	 0%ÙlÏ  2  	 1%ÙlÏ  2  	 ™C×lÏ  12  	 ©Ûlî  12  	 ùÛlî  12  	 8œâlî  12  	 9œâlî  12  	 è™âlî  12  	 pœâlî  12  	 qœâlî  12  	 é™âlî  12  	 mî  P2  	 è!m  P2  	 é!m  P2  	 è!m  P2  	 é!m  P2  	 0²×l  P2  	 È­×l  P2  	 É­×l  P2  	 1²×l  P2  	 	m  n2  	 0Ûl+  n2  	 ¨Ûl+  n2  	 `J×l+  n2  	 aJ×l+  n2  	 PÛl+  n2  	 0%Ùl+  n2  	 1%Ùl+  n2  	 QÛl+  n2  	 ˜C×lI  2  	 0%ÙlI  2  	 1%ÙlI  2  	 ™C×lI  2  	 ©ÛlI  2  	 1ÛlI  2  	 0ÛlI  2  	 ¨ÛlI  2  	 `J×lI  2  	 aJ×lh  «2  	 ˜C×lh  «2  	 0%Ùlh  «2  	 1%Ùlh  «2  	 ™C×lh  «2  	 ©Ûlh  «2  	 1Ûlh  «2  	 0Ûlh  «2  	 ¨Ûlh  «2  	 `J×lh  Ê2  	 aJ×l†  Ê2  	 ˜C×l†  Ê2  	 0%Ùl†  Ê2  	 1%Ùl†  Ê2  	 ™C×l†  Ê2  	 ©Ûl†  Ê2  	 1Ûl†  Ê2  	 øÛl†  Ê2  	 ˆN×l†  Ê2  	 ‰N×l¥  è2  	 ¨Ûl¥  è2  	 `J×l¥  è2  	 aJ×l¥  è2  	 PÛl¥  è2  	 0%Ùl¥  è2  	 1%Ùl¥  è2  	 QÛl¥  è2  	 ˜C×l¥  3  	 0%ÙlÄ  3  	 1%ÙlÄ  3  	 ™C×lÄ  3  	 ©ÛlÄ  3  	 ùÛlÄ  3  	 8œâlÄ  3  	 9œâlÄ  3  	 è™âlÄ  3  	 pœâlÄ  3  	 qœâlâ  %3  	 é™âlâ  %3  	 mâ  %3  	 è!mâ  %3  	 é!mâ  %3  	 è!mâ  %3  	 é!mâ  %3  	 0²×lâ  %3  	 È­×lâ  %3  	 É­×l  D3  	 1²×l  D3  	 	m  D3  	 8œâl  D3  	 9œâl  D3  	 è™âl  D3  	 pœâl  D3  	 qœâl  D3  	 é™âl  D3  	 m  b3  	 è!m  b3  	 é!m  b3  	 è!m  b3  	 é!m  b3  	 0²×l  b3  	 È­×l  b3  	 É­×l  b3  	 1²×l  b3  	 	m  3  	 8œâl>  3  	 9œâl>  3  	 è™âl>  3  	 pœâl>  3  	 qœâl>  3  	 é™âl>  3  	 m>  3  	 è!m>  3  	 é!m>  3  	 è!m\  Ÿ3  	 é!m\  Ÿ3  	 0²×l\  Ÿ3  	 È­×l\  Ÿ3  	 É­×l\  Ÿ3  	 1²×l\  Ÿ3  	 	m\  Ÿ3  	 8œâl\  Ÿ3  	 9œâl\  Ÿ3  	 è™âl\  ¾3  	 pœâl{  ¾3  	 qœâl{  ¾3  	 é™âl{  ¾3  	 m{  ¾3  	 è!m{  ¾3  	 é!m{  ¾3  	 è!m{  ¾3  	 é!m{  ¾3  	 0²×l{  ¾3  	 È­×l™  Ü3  	 É­×l™  Ü3  	 1²×l™  Ü3  	 	m™  Ü3  	 8œâl™  Ü3  	 9œâl™  Ü3  	 è™âl™  Ü3  	 pœâl™  Ü3  	 qœâl™  Ü3  	 é™âl¸  û3  	 m¸  û3  	 è!m¸  û3  	 é!m¸  û3  	 è!m¸  û3  	 é!m¸  û3  	 0²×l¸  û3  	 È­×l¸  û3  	 É­×l¸  û3  	 1²×l¸  4  	 	mÖ  4  	 8œâlÖ  4  	 9œâlÖ  4  	 è™âlÖ  4  	 pœâlÖ  4  	 qœâlÖ  4  	 é™âlÖ  4  	 mÖ  4  	 è!mÖ  84  	 é!mõ  84  	 è!mõ  84  	 é!mõ  84  	 0²×lõ  84  	 È­×lõ  84  	 É­×lõ  84  	 1²×lõ  84  	 	mõ  84  	 0Ûlõ  84  	 ¨Ûl  V4  	 `J×l  V4  	 aJ×l  V4  	 ˜C×l  V4  	 0%Ùl  V4  	 1%Ùl  V4  	 ™C×l  V4  	 ©Ûl  V4  	 1Ûl  V4  	 0Ûl  u4  	 ¨Ûl2  u4  	 `J×l2  u4  	 aJ×l2  u4  	 ˜C×l2  u4  	 0%Ùl2  u4  	 1%Ùl2  u4  	 ™C×l2  u4  	 ©Ûl2  u4  	 1Ûl2  u4  	 0ÛlP  “4  	 ¨ÛlP  “4  	 `J×lP  “4  	 aJ×lP  “4  	 ˜C×lP  “4  	 0%ÙlP  “4  	 1%ÙlP  “4  	 ™C×lP  “4  	 ©ÛlP  “4  	 1ÛlP  ²4  	 øÛlo  ²4  	 PDÚlo  ²4  	 QDÚlo  ²4  	 ¨Ûlo  ²4  	 `J×lo  ²4  	 aJ×lo  ²4  	 ˜C×lo  ²4  	 0%Ùlo  ²4  	 1%Ùlo  Ğ4  	 ™C×l  Ğ4  	 ©Ûl  Ğ4  	 ùÛl  Ğ4  	 8œâl  Ğ4  	 9œâl  Ğ4  	 è™âl  Ğ4  	 pœâl  Ğ4  	 qœâl  Ğ4  	 é™âl  Ğ4  	 m¬  ï4  	 è!m¬  ï4  	 é!m¬  ï4  	 è!m¬  ï4  	 é!m¬  ï4  	 0²×l¬  ï4  	 È­×l¬  ï4  	 É­×l¬  ï4  	 1²×l¬  5  	 	mÊ  5  	 0ÛlÊ  5  	 ¨ÛlÊ  5  	 `J×lÊ  5  	 aJ×lÊ  5  	 ˜C×lÊ  5  	 0%ÙlÊ  5  	 1%ÙlÊ  5  	 ™C×lÊ  5  	 ©Ûlé  ,5  	 1Ûlé  ,5  	 0Ûlé  ,5  	 ¨Ûlé  ,5  	 `J×lé  ,5  	 aJ×lé  ,5  	 ˜C×lé  ,5  	 0%Ùlé  ,5  	 1%Ùlé  ,5  	 ™C×lé  K5  	 ©Ûl  K5  	 1Ûl  K5  	 0Ûl  K5  	 ¨Ûl  K5  	 `J×l  K5  	 aJ×l  K5  	 ˜C×l  K5  	 0%Ùl  K5  	 1%Ùl  K5  	 ™C×l&  i5  	 ©Ûl&  i5  	 1Ûl&  i5  	 øÛl&  i5  	 PDÚl&  i5  	 QDÚl&  i5  	 ¨Ûl&  i5  	 `J×l&  i5  	 aJ×l&  i5  	 ˜C×l&  ˆ5  	 0%ÙlD  ˆ5  	 1%ÙlD  ˆ5  	 ™C×lD  ˆ5  	 ©ÛlD  ˆ5  	 ùÛlD  ˆ5  	 8œâlD  ˆ5  	 9œâlD  ˆ5  	 è™âlD  ˆ5  	 pœâlD  ˆ5  	 qœâlc  ¦5  	 é™âlc  ¦5  	 mc  ¦5  	 è!mc  ¦5  	 é!mc  ¦5  	 è!mc  ¦5  	 é!mc  ¦5  	 0²×lc  ¦5  	 È­×lc  ¦5  	 É­×l  Å5  	 1²×l  Å5  	 	m  Å5  	 0Ûl  Å5  	 ¨Ûl  Å5  	 `J×l  Å5  	 aJ×l  Å5  	 ˜C×l  Å5  	 0%Ùl  Å5  	 1%Ùl  ã5  	 ™C×l   ã5  	 ©Ûl   ã5  	 1Ûl   ã5  	 0Ûl   ã5  	 ¨Ûl   ã5  	 `J×l   ã5  	 aJ×l   ã5  	 ˜C×l   ã5  	 0%Ùl   ã5  	 1%Ùl¿  6  	 ™C×l¿  6  	 ©Ûl¿  6  	 1Ûl¿  6  	 0Ûl¿  6  	 ¨Ûl¿  6  	 `J×l¿  6  	 aJ×l¿  6  	 ˜C×l¿  6  	 0%Ùl¿   6  	 1%Ùlİ   6  	 ™C×lİ   6  	 ©Ûlİ   6  	 1Ûlİ   6  	 øÛlİ   6  	 ˆN×lİ   6  	 ‰N×lİ   6  	 ¨Ûlİ   6  	 `J×lİ   6  	 aJ×lü  ?6  	 PÛlü  ?6  	 0%Ùlü  ?6  	 1%Ùlü  ?6  	 QÛlü  ?6  	 ˜C×lü  ?6  	 0%Ùlü  ?6  	 1%Ùlü  ?6  	 ™C×l  ]6  	 ©Ûl  ]6  	 ùÛl  ]6  	 8œâl  ]6  	 9œâl  ]6  	 0Ûl  ]6  	 ¨Ûl  ]6  	 `J×l  ]6  	 aJ×l  ]6  	 ˜C×l9  |6  	 0%Ùl9  |6  	 1%Ùl9  |6  	 ™C×l9  |6  	 ©Ûl9  |6  	 1Ûl9  |6  	 ğÛl9  |6  	 'Ûl9  |6  	 Ğ:×l9  š6  	 Ñ:×lW  š6  	 'ÛlW  š6  	 ñÛlW  š6  	 ‘mW  š6  	 ‰ûmW  š6  	 0ÛlW  š6  	 ¨ÛlW  š6  	 `J×lW  š6  	 aJ×lW  š6  	 PÛlv  ¹6  	 0%Ùlv  ¹6  	 1%Ùlv  ¹6  	 QÛlv  ¹6  	 ˜C×lv  ¹6  	 0%Ùlv  ¹6  	 1%Ùlv  ¹6  	 ™C×lv  ¹6  	 ©Ûlv  ×6  	 1Ûl”  ×6  	 ğÛl”  ×6  	 'Ûl”  ×6  	 Ğ:×l”  ×6  	 Ñ:×l”  ×6  	 'Ûl”  ×6  	 ñÛl”  ×6  	 °fm”  ×6  	 ±fm³  ö6  	 ñ>m³  ö6  	 ¡=m³  ö6  	 Pûm³  ö6  	 (×l³  ö6  	 )×l³  ö6  	 ¨óm³  ö6  	 ¸KÚl³  ö6  	 `×l³  ö6  	 a×lÑ  7  	 ¹KÚlÑ  7  	 ©ómÑ  7  	 XmÑ  7  	 xmÑ  7  	 @mÑ  7  	 pWÚlÑ  7  	 qWÚlÑ  7  	 AmÑ  7  	 P˜âlğ  37  	 ˜LÚlğ  37  	 ¨™âlğ  37  	 p™âlğ  37  	 Àšâlğ  37  	 ˆšâlğ  37  	 ‰šâlğ  37  	 Ášâlğ  37  	 q™âlğ  37  	 ©™âl  Q7  	 ™LÚl  Q7  	 Q˜âl  Q7  	 8œâl  Q7  	 9œâl  Q7  	 è™âl  Q7  	 pœâl  Q7  	 qœâl  Q7  	 é™âl  Q7  	 m  p7  	 è!m-  p7  	 é!m-  p7  	 è!m-  p7  	 é!m-  p7  	 0²×l-  p7  	 È­×l-  p7  	 É­×l-  p7  	 1²×l-  p7  	 	m-  7  	  mK  7  	 !mK  ­7  	 €mj  ­7  	 Umj  ­7  	 XSmj  ­7  	 H%mj  ­7  	 I%mj  ­7  	 YSmj  ­7  	 ¨Tmj  ­7  	 ©Tmj  ­7  	 Umj  ­7  	 ¸mˆ  Ë7  	 DÚlˆ  Ë7  	 DÚlˆ  Ë7  	 Ğmˆ  Ë7  	 `J×lˆ  Ë7  	 aJ×lˆ  Ë7  	 ĞC×lˆ  Ë7  	 ÑC×lˆ  Ë7  	 ĞC×lˆ  Ë7  	 ÑC×lˆ  ê7  	 ĞC×l§  ê7  	 ÑC×l§  ê7  	 ĞC×l§  ê7  	 ÑC×l§  ê7  	 ĞC×l§  ê7  	 ÑC×l§  ê7  	 ĞC×l§  ê7  	 ÑC×l§  ê7  	 ĞC×l§  ê7  	 ÑC×lÅ  	8  	 ĞC×lÅ  	8  	 ÑC×lÅ  	8  	 ĞC×lÅ  	8  	 ÑC×lÅ  	8  	 ĞC×lÅ  	8  	 ÑC×lÅ  	8  	 ĞC×lÅ  	8  	 ÑC×lÅ  	8  	 ĞC×lÅ  	8  	 ÑC×lä  '8  	 ĞC×lä  '8  	 ÑC×lä  '8  	 ĞC×lä  '8  	 ÑC×lä  '8  	 ĞC×lä  '8  	 ÑC×lä  '8  	 ĞC×lä  '8  	 ÑC×lä  '8  	 ĞC×lä  F8  	 ÑC×l  F8  	 ĞC×l  F8  	 ÑC×l  F8  	 ĞC×l  F8  	 ÑC×l  F8  	 ĞC×l  F8  	 ÑC×l  F8  	 ĞC×l  F8  	 ÑC×l  F8  	 ĞC×l  d8  	 ÑC×l!  d8  	 ĞC×l!  d8  	 ÑC×l!  d8  	 ĞC×l!  d8  	 ÑC×l!  d8  	 ĞC×l!  d8  	 ÑC×l!  d8  	 ĞC×l!  d8  	 ÑC×l!  d8  	 ĞC×l!  ƒ8  	 ÑC×l?  ƒ8  	 ĞC×l?  ƒ8  	 ÑC×l?  ƒ8  	 ĞC×l?  ƒ8  	 ÑC×l?  ƒ8  	 ĞC×l?  ƒ8  	 ÑC×l?  ƒ8  	 ĞC×l?  ƒ8  	 ÑC×l?  ƒ8  	 ĞC×l^  ¡8  	 ÑC×l^  ¡8  	 ĞC×l^  ¡8  	 ÑC×l^  ¡8  	 ĞC×l^  ¡8  	 ÑC×l^  ¡8  	 ĞC×l^  ¡8  	 ÑC×l^  ¡8  	 ĞC×l^  ¡8  	 ÑC×l^  ¡8  	 ĞC×l|  À8  	 ÑC×l|  À8  	 ĞC×l|  À8  	 ÑC×l|  À8  	 ĞC×l|  À8  	 ÑC×l|  À8  	 ĞC×l|  À8  	 ÑC×l|  À8  	 ĞC×l|  À8  	 ÑC×l|  Ş8  	 ĞC×l›  Ş8  	 ÑC×l›  Ş8  	 ĞC×l›  Ş8  	 ÑC×l›  Ş8  	 ĞC×l›  Ş8  	 ÑC×l›  Ş8  	 ĞC×l›  Ş8  	 ÑC×l›  Ş8  	 ĞC×l›  Ş8  	 ÑC×l›  ı8  	 ĞC×lº  ı8  	 ÑC×lº  ı8  	 ĞC×lº  ı8  	 ÑC×lº  ı8  	 ĞC×lº  ı8  	 ÑC×lº  ı8  	 ĞC×lº  ı8  	 ÑC×lº  ı8  	 ĞC×lº  ı8  	 ÑC×lº  9  	 ĞC×lØ  9  	 ÑC×lØ  9  	 ÑmØ  9  	 ¨TmØ  9  	 ©TmØ  9  	 ¹mØ  9  	 mØ  9  	 8œâlØ  9  	 9œâlØ  :9  	 è™âl÷  :9  	 pœâl÷  :9  	 qœâl÷  :9  	 é™âl÷  :9  	 m÷  :9  	 è!m÷  :9  	 é!m÷  :9  	 è!m÷  :9  	 é!m÷  :9  	 0²×l  X9  	 È­×l  X9  	 É­×l  X9  	 1²×l  X9  	 	m  X9  	  m  X9  	 !m  X9  	 €m  X9  	 Um  X9  	 XSm4  w9  	 H%m4  w9  	 I%m4  w9  	 YSm4  w9  	 ¨Tm4  w9  	 ©Tm4  w9  	 Um4  w9  	 ¸m4  w9  	 DÚl4  w9  	 DÚl4  •9  	 ĞmR  •9  	 `J×lR  •9  	 aJ×lR  •9  	 ĞC×lR  •9  	 ÑC×lR  •9  	 ĞC×lR  •9  	 ÑC×lR  •9  	 ĞC×lR  •9  	 ÑC×lR  •9  	 ĞC×lq  ´9  	 ÑC×lq  ´9  	 ĞC×lq  ´9  	 ÑC×lq  ´9  	 ĞC×lq  ´9  	 ÑC×lq  ´9  	 ĞC×lq  ´9  	 ÑC×lq  ´9  	 ĞC×lq  ´9  	 ÑC×lq  Ò9  	 ĞC×l  Ò9  	 ÑC×l  Ò9  	 ĞC×l  Ò9  	 ÑC×l  Ò9  	 ĞC×l  Ò9  	 ÑC×l  Ò9  	 ĞC×l  Ò9  	 ÑC×l  Ò9  	 ĞC×l  Ò9  	 ÑC×l  ñ9  	 ĞC×l®  ñ9  	 ÑC×l®  ñ9  	 ĞC×l®  ñ9  	 ÑC×l®  ñ9  	 ĞC×l®  ñ9  	 ÑC×l®  ñ9  	 ĞC×l®  ñ9  	 ÑC×l®  ñ9  	 ĞC×l®  ñ9  	 ÑC×lÌ  :  	 ĞC×lÌ  :  	 ÑC×lÌ  :  	 ĞC×lÌ  :  	 ÑC×lÌ  :  	 ĞC×lÌ  :  	 ÑC×lÌ  :  	 ĞC×lÌ  :  	 ÑC×lÌ  :  	 ĞC×lÌ  .:  	 ÑC×lë  .:  	 ĞC×lë  .:  	 ÑC×lë  .:  	 ĞC×lë  .:  	 ÑC×lë  .:  	 ĞC×lë  .:  	 ÑC×lë  .:  	 ĞC×lë  .:  	 ÑC×lë  .:  	 ĞC×l	  L:  	 ÑC×l	  L:  	 ĞC×l	  L:  	 ÑC×l	  L:  	 ĞC×l	  L:  	 ÑC×l	  L:  	 ĞC×l	  L:  	 ÑC×l	  L:  	 ĞC×l	  L:  	 ÑC×l	  L:  	 ĞC×l(  k:  	 ÑC×l(  k:  	 ĞC×l(  k:  	 ÑC×l(  k:  	 ĞC×l(  k:  	 ÑC×l(  k:  	 ĞC×l(  k:  	 ÑC×l(  k:  	 ĞC×l(  k:  	 ÑC×l(  ‰:  	 ĞC×lF  ‰:  	 ÑC×lF  ‰:  	 ÑmF  ‰:  	 ¨TmF  ‰:  	 ©TmF  ‰:  	 ¹mF  ‰:  	 mF  ‰:  	 8œâlF  ‰:  	 9œâlF  ‰:  	 è™âle  ¨:  	 pœâle  ¨:  	 qœâle  ¨:  	 é™âle  ¨:  	 me  ¨:  	 è!me  ¨:  	 é!me  ¨:  	 è!me  ¨:  	 é!me  ¨:  	 0²×le  Æ:  	 È­×lƒ  Æ:  	 É­×lƒ  Æ:  	 1²×lƒ  Æ:  	 	mƒ  Æ:  	 8œâlƒ  Æ:  	 9œâlƒ  Æ:  	 è™âlƒ  Æ:  	 pœâlƒ  Æ:  	 qœâlƒ  å:  	 é™âl¢  å:  	 m¢  å:  	 è!m¢  å:  	 é!m¢  å:  	 è!m¢  å:  	 é!m¢  å:  	 0²×l¢  å:  	 È­×l¢  å:  	 É­×l¢  ;  	 1²×lÀ  ;  	 	mÀ  ;  	 8œâlÀ  ;  	 9œâlÀ  ;  	 è™âlÀ  ;  	 pœâlÀ  ;  	 qœâlÀ  ;  	 é™âlÀ  ;  	 mÀ  ;  	 è!mß  ";  	 é!mß  ";  	 è!mß  ";  	 é!mß  ";  	 0²×lß  ";  	 È­×lß  ";  	 É­×lß  ";  	 1²×lß  ";  	 	mß  ";  	 8œâlß  A;  	 9œâlı  A;  	 è™âlı  A;  	 pœâlı  A;  	 qœâlı  A;  	 é™âlı  A;  	 mı  A;  	 è!mı  A;  	 é!mı  A;  	 è!mı  A;  	 é!m  _;  	 0²×l  _;  	 È­×l  _;  	 É­×l  _;  	 1²×l  _;  	 	m  _;  	 8œâl  _;  	 9œâl  _;  	 è™âl  _;  	 pœâl  ~;  	 qœâl:  ~;  	 é™âl:  ~;  	 m:  ~;  	 è!m:  ~;  	 é!m:  ~;  	 è!m:  ~;  	 é!m:  ~;  	 0²×l:  ~;  	 È­×l:  ~;  	 É­×lY  œ;  	 1²×lY  œ;  	 	mY  œ;  	 8œâlY  œ;  	 9œâlY  œ;  	 è™âlY  œ;  	 pœâlY  œ;  	 qœâlY  œ;  	 é™âlY  œ;  	 mx  »;  	 è!mx  »;  	 é!mx  »;  	 è!mx  »;  	 é!mx  »;  	 0²×lx  »;  	 È­×lx  »;  	 É­×lx  »;  	 1²×lx  »;  	 	mx  Ù;  	  m–  Ù;  	 !m–  Ù;  	 €m–  Ù;  	 Um–  Ù;  	 XSm–  Ù;  	 H%m–  Ù;  	 I%m–  Ù;  	 YSm–  Ù;  	 ¨Tm–  Ù;  	 ©Tmµ  ø;  	 Umµ  ø;  	 ¸mµ  ø;  	 DÚlµ  ø;  	 DÚlµ  ø;  	 ˆmµ  ø;  	 (×lµ  ø;  	 )×lµ  ø;  	 pómµ  ø;  	 ¸KÚlÓ  <  	 `×lÓ  <  	 a×lÓ  <  	 ¹KÚlÓ  <  	 qómÓ  <  	 ('mÓ  <  	 ¸KÚlÓ  <  	 ¨CÚlÓ  <  	 øG×lÓ  5<  	 ùG×lò  5<  	 ©CÚlò  5<  	 ¹KÚlò  5<  	 jØlò  5<  	 ‘jØlò  5<  	 )'mò  5<  	 ¨Tmò  5<  	 ©Tmò  5<  	 ‰mò  S<  	 ¹m  S<  	 m  S<  	 8œâl  S<  	 9œâl  S<  	 è™âl  S<  	 pœâl  S<  	 qœâl  S<  	 é™âl  S<  	 m  S<  	 è!m/  r<  	 é!m/  r<  	 è!m/  r<  	 é!m/  r<  	 0²×l/  r<  	 È­×l/  r<  	 É­×l/  r<  	 1²×l/  r<  	 	m/  r<  	  mM  <  	 !mM  <  	 €mM  <  	 UmM  <  	 XSmM  <  	 H%mM  <  	 I%mM  <  	 YSmM  <  	 ¨TmM  <  	 ©TmM  ¯<  	 Uml  ¯<  	 ¸ml  ¯<  	 DÚll  ¯<  	 DÚll  ¯<  	 ˆml  ¯<  	 (×ll  ¯<  	 )×ll  ¯<  	 póml  ¯<  	 ¸KÚll  Í<  	 `×lŠ  Í<  	 a×lŠ  Í<  	 ¹KÚlŠ  Í<  	 qómŠ  Í<  	 ('mŠ  Í<  	 ¸KÚlŠ  Í<  	 ¨CÚlŠ  Í<  	 øG×lŠ  Í<  	 ùG×lŠ  ì<  	 ©CÚl©  ì<  	 ¹KÚl©  ì<  	 jØl©  ì<  	 ‘jØl©  ì<  	 )'m©  ì<  	 ¨Tm©  ì<  	 ©Tm©  ì<  	 ‰m©  ì<  	 ¹m©  ì<  	 mÇ  
+=  	 8œâlÇ  
+=  	 9œâlÇ  
+=  	 è™âlÇ  
+=  	 pœâlÇ  
+=  	 qœâlÇ  
+=  	 é™âlÇ  
+=  	 mÇ  
+=  	 è!mÇ  
+=  	 é!mÇ  )=  	 è!mæ  )=  	 é!mæ  )=  	 0²×læ  )=  	 È­×læ  )=  	 É­×læ  )=  	 1²×læ  )=  	 	mæ  )=  	  mæ  )=  	 !mæ  G=  	 €m  G=  	 Um  G=  	 XSm  G=  	 H%m  G=  	 I%m  G=  	 YSm  G=  	 ¨Tm  G=  	 ©Tm  G=  	 Um  G=  	 ¸m#  f=  	 DÚl#  f=  	 DÚl#  f=  	 Ğm#  f=  	 `J×l#  f=  	 aJ×l#  f=  	 ĞC×l#  f=  	 ÑC×l#  f=  	 ĞC×l#  f=  	 ÑC×l#  „=  	 ĞC×lA  „=  	 ÑC×lA  „=  	 ĞC×lA  „=  	 ÑC×lA  „=  	 ĞC×lA  „=  	 ÑC×lA  „=  	 ĞC×lA  „=  	 ÑC×lA  „=  	 ĞC×lA  „=  	 ÑC×l`  £=  	 ĞC×l`  £=  	 ÑC×l`  £=  	 ĞC×l`  £=  	 ÑC×l`  £=  	 ĞC×l`  £=  	 ÑC×l`  £=  	 ĞC×l`  £=  	 ÑC×l`  £=  	 ĞC×l`  £=  	 ÑC×l~  Á=  	 ĞC×l~  Á=  	 ÑC×l~  Á=  	 ĞC×l~  Á=  	 ÑC×l~  Á=  	 ĞC×l~  Á=  	 ÑC×l~  Á=  	 ĞC×l~  Á=  	 ÑC×l~  Á=  	 ĞC×l~  à=  	 ÑC×l  à=  	 ĞC×l  à=  	 ÑC×l  à=  	 ĞC×l  à=  	 ÑC×l  à=  	 ĞC×l  à=  	 ÑC×l  à=  	 ĞC×l  à=  	 ÑC×l  à=  	 ĞC×l  ÿ=  	 ÑC×l»  ÿ=  	 ĞC×l»  ÿ=  	 ÑC×l»  ÿ=  	 ĞC×l»  ÿ=  	 ÑC×l»  ÿ=  	 ĞC×l»  ÿ=  	 ÑC×l»  ÿ=  	 ĞC×l»  ÿ=  	 ÑC×l»  ÿ=  	 ĞC×lÚ  >  	 ÑC×lÚ  >  	 ĞC×lÚ  >  	 ÑC×lÚ  >  	 ĞC×lÚ  >  	 ÑC×lÚ  >  	 ĞC×lÚ  >  	 ÑC×lÚ  >  	 ĞC×lÚ  >  	 ÑC×lÚ  >  	 ĞC×lø  <>  	 ÑC×lø  <>  	 ĞC×lø  <>  	 ÑC×lø  <>  	 ĞC×lø  <>  	 ÑC×lø  <>  	 ĞC×lø  <>  	 ÑC×lø  <>  	 ĞC×lø  <>  	 ÑC×lø  <>  	 Ñm  Z>  	 ¨Tm  Z>  	 ©Tm  Z>  	 ¹m  Z>  	 m  Z>  	 8œâl  Z>  	 9œâl  Z>  	 ûm  Z>  	 ûm  Z>  	 ym5  y>  	  Tm5  y>  	 8Tm5  y>  	 °Rm5  y>  	 ±Rm5  y>  	 9Tm5  y>  	 Tm5  y>  	 Èm5  y>  	 @mT  —>  	 pWÚlT  —>  	 qWÚlT  —>  	 AmT  —>  	 P˜âlT  —>  	 ˜LÚlT  —>  	 ¨™âlT  —>  	 p™âlT  —>  	 ÀšâlT  —>  	 ˆšâls  ¶>  	 ‰šâls  ¶>  	 Ášâls  ¶>  	 q™âls  ¶>  	 ©™âls  ¶>  	 ™LÚls  ¶>  	 Q˜âls  ¶>  	 8œâls  ¶>  	 9œâls  ¶>  	 è™âls  Ô>  	 pœâl‘  Ô>  	 qœâl‘  Ô>  	 é™âl‘  Ô>  	 m‘  Ô>  	 è!m‘  Ô>  	 é!m‘  Ô>  	 è!m‘  Ô>  	 é!m‘  Ô>  	 0²×l‘  Ô>  	 È­×l°  ó>  	 É­×l°  ó>  	 1²×l°  ó>  	 	m°  ó>  	  m°  ó>  	 !m°  ó>  	  
+m°  ó>  	  m°  ó>  	 DÚl°  ó>  	 DÚlÎ  ?  	 mÎ  ?  	 øWmÎ  ?  	 XSmÎ  ?  	 H%mÎ  ?  	 I%mÎ  ?  	 YSmÎ  ?  	 0XmÎ  ?  	 WmÎ  ?  	 àVmÎ  0?  	 áVmí  0?  	 Wmí  0?  	 1Xmí  0?  	 ùWmí  0?  	 X
+mí  0?  	 DÚlí  0?  	 DÚlí  0?  	 PG×lí  0?  	 ğ‘Ølí  0?  	 ¸‘Øl  N?  	 ˜TÚl  N?  	 øG×l  N?  	 ùG×l  N?  	 pF×l  N?  	 qF×l  N?  	 ™TÚl  N?  	 ¹‘Øl  N?  	 ñ‘Øl  N?  	 ˆG×l*  m?  	 °•Øl*  m?  	 ±•Øl*  m?  	 pF×l*  m?  	 qF×l*  m?  	 p:Ùl*  m?  	 q:Ùl*  ‹?  	 ‰G×lH  ‹?  	 QG×lH  ‹?  	 0XmH  ‹?  	 WmH  ‹?  	 àVmH  ‹?  	 áVmH  ‹?  	 WmH  ‹?  	 1XmH  ‹?  	 PWmH  ª?  	 ˆWmg  ª?  	 0%Ùlg  ª?  	 1%Ùlg  ª?  	 ‰Wmg  ª?  	 QWmg  ª?  	 Y
+mg  ª?  	 !
+mg  ª?  	 8œâlg  ª?  	 9œâlg  ª?  	 è™âl…  È?  	 pœâl…  È?  	 qœâl…  È?  	 é™âl…  È?  	 m…  È?  	 è!m…  È?  	 é!m…  È?  	 è!m…  È?  	 é!m…  È?  	 0²×l¤  ç?  	 È­×l¤  ç?  	 É­×l¤  ç?  	 1²×l¤  ç?  	 	m¤  ç?  	  m¤  ç?  	 !m¤  ç?  	  
+m¤  ç?  	  m¤  @  	 DÚlÂ  @  	 DÚlÂ  @  	 mÂ  @  	 øWmÂ  @  	 XSmÂ  @  	 H%mÂ  @  	 I%mÂ  @  	 YSmÂ  @  	 0XmÂ  @  	 Wmá  $@  	 àVmá  $@  	 áVmá  $@  	 Wmá  $@  	 1Xmá  $@  	 ùWmá  $@  	 X
+má  $@  	 DÚlá  $@  	 DÚlá  $@  	 PG×lá  B@  	 ğ‘Ølÿ  B@  	 ¸‘Ølÿ  B@  	 ˜TÚlÿ  B@  	 øG×lÿ  B@  	 ùG×lÿ  B@  	 pF×lÿ  B@  	 qF×lÿ  B@  	 ™TÚlÿ  B@  	 ¹‘Ølÿ  a@  	 ñ‘Øl  a@  	 ˆG×l  a@  	 °•Øl  a@  	 ±•Øl  a@  	 pF×l  a@  	 qF×l  a@  	 p:Ùl  a@  	 q:Ùl<  @  	 ‰G×l<  @  	 QG×l<  @  	 0Xm<  @  	 Wm<  @  	 àVm<  @  	 áVm<  @  	 Wm<  @  	 1Xm<  @  	 PWm[  @  	 ˆWm[  @  	 0%Ùl[  @  	 1%Ùl[  @  	 ‰Wm[  @  	 QWm[  @  	 Y
+m[  @  	 !
+m[  @  	 8œâl[  @  	 9œâl[  ¼@  	 è™âly  ¼@  	 pœâly  ¼@  	 qœâly  ¼@  	 é™âly  ¼@  	 my  ¼@  	 è!my  ¼@  	 é!my  ¼@  	 è!my  ¼@  	 é!my  ¼@  	 0²×l˜  Û@  	 È­×l˜  Û@  	 É­×l˜  Û@  	 1²×l˜  Û@  	 	m˜  Û@  	 8œâl˜  Û@  	 9œâl˜  Û@  	 è™âl˜  Û@  	 pœâl˜  Û@  	 qœâl¶  ú@  	 é™âl¶  ú@  	 m¶  ú@  	 è!m¶  ú@  	 é!m¶  ú@  	 è!m¶  ú@  	 é!m¶  ú@  	 0²×l¶  ú@  	 È­×l¶  ú@  	 É­×l¶  A  	 1²×lÕ  A  	 	mÕ  A  	 8œâlÕ  A  	 9œâlÕ  A  	 è™âlÕ  A  	 pœâlÕ  A  	 qœâlÕ  A  	 é™âlÕ  A  	 mÕ  A  	 è!mó  7A  	 é!mó  7A  	 è!mó  7A  	 é!mó  7A  	 0²×ló  7A  	 È­×ló  7A  	 É­×ló  7A  	 1²×ló  7A  	 	mó  7A  	 8œâl   UA  	 9œâl   UA  	 è™âl   UA  	 pœâl   UA  	 qœâl   UA  	 é™âl   UA  	 m   UA  	 è!m   UA  	 é!m   UA  	 è!m   UA  	 é!m0   tA  	 0²×l0   tA  	 È­×l0   tA  	 É­×l0   tA  	 1²×l0   tA  	 	m0   tA  	 8œâl0   tA  	 9œâl0   tA  	 è™âl0   tA  	 pœâlO   ’A  	 qœâlO   ’A  	 é™âlO   ’A  	 mO   ’A  	 è!mO   ’A  	 é!mO   ’A  	 è!mO   ’A  	 é!mO   ’A  	 0²×lO   ’A  	 È­×lO   ±A  	 É­×ln   ±A  	 1²×ln   ±A  	 	mn   ±A  	 8œâln   ±A  	 9œâln   ±A  	 è™âln   ±A  	 pœâln   ±A  	 qœâln   ±A  	 é™âln   ±A  	 mŒ   ÏA  	 è!mŒ   ÏA  	 é!mŒ   ÏA  	 è!mŒ   ÏA  	 é!mŒ   ÏA  	 0²×lŒ   ÏA  	 È­×lŒ   ÏA  	 É­×lŒ   ÏA  	 1²×lŒ   ÏA  	 	m«   îA  	  m«   îA  	 !m«   îA  	  
+m«   îA  	  m«   îA  	 DÚl«   îA  	 DÚl«   îA  	 m«   îA  	 øWm«   îA  	 XSm«   B  	 H%mÉ   B  	 I%mÉ   B  	 YSmÉ   B  	 0XmÉ   B  	 WmÉ   B  	 àVmÉ   B  	 áVmÉ   B  	 WmÉ   B  	 1XmÉ   B  	 ùWmè   +B  	 X
+mè   +B  	 DÚlè   +B  	 DÚlè   +B  	 	mè   +B  	 (×lè   +B  	 )×lè   +B  	 pómè   +B  	 ¸KÚlè   +B  	 `×l!  IB  	 a×l!  IB  	 ¹KÚl!  IB  	 qóm!  IB  	 ('m!  IB  	 ¸KÚl!  IB  	 ¨CÚl!  IB  	 øG×l!  IB  	 ùG×l!  IB  	 ©CÚl!  hB  	 ¹KÚl%!  hB  	 jØl%!  hB  	 ‘jØl%!  hB  	 )'m%!  hB  	 0Xm%!  hB  	 Wm%!  hB  	 àVm%!  hB  	 áVm%!  hB  	 Wm%!  hB  	 1XmC!  †B  	 		mC!  †B  	 Y
+mC!  †B  	 !
+mC!  †B  	 8œâlC!  †B  	 9œâlC!  †B  	 è™âlC!  †B  	 pœâlC!  †B  	 qœâlC!  †B  	 é™âlb!  ¥B  	 mb!  ¥B  	 è!mb!  ¥B  	 é!mb!  ¥B  	 è!mb!  ¥B  	 é!mb!  ¥B  	 0²×lb!  ¥B  	 È­×lb!  ¥B  	 É­×lb!  ¥B  	 1²×l€!  ÃB  	 	m€!  ÃB  	  m€!  ÃB  	 !m€!  ÃB  	  
+m€!  ÃB  	  m€!  ÃB  	 DÚl€!  ÃB  	 DÚl€!  ÃB  	 m€!  ÃB  	 øWm€!  âB  	 XSmŸ!  âB  	 H%mŸ!  âB  	 I%mŸ!  âB  	 YSmŸ!  âB  	 0XmŸ!  âB  	 WmŸ!  âB  	 àVmŸ!  âB  	 áVmŸ!  âB  	 WmŸ!  âB  	 1Xm½!   C  	 ùWm½!   C  	 X
+m½!   C  	 DÚl½!   C  	 DÚl½!   C  	 	m½!   C  	 (×l½!   C  	 )×l½!   C  	 póm½!   C  	 ¸KÚl½!  C  	 `×lÜ!  C  	 a×lÜ!  C  	 ¹KÚlÜ!  C  	 qómÜ!  C  	 ('mÜ!  C  	 ¸KÚlÜ!  C  	 ¨CÚlÜ!  C  	 øG×lÜ!  C  	 ùG×lÜ!  C  	 ©CÚlú!  =C  	 ¹KÚlú!  =C  	 jØlú!  =C  	 ‘jØlú!  =C  	 )'mú!  =C  	 0Xmú!  =C  	 Wmú!  =C  	 àVmú!  =C  	 áVmú!  =C  	 Wmú!  \C  	 1Xm"  \C  	 		m"  \C  	 Y
+m"  \C  	 !
+m"  \C  	 8œâl"  \C  	 9œâl"  \C  	 è™âl"  \C  	 pœâl"  \C  	 qœâl"  \C  	 é™âl7"  zC  	 m7"  zC  	 è!m7"  zC  	 é!m7"  zC  	 è!m7"  zC  	 é!m7"  zC  	 0²×l7"  zC  	 È­×l7"  zC  	 É­×l7"  zC  	 1²×l7"  ™C  	 	mV"  ™C  	  mV"  ™C  	 !mV"  ™C  	  
+mV"  ™C  	  mV"  ™C  	 DÚlV"  ™C  	 DÚlV"  ™C  	 mV"  ™C  	 øWmV"  ™C  	 XSmt"  ·C  	 H%mt"  ·C  	 I%mt"  ·C  	 YSmt"  ·C  	 0Xmt"  ·C  	 Wmt"  ·C  	 àVmt"  ·C  	 áVmt"  ·C  	 Wmt"  ·C  	 1Xmt"  ÖC  	 ùWm“"  ÖC  	 X
+m“"  ÖC  	 DÚl“"  ÖC  	 DÚl“"  ÖC  	 PG×l“"  ÖC  	 ğ‘Øl“"  ÖC  	 ¸‘Øl“"  ÖC  	 ˜TÚl“"  ÖC  	 øG×l“"  ÖC  	 ùG×l±"  õC  	 pF×l±"  õC  	 qF×l±"  õC  	 ™TÚl±"  õC  	 ¹‘Øl±"  õC  	 ñ‘Øl±"  õC  	 ˆG×l±"  õC  	 °•Øl±"  õC  	 ±•Øl±"  õC  	 pF×lĞ"  D  	 qF×lĞ"  D  	 p:ÙlĞ"  D  	 q:ÙlĞ"  D  	 ‰G×lĞ"  D  	 QG×lĞ"  D  	 0XmĞ"  D  	 Wmî"  2D  	 àVmî"  2D  	 áVmî"  2D  	 Wmî"  2D  	 1Xmî"  2D  	 PWmî"  2D  	 ˆWmî"  2D  	 0%Ùlî"  2D  	 1%Ùlî"  2D  	 ‰Wmî"  PD  	 QWm#  PD  	 Y
+m#  PD  	 !
+m#  PD  	 8œâl#  PD  	 9œâl#  PD  	 hüm#  PD  	 iüm#  PD  	 Ém#  PD  	 Ym#  oD  	 Qûm+#  oD  	 ©.m+#  oD  	 øVÜl+#  oD  	 8Ül+#  oD  	 ğ)Ül+#  oD  	 ÈU×l+#  oD  	 Øk×l+#  oD  	 Ùk×l+#  D  	 ÉU×lJ#  D  	 +ÜlJ#  D  	 	+ÜlJ#  D  	 bâlJ#  D  	 bâlJ#  D  	 PbâlJ#  D  	 QbâlJ#  D  	 ñ)ÜlJ#  D  	 9ÜlJ#  D  	 8UÜli#  ¬D  	 p>Üli#  ¬D  	 q>Üli#  ¬D  	 9UÜli#  ¬D  	 ùVÜli#  ¬D  	 ĞRÜli#  ¬D  	 SÜli#  ¬D  	  iâli#  ¬D  	 ¡iâl‡#  ÊD  	 =Ül‡#  ÊD  	 ‘=Ül‡#  ÊD  	 	SÜl‡#  ÊD  	 ÑRÜl‡#  ÊD  	 6m‡#  ÊD  	 0PÜl¦#  éD  	  7Ül¦#  éD  	 7Ül¦#  éD  	 1PÜl¦#  éD  	 0PÜl¦#  éD  	  7Ül¦#  éD  	 7Ül¦#  éD  	 1PÜl¦#  éD  	 îÛl¦#  éD  	 PÜlÄ#  E  	 HÜlÄ#  E  	 ø\âlÄ#  E  	 Ğ*ÜlÄ#  E  	 ÈU×lÄ#  E  	 Øk×lÄ#  E  	 Ùk×lÄ#  E  	 ÉU×lÄ#  &E  	 +Ülã#  &E  	 	+Ülã#  &E  	 dâlã#  &E  	 ˆbâlã#  &E  	 hcâlã#  &E  	 icâlã#  &E  	 0câlã#  &E  	 1câlã#  &E  	 0câlã#  DE  	 1câl$  DE  	 0câl$  DE  	 1câl$  DE  	 0câl$  DE  	 1câl$  DE  	 0câl$  DE  	 1câl$  DE  	 0câl$  DE  	 1câl$  DE  	 ‰bâl $  cE  	 x)Ül $  cE  	 y)Ül $  cE  	 °)Ül $  cE  	 ±)Ül $  cE  	 dâl $  cE  	 Ñ*Ül $  cE  	 ù\âl $  cE  	 IÜl $  cE  	 QÜl $  E  
+ îÛlŒ  Øß 
+ ø?ÜlŒ  Øß 
+ 87ÜlŒ  Øß 
+ 97ÜlŒ  Øß 
+ ù?ÜlŒ  öß 
+ ø?Ül«  öß 
+ 87Ül«  öß 
+ 97Ül«  öß 
+ ù?Ül«  öß 
+  6m«  öß 
+ @EÜl«  öß 
+ 09ÜlÉ  à 
+ PÜlÉ  à 
+ HÜlÉ  à 
+ À\âlè  3à 
+ ğ)Ülè  3à 
+ ÈU×lè  3à 
+ Øk×lè  3à 
+ Ùk×lè  3à 
+ ÉU×lè  Rà 
+ +Ül  Rà 
+ 	+Ül  Rà 
+ bâl  Rà 
+ bâl  Rà 
+ Pbâl  Rà 
+ Qbâl  Rà 
+ ñ)Ül  Rà 
+ Á\âl%  qà 
+ (ïl%  qà 
+ pNÚl%  qà 
+ @,Úl%  à 
+ A,ÚlC  à 
+ qNÚlC  à 
+ )ïlC  à 
+ ø\âlC  à 
+ Ğ*ÜlC  à 
+ ÈU×lC  à 
+ Øk×lC  ®à 
+ Ùk×lb  ®à 
+ ÉU×lb  ®à 
+ +Ülb  ®à 
+ 	+Ülb  ®à 
+ dâlb  ®à 
+ ˆbâlb  ®à 
+ hcâlb  ®à 
+ icâl  Ìà 
+ 0câl  Ìà 
+ 1câl  Ìà 
+ 0câl  Ìà 
+ 1câl  Ìà 
+ 0câl  Ìà 
+ 1câl  Ìà 
+ 0câl  ëà 
+ 1câlŸ  ëà 
+ 0câlŸ  ëà 
+ 1câlŸ  ëà 
+ 0câlŸ  ëà 
+ 1câlŸ  ëà 
+ ‰bâlŸ  ëà 
+ x)ÜlŸ  ëà 
+ y)ÜlŸ  	á 
+ °)Ül¾  	á 
+ ±)Ül¾  	á 
+ dâl¾  	á 
+ Ñ*Ül¾  	á 
+ ù\âl¾  	á 
+ IÜl¾  	á 
+ QÜl¾  	á 
+ 19ÜlÜ  (á 
+ AEÜlÜ  (á 
+  0mÜ  (á 
+  îßlû  Fá 
+  Øl  eá 

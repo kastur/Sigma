@@ -1,0 +1,112 @@
+package edu.ucla.nesl.sigma.P;
+
+message URI {
+  enum Protocol {
+    NATIVE = 0;
+    LOCAL = 1;
+    HTTP = 2;
+    XMPP = 3;
+  }
+
+  enum ObjectType {
+    BASE = 0;
+    BINDER = 1;
+    UNIX_SOCKET = 2;
+  }
+
+  required Protocol protocol = 1;
+  required ObjectType type = 2;
+  optional string uuid = 3;
+
+  // set object is encoded as part of parcel.
+  optional int32 offset = 4; 
+
+  // Set by NATIVE and LOCAL protocols.
+  optional string className = 5;
+
+  // Set by HTTP protocol
+  optional string host = 6;
+  optional int32 port = 7;
+
+  // Set by XMPP protocol
+  optional string login = 8;
+  optional string domain = 9;
+
+  // Set iff type is Binder
+  optional string interface = 10;
+}
+
+message SParcel {
+  required string bytes = 1;
+  repeated URI objects = 2;
+}
+
+message SIntent {
+  optional string action = 1;
+}
+
+message STransactionRequest {
+  required SParcel data = 1;
+  required int32 code = 2;
+  required int32 flags = 3;
+}
+
+message STransactionResponse {
+  required SParcel reply = 1;
+  required bool return = 2;
+}
+
+message SSocketDataReceived {
+  required string bytes = 1;
+}
+
+message SRequest {
+  enum ActionType {
+    GET_SIGMA_MANAGER = 0;
+    GET_SERVICE_MANAGER = 1;
+    GET_SERVICE = 2;
+    BINDER_TRANSACTION = 3;
+    BINDER_CONNECTED = 4;
+    BINDER_DISCONNECTED = 5;
+    BINDER_LINK_TO_DEATH = 6;
+    BINDER_UNLINK_TO_DEATH =7;
+    FILE_RECV = 8;
+    FILE_CLOSE = 9;
+  }
+
+  required URI self = 1;
+  required URI target = 2;
+  required ActionType action = 3;
+
+  optional SIntent intent = 4;
+  optional STransactionRequest transaction_request = 5;
+  optional SSocketDataReceived socket_data_received = 6;
+}
+
+message SResponse {
+  enum Type {
+    OK = 0;
+    ERROR = 1;
+    URI = 2; 
+    BINDER_TRANSACTION_RESPONSE = 3;
+  }
+  required Type type = 1;
+  required URI self = 2;
+  optional string error = 3;
+  optional URI uri = 4;
+  optional STransactionResponse transaction_response = 5;
+}
+
+message SMessage {
+  enum Type {
+    REQUEST = 0;
+    RESPONSE = 1;
+    ERROR = 2;
+  }
+
+  required Type type = 1;
+  optional SRequest request = 2;
+  optional SResponse response = 3;
+  optional string error = 4;
+}
+

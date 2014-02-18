@@ -1,0 +1,93 @@
+
+## local.getRemoteManager(target)
+SRequest{
+  action=GET_SIGMA_MANAGER,
+  self=URI{
+    className=ΣA, protocol=LOCAL, type=BASE},
+  target=URI{
+    className=ΣB, protocol=LOCAL, type=BASE}}
+
+SResponse{
+  self=URI{
+    className=ΣB, protocol=LOCAL, type=BASE},
+  type=URI,
+  uri=URI{
+    _interface=edu.ucla.nesl.sigma.api.ISigmaManager,
+    className=ΣB, protocol=LOCAL, type=BINDER,
+    uuid=4491e29c-8415-404a-b8ff-ceb4e4eae1bf}}
+
+## BINDER_CONNECTED ISigmaManager
+SRequest{
+  action=BINDER_CONNECTED,
+  self=URI{
+    className=ΣA, protocol=LOCAL, type=BASE},
+  target=URI{
+    _interface=edu.ucla.nesl.sigma.api.ISigmaManager,
+    className=ΣB, protocol=LOCAL, type=BINDER,
+    uuid=4491e29c-8415-404a-b8ff-ceb4e4eae1bf}}
+
+SResponse{
+  self=URI{className=ΣB, protocol=LOCAL, type=BASE},
+  type=OK}
+
+## remote.getService(PING_PONG_SERVICE)
+SRequest{
+  action=BINDER_TRANSACTION,
+  self=URI{
+    className=ΣA,
+    protocol=LOCAL,
+    type=BASE},
+  target=URI{
+    _interface=edu.ucla.nesl.sigma.api.ISigmaManager,
+    className=ΣB, protocol=LOCAL, type=BINDER,
+    uuid=4491e29c-8415-404a-b8ff-ceb4e4eae1bf},
+  transaction_request=STransactionRequest{
+    code=4,
+    data=SParcel{
+      bytes=
+      BAMAACUAAABlAGQAdQAuAHUAYwBsAGEALgBuAGUAcwBsAC4AcwBpAGcAbQBhAC4AYQBwAGkALgBJ
+      AFMAaQBnAG0AYQBNAGEAbgBhAGcAZQByAAAAAQAAADMAAABlAGQAdQAuAHUAYwBsAGEALgBuAGUA
+      cwBsAC4AcwBpAGcAbQBhAC4AcwBhAG0AcABsAGUAcwAuAHAAaQBuAGcAcABvAG4AZwAuAFAAaQBu
+      AGcAUABvAG4AZwBTAGUAcgB2AGUAcgAAAAAAAAD/////AAAAAP//////////AAAAAAAAAAAAAAAA
+      AAAAAP////8=},
+    flags=16}}
+
+SResponse{
+  self=URI{
+    className=ΣB,
+    protocol=LOCAL,
+    type=BASE},
+  transaction_response=STransactionResponse{
+    _return=true,
+    reply=SParcel{
+      bytes=AAAAAIUqaHN/AQAACAAAAAAAAAA=,
+      objects=[
+        URI{
+          _interface=edu.ucla.nesl.sigma.samples.pingpong.IPingPongServer,
+          className=ΣB, offset=4, protocol=LOCAL, type=BINDER,
+          uuid=a71ddc79-604c-4962-a331-d76269543cbd}
+      ]}},
+  type=BINDER_TRANSACTION_RESPONSE}
+
+objects=[URI{
+   _interface=edu.ucla.nesl.sigma.samples.pingpong.IPingPongServer,
+   className=ΣB, offset=4, protocol=LOCAL, type=BINDER,
+   uuid=a71ddc79-604c-4962-a331-d76269543cbd}
+]
+
+## BINDER_CONNECTED IPingPongServer
+ΣB:   SRequest{action=BINDER_CONNECTED, self=URI{className=ΣA, protocol=LOCAL, type=BASE}, target=URI{_interface=edu.ucla.nesl.sigma.samples.pingpong.IPingPongServer, className=ΣB, protocol=LOCAL, type=BINDER, uuid=a71ddc79-604c-4962-a331-d76269543cbd}}
+ΣB:   SResponse{self=URI{className=ΣB, protocol=LOCAL, type=BASE}, type=OK}
+
+## BINDER_TRANSACTION on IPingPongServer
+ΣB:   SRequest{action=BINDER_TRANSACTION, self=URI{className=ΣA, protocol=LOCAL, type=BASE}, target=URI{_interface=edu.ucla.nesl.sigma.samples.pingpong.IPingPongServer, className=ΣB, protocol=LOCAL, type=BINDER, uuid=a71ddc79-604c-4962-a331-d76269543cbd}, transaction_request=STransactionRequest{code=4, data=SParcel{bytes=
+      BAMAADQAAABlAGQAdQAuAHUAYwBsAGEALgBuAGUAcwBsAC4AcwBpAGcAbQBhAC4AcwBhAG0AcABs
+      AGUAcwAuAHAAaQBuAGcAcABvAG4AZwAuAEkAUABpAG4AZwBQAG8AbgBnAFMAZQByAHYAZQByAAAA
+      AAA=
+      }, flags=16}}
+ΣB:   SResponse{self=URI{className=ΣB, protocol=LOCAL, type=BASE}, transaction_response=STransactionResponse{_return=true, reply=SParcel{bytes=
+      AAAAAGC0ILs=
+      , objects=[]}}, type=BINDER_TRANSACTION_RESPONSE}
+
+## ... More RPCs
+
