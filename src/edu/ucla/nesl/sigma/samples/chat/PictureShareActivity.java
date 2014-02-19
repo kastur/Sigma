@@ -2,9 +2,13 @@ package edu.ucla.nesl.sigma.samples.chat;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.MediaStore;
+import android.util.Pair;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import edu.ucla.nesl.sigma.P.URI;
@@ -13,21 +17,20 @@ import edu.ucla.nesl.sigma.base.SigmaManager;
 import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.base.SigmaServiceB;
 import edu.ucla.nesl.sigma.samples.BunchOfButtonsActivity;
-import edu.ucla.nesl.sigma.samples.TestUtils;
+import edu.ucla.nesl.sigma.samples.TestXmllUtils;
 
 import java.io.ByteArrayOutputStream;
 
 import static edu.ucla.nesl.sigma.base.SigmaDebug.throwUnexpected;
 
-public class PictureChatActivity extends BunchOfButtonsActivity {
-    public static final boolean USE_HTTP = false;
-    private static final String TAG = PictureChatActivity.class.getName();
+public class PictureShareActivity extends BunchOfButtonsActivity {
+    public static final boolean USE_LOCAL_HTTP = true;
+    private static final String TAG = PictureShareActivity.class.getName();
     public static final String kChatServerName =
             "edu.ucla.nesl.sigma.samples.chat.PictureChatService";
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ImageView mImageView;
-    Bitmap mBitmap;
 
     SigmaServiceConnection connA;
     SigmaServiceConnection connB;
@@ -37,8 +40,6 @@ public class PictureChatActivity extends BunchOfButtonsActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mBitmap = null;
 
         connA = new SigmaServiceConnection(this, SigmaServiceA.class);
         connA.connect();
@@ -56,7 +57,20 @@ public class PictureChatActivity extends BunchOfButtonsActivity {
 
     @Override
     public void onCreateHook() {
-        addButton("Take picture", new Runnable() {
+        addButton("Start ΣA", new Runnable() {
+            @Override
+            public void run() {
+                if (USE_LOCAL_HTTP) {
+                    URI uri = SigmaServiceA.getLocalHttp();
+                    sigmaA = connA.getImpl(uri, null);
+                } else {
+                    URI uri = TestXmllUtils.getXmppA();
+                    sigmaA = connB.getImpl(uri, TestXmllUtils.getPasswordBundleA());
+                }
+            }
+        });
+
+        addButton("Take a picture", new Runnable() {
             @Override
             public void run() {
                 dispatchTakePictureIntent();
@@ -65,44 +79,39 @@ public class PictureChatActivity extends BunchOfButtonsActivity {
 
         mImageView = new ImageView(this);
         mImageView.setAdjustViewBounds(true);
-        mImageView.setLayoutParams(new ViewGroup.LayoutParams(20, 30));
+        mImageView.setLayoutParams( new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600));
+        mImageView.setAdjustViewBounds(true);
+        mImageView.setImageBitmap(
+                BitmapFactory.decodeResource(getResources(), android.R.drawable.alert_light_frame));
 
         getLayout().addView(mImageView);
 
-        addButton("\"Σ\" xmpp kk@", new Runnable() {
-            @Override
-            public void run() {
-                if (USE_HTTP) {
-                    URI uri = TestUtils.getURIHttp8();
-                    sigmaA = connA.getImpl(uri, null);
-                } else {
-                    URI uri = TestUtils.getUriXmppKK();
-                    sigmaA = connB.getImpl(uri, TestUtils.getXmppPasswordBundleKK());
-                }
-            }
-        });
 
-        addButton("\"Σ\" share A -> B", new Runnable() {
+        addButton("Share with ΣB", new Runnable() {
             @Override
             public void run() {
                 sharePicture(sigmaA);
             }
         });
 
-        addButton("\"Σ\" xmpp rr@", new Runnable() {
+
+        addButton("", null);
+        addButton("", null);
+
+        addButton("Start ΣB", new Runnable() {
             @Override
             public void run() {
-                if (USE_HTTP) {
-                    URI uri = TestUtils.getURIHttp9();
+                if (USE_LOCAL_HTTP) {
+                    URI uri = SigmaServiceB.getLocalHttp();
                     sigmaB = connA.getImpl(uri, null);
                 } else {
-                    URI uri = TestUtils.getUriXmppRR();
-                    sigmaB = connB.getImpl(uri, TestUtils.getXmppPasswordBundleRR());
+                    URI uri = TestXmllUtils.getXmppB();
+                    sigmaB = connB.getImpl(uri, TestXmllUtils.getPasswordBundeB());
                 }
             }
         });
 
-        addButton("\"Σ\" share B -> A", new Runnable() {
+        addButton("Share with ΣA", new Runnable() {
             @Override
             public void run() {
                 sharePicture(sigmaB);
@@ -123,55 +132,45 @@ public class PictureChatActivity extends BunchOfButtonsActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            mBitmap = (Bitmap) extras.get("data");
-            mImageView.setImageBitmap(mBitmap);
+            Bitmap bitmap = (Bitmap) extras.get("data");
+            mImageView.setImageBitmap(bitmap);
         }
     }
 
     private void sharePicture(SigmaManager manager) {
-
-
+        Bitmap bitmap = ((BitmapDrawable)mImageView.getDrawable()).getBitmap();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        mBitmap.compress(Bitmap.CompressFormat.JPEG, 25, byteArrayOutputStream);
-
-        /*
-        try {
-            byteArrayOutputStream.write(new String("hello world").getBytes());
-        } catch (IOException ex) {
-            throwUnexpected(ex);
-        }
-        */
-
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, byteArrayOutputStream);
         int numBytes = byteArrayOutputStream.size();
 
+        URI selfURI = manager.getBaseURI();
         URI remoteURI;
-        if (USE_HTTP) {
-            URI selfURI = manager.getBaseURI();
-            Integer port = (new Integer(8080).equals(selfURI.port)) ? 9090 : 8080;
-            remoteURI = (new URI.Builder(selfURI).port(port).build());
+        if ("ΣB".equals(selfURI.name)) {
+            remoteURI = (USE_LOCAL_HTTP) ? SigmaServiceA.getLocalHttp() : TestXmllUtils.getXmppA();
         } else {
-            URI selfURI = manager.getBaseURI();
-            String to = "kk".equals(selfURI.login) ? "rr" : "kk";
-            remoteURI = (new URI.Builder(selfURI).login(to).build());
+            remoteURI = (USE_LOCAL_HTTP) ? SigmaServiceB.getLocalHttp() : TestXmllUtils.getXmppB();
         }
-
 
         SigmaManager remote = manager.getRemoteManager(remoteURI);
         Intent serviceName = new Intent(kChatServerName);
         IPictureChatServer pictureServer = IPictureChatServer.Stub.asInterface(remote.getService(serviceName));
 
-        //byte[] byteArray = new String("A MAGNIFICIENT ROCK").getBytes();
-
-        PicturePutInfo putInfo = null;
+        PictureEntry pictureEntry = new PictureEntry();
+        pictureEntry.numBytes = numBytes;
+        ParcelFileDescriptor writeTo;
         try {
-            putInfo = pictureServer.putPicture(numBytes);
+            // The RPC, if successful, modifies pictureEntry by assigning a uuid
+            // and returns a file descriptor to which the picture file can be written.
+            writeTo = pictureServer.requestPicturePut(manager.asBinder(), pictureEntry);
         } catch (RemoteException ex) {
             throwUnexpected(ex);
+            return;
         }
 
-        PictureChatService.sendPicture(putInfo.parcelFd, byteArrayOutputStream.toByteArray());
-
-
+        // A helper function writes the picture bytes to the file descriptor.
+        pictureEntry.bytes = byteArrayOutputStream.toByteArray();
+        new PictureIO.SendPictureTask(pictureEntry.bytes, writeTo, true /* Intentionally slow down IO for demo */)
+                .execute();
     }
 
 

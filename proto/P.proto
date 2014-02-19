@@ -34,6 +34,14 @@ message URI {
 
   // Set iff type is Binder
   optional string interface = 10;
+
+  // A human-readable name for this SigmaEngine
+  required string name = 11;
+
+  // Causes HTTP transactions to be targetted here, the "target"
+  // in the message does not change. Used to have a proxy server
+  // that forwards requests. Used for testing only.
+  optional string proxyhost = 12;
 }
 
 message SParcel {

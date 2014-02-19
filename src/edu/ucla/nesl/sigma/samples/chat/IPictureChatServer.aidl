@@ -1,11 +1,11 @@
 package edu.ucla.nesl.sigma.samples.chat;
 
-import edu.ucla.nesl.sigma.samples.chat.ICommentReceiver;
-import edu.ucla.nesl.sigma.samples.chat.PicturePutInfo;
-
+import edu.ucla.nesl.sigma.api.ISigmaManager;
+import edu.ucla.nesl.sigma.samples.chat.PictureEntry;
+import android.os.ParcelFileDescriptor;
 
 
 interface IPictureChatServer {
-  PicturePutInfo putPicture(int numBytes);
-  int getPicture(in PicturePutInfo pictureInfp);
+  ParcelFileDescriptor /* readFrom */ requestPicturePut(ISigmaManager remote, inout PictureEntry entry);
+  PictureEntry requestPictureGet(ISigmaManager remote, String uuid, in ParcelFileDescriptor writeTo);
 }

@@ -1,1 +1,1 @@
-java -jar lib/wire-compiler-*-jar-with-dependencies.jar --proto_path=proto --java_out=src P.proto 
+java -jar sigma/lib/wire-compiler-*-jar-with-dependencies.jar --proto_path=sigma/proto --java_out=sigma/src P.proto 

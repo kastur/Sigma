@@ -1,10 +1,11 @@
 package edu.ucla.nesl.sigma.samples.chat;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.*;
+import android.util.Pair;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import edu.ucla.nesl.sigma.base.SigmaEngine;
@@ -18,20 +19,11 @@ public class PictureViewActivity extends BunchOfButtonsActivity {
 
     IPictureChatServer mServer;
     ImageView mImageView;
-    Context mContext;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mContext = this;
-
-    }
 
     @Override
     public void onCreateHook() {
         mImageView = new ImageView(this);
-        mImageView.setLayoutParams(new ViewGroup.LayoutParams(20, 30));
+        mImageView.setLayoutParams( new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600));
         mImageView.setAdjustViewBounds(true);
         getLayout().addView(mImageView);
     }
@@ -40,40 +32,38 @@ public class PictureViewActivity extends BunchOfButtonsActivity {
     protected void onStart() {
         super.onStart();
         Intent startIntent = getIntent();
-        String uuid = startIntent.getStringExtra("uuid");
+        final String uuid = startIntent.getStringExtra("uuid");
 
-
-        new AsyncTask<String, Void, Bitmap>() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            protected Bitmap doInBackground(String... uuids) {
-                final String uuid = uuids[0];
-                IBinder binder = SigmaEngine.getService(mContext, new Intent(mContext, PictureChatService.class)).first;
+            protected Void doInBackground(Void... voids) {
+                Pair<IBinder, ServiceConnection> pair = SigmaEngine.getService(
+                        PictureViewActivity.this, new Intent(PictureViewActivity.this, PictureChatService.class));
+                IBinder binder = pair.first;
                 mServer = IPictureChatServer.Stub.asInterface(binder);
 
-                ParcelFileDescriptor[] fds = PictureChatService.makePipe();
-                PicturePutInfo putInfo = new PicturePutInfo(uuid, fds[0]);
-
-                int numBytes = 0;
+                ParcelFileDescriptor[] pipe = PictureIO.makePipe();
+                PictureEntry pictureEntry;
                 try {
-                    numBytes = mServer.getPicture(putInfo);
+                    pictureEntry = mServer.requestPictureGet(null, uuid, pipe[0]);
                 } catch (RemoteException ex) {
                     throwUnexpected(ex);
+                    return null;
                 }
 
-                byte[] bytes = PictureChatService.receivePicture(fds[1], numBytes);
+                new PictureIO.RecvPictureTask(pictureEntry, pipe[1]) {
+                    @Override
+                    protected void onPostExecute(Void _void) {
+                        Bitmap bitmap =
+                                BitmapFactory.decodeStream(new ByteArrayInputStream(mEntry.bytes));
+                        mImageView.setImageBitmap(bitmap);
+                    }
+                }.execute();
 
-                Bitmap bitmap =
-                        BitmapFactory.decodeStream(new ByteArrayInputStream(bytes));
-
-                return bitmap;
+                return null;
             }
+        }.execute();
 
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                mImageView.setImageBitmap(bitmap);
-            }
-        }.execute(uuid);
+
     }
-
-
 }

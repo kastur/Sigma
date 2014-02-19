@@ -7,12 +7,14 @@ import android.util.Pair;
 import android.widget.Toast;
 import edu.ucla.nesl.sigma.api.SigmaServiceConnection;
 import edu.ucla.nesl.sigma.base.SigmaManager;
+import edu.ucla.nesl.sigma.base.SigmaServiceB;
 import edu.ucla.nesl.sigma.impl.HttpSigmaServer;
 import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.samples.basic.MainActivity;
-import edu.ucla.nesl.sigma.samples.chat.PictureChatActivity;
+import edu.ucla.nesl.sigma.samples.chat.PictureShareActivity;
 import edu.ucla.nesl.sigma.samples.pingpong.PingPongActivity;
 import edu.ucla.nesl.sigma.samples.sensor.SensorActivity;
+import edu.ucla.nesl.sigma.test.BasicTests;
 
 import javax.net.SocketFactory;
 import java.io.IOException;
@@ -35,17 +37,17 @@ public class TestSuiteActivity extends BunchOfButtonsActivity {
 
         addButton("IP:" + HttpSigmaServer.getIPAddress(true), null);
 
-        addButton("PING:" + TestUtils.getUriXmppKK().host + ":" + TestUtils.getUriXmppKK().port, new Runnable() {
+        addButton("PING:" + TestXmllUtils.getXmppA().host + ":" + TestXmllUtils.getXmppA().port, new Runnable() {
             @Override
             public void run() {
-                pingXxmpp(TestUtils.getUriXmppKK().host, TestUtils.getUriXmppKK().port);
+                pingXxmpp(TestXmllUtils.getXmppA().host, TestXmllUtils.getXmppA().port);
             }
         });
 
-        addButton("PING:" + TestUtils.getUriXmppKK().host + ":80", new Runnable() {
+        addButton("PING:" + TestXmllUtils.getXmppA().host + ":80", new Runnable() {
             @Override
             public void run() {
-                pingXxmpp(TestUtils.getUriXmppKK().host, 80);
+                pingXxmpp(TestXmllUtils.getXmppA().host, 80);
             }
         });
 
@@ -67,8 +69,10 @@ public class TestSuiteActivity extends BunchOfButtonsActivity {
 
         addLaunchActivityButton(MainActivity.class);
         addLaunchActivityButton(PingPongActivity.class);
-        addLaunchActivityButton(PictureChatActivity.class);
+        addLaunchActivityButton(PictureShareActivity.class);
         addLaunchActivityButton(SensorActivity.class);
+
+        addLaunchActivityButton(BasicTests.class);
     }
 
     private void addLaunchActivityButton(final Class _class) {
@@ -115,7 +119,7 @@ public class TestSuiteActivity extends BunchOfButtonsActivity {
     }
 
     private void startHttp() {
-        mHttp = mSigma.getImpl(TestUtils.getURIHttp8(), null);
+        mHttp = mSigma.getImpl(SigmaServiceB.getLocalHttp(), null);
     }
 
     @Override

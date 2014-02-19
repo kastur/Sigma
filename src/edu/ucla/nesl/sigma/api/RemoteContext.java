@@ -3,15 +3,23 @@ package edu.ucla.nesl.sigma.api;
 import android.content.Context;
 import android.os.IBinder;
 import android.os.Looper;
+import edu.ucla.nesl.sigma.base.SigmaManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class RemoteContext {
-    private Context mLocalContext = null;
-    private Object mRemoteServiceManager = null;
+import static edu.ucla.nesl.sigma.base.SigmaDebug.throwUnexpected;
 
-    public RemoteContext(Context localContext, IBinder remoteBinder) {
+public class RemoteContext {
+    final Context mLocalContext;
+    final Object mRemoteServiceManager;
+
+    public static RemoteContext getRemoteContext(Context context, SigmaManager sigmaManager) {
+        IBinder remoteBinder = sigmaManager.getServiceManager();
+        return new RemoteContext(context, remoteBinder);
+    }
+
+    private RemoteContext(Context localContext, IBinder remoteBinder) {
         mLocalContext = localContext;
         try {
             mRemoteServiceManager = Class.forName("android.os.ServiceManagerNative")
@@ -28,10 +36,9 @@ public class RemoteContext {
             Object serviceBinder = getServiceMethod.invoke(mRemoteServiceManager, name);
             return (IBinder) serviceBinder;
         } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-            ex.getCause().printStackTrace();
+            throwUnexpected(ex);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throwUnexpected(ex);
         }
         return null;
     }
@@ -63,6 +70,11 @@ public class RemoteContext {
         if (name.equals(Context.SENSOR_SERVICE)) {
             try {
                 IBinder binderProxy = getServiceAsBinder("sensorservice");
+
+                if (binderProxy == null) {
+                    throwUnexpected(new NullPointerException("Remote Service Binder Proxy is null!"));
+                }
+
                 Integer nativeHandleObject = (Integer) Class.forName("com.android.internal.os.BinderInternal")
                         .getMethod("nativeHandleForBinder", IBinder.class)
                         .invoke(null, binderProxy);
@@ -76,6 +88,8 @@ public class RemoteContext {
                 throw new RuntimeException(ex);
             }
         }
+
+        throwUnexpected(new IllegalStateException("Getting the \"" + name + "\" system service is not supported!"));
 
         // Similarly, other SystemServices can be retrieved by constructing
         // *Manager classes with the appropriate IBinder fetched from IServiceManager.

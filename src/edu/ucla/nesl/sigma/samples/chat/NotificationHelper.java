@@ -4,54 +4,70 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NotificationHelper {
     private Context mContext;
-    private int NID = 1;
-    private Notification n;
-    private NotificationManager nManager;
+    final HashMap<String, Integer> mNotifications;
+    final NotificationManager nManager;
+    final AtomicInteger nextId;
+
 
     public NotificationHelper(Context context) {
         mContext = context;
-        nManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager = (NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifications = new HashMap<String, Integer>();
+        nextId = new AtomicInteger(1);
     }
 
-    /**
-     * Put the notification into the status bar
-     */
-    public void progressStart() {
-        nManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        n = new Notification.Builder(mContext)
-                .setTicker("Receiving share!")
+    public void progressStart(PictureEntry record) {
+        int nid = nextId.addAndGet(1);
+        mNotifications.put(record.uuid, nid);
+        Notification n = new Notification.Builder(mContext)
+                .setSmallIcon(android.R.drawable.stat_notify_chat)
+                .setTicker("Incoming picture!")
+                .setContentTitle("Waiting for data")
+                .setContentText("from " + record.from)
                 .setOngoing(true)
                 .setProgress(100, 0, true)
-                .setContentText("Receiving share!")
+                .setContentText(record.uuid)
                 .build();
-        nManager.notify(0, n);
+        nManager.notify(nid, n);
     }
 
-
-    public void progressUpdate(int percentageComplete) {
-        n = new Notification.Builder(mContext)
-                .setTicker("Receiving share!")
+    public void progressUpdate(PictureEntry record, int max, int progress) {
+        int nid = mNotifications.get(record.uuid);
+        Notification n = new Notification.Builder(mContext)
+                .setSmallIcon(android.R.drawable.stat_notify_chat)
                 .setOngoing(true)
-                .setProgress(100, percentageComplete, true)
-                .setContentText("Receiving share!")
+                .setProgress(max, progress, false)
+                .setContentTitle("Receiving...hold tight.")
+                .setContentText("from " + record.from)
                 .build();
-        nManager.notify(NID, n);
+        nManager.notify(nid, n);
     }
 
-
-    public void completed() {
-        //remove the notification from the status bar
-        nManager.cancel(NID);
+    public void progressCompleted(String uuid) {
+        int nid = mNotifications.get(uuid);
+        nManager.cancel(nid);
     }
 
-    public void link(PendingIntent pi) {
-        n = new Notification.Builder(mContext)
-                .setTicker("Click to see picture")
-                .addAction(android.R.drawable.sym_def_app_icon, "Open", pi)
+    public void createLink(PictureEntry record, PendingIntent pi) {
+        int nid = mNotifications.get(record.uuid);
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(record.bytes, 0, record.bytes.length);
+
+        Notification n = new Notification.Builder(mContext)
+                .setSmallIcon(android.R.drawable.stat_notify_chat)
+                .setContentTitle("Received picture")
+                .setContentText("from " + record.from)
+                .addAction(android.R.drawable.sym_def_app_icon, "Open fullscreen", pi)
+                .setLargeIcon(bitmap)
                 .build();
-        nManager.notify(NID, n);
+        nManager.notify(nid, n);
     }
 }

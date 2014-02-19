@@ -30,6 +30,10 @@ public class SigmaManager {
         }
     }
 
+    public ISigmaManager asBinder() {
+        return mService;
+    }
+
     public IBinder getServiceManager() {
         try {
             return mService.getServiceManager();

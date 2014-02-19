@@ -23,7 +23,6 @@ import edu.ucla.nesl.sigma.api.SigmaServiceConnection;
 import edu.ucla.nesl.sigma.base.SigmaManager;
 import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.base.SigmaServiceB;
-import edu.ucla.nesl.sigma.samples.TestUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -41,8 +40,8 @@ public class MainActivity extends Activity {
         @Override
         public void run() {
             Log.d(TAG, "sending startService");
-            mService8 = sigmaA.getImpl(TestUtils.getURIHttp8(), null);
-            mService9 = sigmaB.getImpl(TestUtils.getURIHttp9(), null);
+            mService8 = sigmaA.getImpl(SigmaServiceB.getLocalHttp(), null);
+            mService9 = sigmaB.getImpl(SigmaServiceA.getLocalHttp(), null);
         }
     };
 
@@ -58,8 +57,7 @@ public class MainActivity extends Activity {
         public void run() {
             try {
                 SigmaManager remote = mService8.getRemoteManager(mService9.getBaseURI());
-                RemoteContext remoteContext =
-                        new RemoteContext(mContext, remote.getServiceManager());
+                RemoteContext remoteContext = RemoteContext.getRemoteContext(mContext, remote);
                 SensorManager sensorManager =
                         (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
 
@@ -109,6 +107,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mContext = this;
 
         sigmaA = new SigmaServiceConnection(this, SigmaServiceA.class);
@@ -138,8 +137,7 @@ public class MainActivity extends Activity {
                             URI remoteHost = mService9.getBaseURI();
                             SigmaManager remote = mService8.getRemoteManager(remoteHost);
 
-                            RemoteContext remoteContext =
-                                    new RemoteContext(mContext, remote.getServiceManager());
+                            RemoteContext remoteContext = RemoteContext.getRemoteContext(mContext, remote);
                             final LocationManager remoteLocationManager =
                                     (LocationManager) remoteContext.getSystemService(Context.LOCATION_SERVICE);
 

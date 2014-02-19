@@ -12,9 +12,9 @@ import edu.ucla.nesl.sigma.base.SigmaManager;
 import edu.ucla.nesl.sigma.impl.HttpSigmaServer;
 import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.base.SigmaServiceB;
+import edu.ucla.nesl.sigma.samples.TestXmllUtils;
 import edu.ucla.nesl.sigma.samples.TimeStats;
 import edu.ucla.nesl.sigma.samples.BunchOfButtonsActivity;
-import edu.ucla.nesl.sigma.samples.TestUtils;
 
 import static edu.ucla.nesl.sigma.base.SigmaDebug.throwUnexpected;
 
@@ -114,8 +114,8 @@ public class PingPongActivity extends BunchOfButtonsActivity {
         TimeStats.resetAll();
         for (int ii = 0; ii < NUM_TEST_REPS; ++ii) {
             boolean lastRep = (ii == NUM_TEST_REPS - 1);
-            SigmaManager sigmaA = connA.getImpl(TestUtils.getURIHttp8(), null);
-            SigmaManager sigmaB = connB.getImpl(TestUtils.getURIHttp9(), null);
+            SigmaManager sigmaA = connA.getImpl(SigmaServiceB.getLocalHttp(), null);
+            SigmaManager sigmaB = connB.getImpl(SigmaServiceA.getLocalHttp(), null);
             runTest(sigmaA, sigmaB, "http", (ii < 3), RUN_PROFILER_ON_LAST_REP && lastRep);
         }
     }
@@ -125,8 +125,8 @@ public class PingPongActivity extends BunchOfButtonsActivity {
         int numReps = Math.max(5, NUM_TEST_REPS / 10);
         for (int ii = 0; ii < numReps; ++ii) {
             boolean lastRep = (ii == numReps - 1);
-            SigmaManager sigmaA = connA.getImpl(TestUtils.getUriXmppKK(), TestUtils.getXmppPasswordBundleKK());
-            SigmaManager sigmaB = connB.getImpl(TestUtils.getUriXmppRR(), TestUtils.getXmppPasswordBundleRR());
+            SigmaManager sigmaA = connA.getImpl(TestXmllUtils.getXmppA(), TestXmllUtils.getPasswordBundleA());
+            SigmaManager sigmaB = connB.getImpl(TestXmllUtils.getXmppB(), TestXmllUtils.getPasswordBundeB());
             runTest(sigmaA, sigmaB, "xmpp", (ii < 1), RUN_PROFILER_ON_LAST_REP && lastRep);
         }
     }

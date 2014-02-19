@@ -11,9 +11,16 @@
 #include <android/looper.h>
 
 #define TAG "sigmalib"
-#define ALOGD(x...)  __android_log_print(ANDROID_LOG_INFO, TAG, x)
-#define ALOGE(x...)  __android_log_print(ANDROID_LOG_ERROR, TAG, x)
 
+#define DEBUG_MODE
+
+#ifdef DEBUG_MODE
+  #define ALOGD(x...)  __android_log_print(ANDROID_LOG_INFO, TAG, x)
+  #define ALOGE(x...)  __android_log_print(ANDROID_LOG_ERROR, TAG, x)
+#else
+  #define ALOGD(x...)
+  #define ALOGE(x...)
+#endif
 #include "edu_ucla_nesl_sigma_base_SigmaJNI.h"
 
 JNIEXPORT jstring JNICALL Java_edu_ucla_nesl_sigma_base_SigmaJNI_getMessage
@@ -86,12 +93,27 @@ JNIEXPORT jint JNICALL Java_edu_ucla_nesl_sigma_base_SigmaJNI_recvMessage
   return readBytes;
 }
 
-JNIEXPORT void JNICALL Java_edu_ucla_nesl_sigma_base_SigmaJNI_waitForMessage
+JNIEXPORT jboolean JNICALL Java_edu_ucla_nesl_sigma_base_SigmaJNI_waitForMessage
     (JNIEnv *env, jclass _class, jint fd) {
   ALooper* looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
   ALOGD("waitForMessage: pollOnce looper@%d fd@%d", (int)looper, fd);
   ALooper_addFd(looper, fd, fd, ALOOPER_EVENT_INPUT, NULL, NULL);
+
   int events;
-  ALooper_pollOnce(-1, NULL, &events, NULL);
+  int result = ALooper_pollOnce(-1, NULL, &events, NULL);
+  if (result == ALOOPER_POLL_ERROR) {
+      ALOGE("waitForMessage error (errno=%d)", errno);
+      result = -1337; // unknown error, so we make up one
+      return JNI_FALSE;
+  }
+  if (events & ALOOPER_EVENT_HANGUP) {
+      // the other-side has died
+      ALOGE("waitForMessage error HANGUP");
+      result = -1337; // unknown error, so we make up one
+      return JNI_FALSE;
+  }
+
+  return JNI_TRUE;
+
   ALOGD("waitForMessage: got something.");
 }

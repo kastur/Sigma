@@ -124,7 +124,15 @@ public class HttpSigmaServer implements ISigmaServer {
             Thread t = new Thread() {
                 @Override
                 public void run() {
-                    String url = "http://" + request.target.host + ":" + request.target.port + "/sigma";
+
+                    String host;
+                    if (request.target.proxyhost != null) {
+                        host = request.target.proxyhost;
+                    } else {
+                        host = request.target.host;
+                    }
+
+                    String url = "http://" + host + ":" + request.target.port + "/sigma";
                     try {
                         DefaultHttpClient client = new DefaultHttpClient();
                         HttpPost httpPost = new HttpPost(url);

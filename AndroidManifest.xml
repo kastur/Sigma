@@ -24,10 +24,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".samples.pingpong.PingPongActivity" />
-        <activity android:name=".samples.chat.PictureChatActivity" />
+        <activity android:name=".samples.chat.PictureShareActivity" />
         <activity android:name=".samples.chat.PictureViewActivity" />
         <activity android:name=".samples.sensor.SensorActivity" />
         <activity android:name=".samples.basic.MainActivity" />
+        <activity android:name=".test.BasicTests"/>
 
 
         <service android:name=".base.SigmaServiceA" android:process=".SigmaServiceA"/>

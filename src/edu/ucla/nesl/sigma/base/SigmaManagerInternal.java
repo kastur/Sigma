@@ -33,13 +33,15 @@ public class SigmaManagerInternal extends ISigmaManager.Stub {
 
     @Override
     public IBinder getServiceManager() throws RemoteException {
-        return SigmaEngine.getServiceManager();
+        IBinder binder = mEngine.getServiceManager();
+        return binder;
     }
 
     @Override
     public IBinder getService(Intent intent) throws RemoteException {
         // TODO: Handle this in mEngine so that the returned serviceConnection later unbound from this Context.
-        return SigmaEngine.getService(mContext, intent).first;
+        IBinder binder = SigmaEngine.getService(mContext, intent).first;
+        return binder;
     }
 
     @Override

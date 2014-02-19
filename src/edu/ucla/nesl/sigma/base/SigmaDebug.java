@@ -12,7 +12,7 @@ public class SigmaDebug {
 
     static {
         // Add TAGs of classes that should output log messages.
-        DEBUG_TAGS.add(SigmaEngine.TAG);
+        //DEBUG_TAGS.add(SigmaEngine.TAG);
     }
 
     public static void LogDebug(String TAG, String message) {

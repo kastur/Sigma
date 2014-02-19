@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.*;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Pair;
 import com.google.common.collect.HashBiMap;
 import edu.ucla.nesl.sigma.P.*;
@@ -32,6 +33,10 @@ public class SigmaEngine {
         public String _interface;
     }
 
+    private void LogInstanceDebug(String TAG, String message) {
+        LogDebug(TAG, "_____" + mBaseURI.name + "_____" + message);
+    }
+
     public static interface IRequestFactory {
         public SResponse doTransaction(SRequest request);
     }
@@ -49,6 +54,7 @@ public class SigmaEngine {
     final SigmaParcelEncoder mEncoder;
     final URI mBaseURI;
     final ISigmaManager mService;
+    final IBinder mServiceManager;
 
 
     public SigmaEngine(Context context, URI baseURI, IRequestFactory requestFactory) {
@@ -64,8 +70,8 @@ public class SigmaEngine {
         mServedFiles = HashBiMap.create();
         mBaseURI = baseURI;
         mService = new SigmaManagerInternal(mContext, this);
-        ;
         serveBinder(mService.asBinder(), null);
+        mServiceManager = new SigmaProxy(getServiceManagerInternal());
     }
 
     public ISigmaManager getManager() {
@@ -147,7 +153,7 @@ public class SigmaEngine {
                 ._interface(_interface)
                 .build();
 
-        LogDebug(TAG, "serveBinder uri: " + uri.toString());
+        LogInstanceDebug(TAG, "serveBinder uri: " + uri.toString());
 
         return uri;
     }
@@ -174,7 +180,7 @@ public class SigmaEngine {
                 .type(URI.ObjectType.UNIX_SOCKET)
                 .uuid(uuid)
                 .build();
-        LogDebug(TAG, "Serve file: " + uri.toString());
+        LogInstanceDebug(TAG, "Serve file: " + uri.toString());
         return uri;
     }
 
@@ -200,7 +206,7 @@ public class SigmaEngine {
     }
 
     public SResponse serve(SRequest request) {
-        LogDebug(TAG, request.toString());
+        LogInstanceDebug(TAG, request.toString());
 
         if (request.self.equals(request.target)) {
             throwUnexpected(new IllegalStateException("Cannot make request to self."));
@@ -258,7 +264,7 @@ public class SigmaEngine {
             }
         }
 
-        LogDebug(TAG, response.toString());
+        LogInstanceDebug(TAG, response.toString());
         return response;
     }
 
@@ -278,9 +284,12 @@ public class SigmaEngine {
 
         boolean _return;
         try {
-            LogDebug(TAG, "binder.transact() -- ping:" + binder.pingBinder() +
+            LogInstanceDebug(TAG, "binder.transact() -- ping:" + binder.pingBinder() +
                     ", interface:" + binder.getInterfaceDescriptor());
             _return = binder.transact(txnInfo.code, _data, _reply, txnInfo.flags);
+            if (_return == false) {
+                Log.e(TAG, "binder.transact returned false!" + binder.getInterfaceDescriptor());
+            }
             SParcel _replyArray = mEncoder.encodeParcel(request.self, _reply);
             STransactionResponse txnResponse = (new STransactionResponse.Builder())
                     .reply(_replyArray)
@@ -330,7 +339,7 @@ public class SigmaEngine {
                     .build();
             record.activeConnections.remove(peer);
             if (record.activeConnections.isEmpty()) {
-                LogDebug(TAG, "record.activeConnections.isEmpty() -- Discarding BinderRecord" + record._interface);
+                LogInstanceDebug(TAG, "record.activeConnections.isEmpty() -- Discarding BinderRecord" + record._interface);
                 mUuidToRecord.remove(record.uuid);
                 mBinderToRecord.remove(record.binder);
                 mBinderRecords.remove(record);
@@ -372,11 +381,12 @@ public class SigmaEngine {
                 mServedFiles.remove(uri);
             }
         }
-        LogDebug(TAG, "handleFilePut forwarded locally len=" + len);
+        LogInstanceDebug(TAG, "handleFilePut forwarded locally len=" + len);
         return true;
     }
 
     public boolean handleFileClose(URI uri) {
+        Log.d(TAG, "handleFileClose()");
         ParcelFileDescriptor parcelFd;
         synchronized (mServedFiles) {
             if (!mServedFiles.containsKey(uri.uuid)) {
@@ -390,6 +400,10 @@ public class SigmaEngine {
                 parcelFd.close();
             } catch (IOException ex) {
             }
+        }
+
+        synchronized (mServedFiles) {
+            mServedFiles.remove(uri.uuid);
         }
         return true;
     }
@@ -425,11 +439,16 @@ public class SigmaEngine {
                 .build();
     }
 
-    public static IBinder getServiceManager() {
+    public IBinder getServiceManager() {
+        return mServiceManager;
+    }
+
+    private static IBinder getServiceManagerInternal() {
         try {
-            return (IBinder) Class.forName("com.android.internal.os.BinderInternal")
+            IBinder binder = (IBinder)Class.forName("com.android.internal.os.BinderInternal")
                     .getMethod("getContextObject")
                     .invoke(null);
+            return binder;
         } catch (Exception ex) {
             throwUnexpected(ex);
         }
@@ -490,7 +509,7 @@ public class SigmaEngine {
         context.bindService(intent, connection, Context.BIND_AUTO_CREATE);
 
         try {
-            boolean acquired = semaphore.tryAcquire(1000, TimeUnit.MILLISECONDS);
+            boolean acquired = semaphore.tryAcquire(10000, TimeUnit.MILLISECONDS);
             if (!acquired) {
                 return null;
             }
@@ -536,16 +555,12 @@ public class SigmaEngine {
     public ParcelFileDescriptor receiveAndForwardFile(URI uri) {
         String uuid = uri.uuid;
 
-        ParcelFileDescriptor serveFd;
-        ParcelFileDescriptor returnFd;
-        try {
-            int[] pipe = SigmaJNI.socketpair();
-            serveFd = ParcelFileDescriptor.fromFd(pipe[0]);
-            returnFd = ParcelFileDescriptor.fromFd(pipe[1]);
-        } catch (IOException ex) {
-            throwUnexpected(ex);
-            return null;
-        }
+
+
+
+        int[] pipe = SigmaJNI.socketpair();
+        ParcelFileDescriptor serveFd = ParcelFileDescriptor.adoptFd(pipe[0]);
+        ParcelFileDescriptor returnFd = ParcelFileDescriptor.adoptFd(pipe[1]);
 
         Thread fileForwarder = new Forwarder(uri, serveFd);
         fileForwarder.start();
@@ -594,20 +609,41 @@ public class SigmaEngine {
     }
 
     private class SigmaProxy extends Binder {
-        URI mTarget;
+        final URI mRemoteTarget;
+        final IBinder mLocalTarget;
 
         public SigmaProxy(URI target) {
-            mTarget = target;
+            LogInstanceDebug(TAG, "Created a SigmaProxy ----> " + target.toString());
+            mRemoteTarget = target;
+            mLocalTarget = null;
             notifyConnected(target);
         }
 
+        public SigmaProxy(IBinder target) {
+            LogInstanceDebug(TAG, "Created a SigmaProxy ----> " + target.toString());
+            mLocalTarget = target;
+            mRemoteTarget = null;
+        }
+
+
         public void destroy() {
-            notifyDisconnected(mTarget);
+            if (mRemoteTarget != null) {
+                notifyDisconnected(mRemoteTarget);
+            }
         }
 
         @Override
         public String getInterfaceDescriptor() {
-            return mTarget._interface;
+            if (mRemoteTarget != null) {
+                return mRemoteTarget._interface;
+            } else {
+                try {
+                    return mLocalTarget.getInterfaceDescriptor();
+                } catch (RemoteException ex) {
+                    throwUnexpected(ex);
+                    return null;
+                }
+            }
         }
 
         @Override
@@ -618,41 +654,54 @@ public class SigmaEngine {
         @Override
         protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
             try {
-                SParcel _data = mEncoder.encodeParcel(mTarget, data);
-                STransactionRequest transactionRequest =
-                        (new STransactionRequest.Builder())
-                                .data(_data)
-                                .code(code)
-                                .flags(flags)
-                                .build();
-                SRequest request = (new SRequest.Builder())
-                        .self(getBaseURI())
-                        .target(mTarget)
-                        .action(SRequest.ActionType.BINDER_TRANSACTION)
-                        .transaction_request(transactionRequest)
-                        .build();
-                SResponse response = mFactory.doTransaction(request);
-                boolean _return = response.transaction_response._return;
-                SParcel _reply = response.transaction_response.reply;
-                mEncoder.decodeParcel(_reply, reply);
-                return _return;
+
+                if (mRemoteTarget != null) {
+                    if (code == INTERFACE_TRANSACTION) {
+                        reply.writeString(mRemoteTarget._interface);
+                        return true;
+                    }
+                    SParcel _data = mEncoder.encodeParcel(mRemoteTarget, data);
+                    STransactionRequest transactionRequest =
+                            (new STransactionRequest.Builder())
+                                    .data(_data)
+                                    .code(code)
+                                    .flags(flags)
+                                    .build();
+                    SRequest request = (new SRequest.Builder())
+                            .self(getBaseURI())
+                            .target(mRemoteTarget)
+                            .action(SRequest.ActionType.BINDER_TRANSACTION)
+                            .transaction_request(transactionRequest)
+                            .build();
+                    SResponse response = mFactory.doTransaction(request);
+                    boolean _return = response.transaction_response._return;
+                    SParcel _reply = response.transaction_response.reply;
+                    mEncoder.decodeParcel(_reply, reply);
+                    //return _return;
+                    return true;
+                } else {
+                    if (code == INTERFACE_TRANSACTION) {
+                        reply.writeString(mLocalTarget.getInterfaceDescriptor());
+                        return true;
+                    }
+                    mLocalTarget.transact(code, data, reply, flags);
+                }
             } catch (Exception ex) {
                 throwUnexpected(ex);
             }
 
-            return false;
+            return true;
         }
     }
 
     private class Forwarder extends Thread {
-        private final String TAG = Forwarder.class.getName();
         final URI mTarget;
         final ParcelFileDescriptor mParcelFd;
 
         public Forwarder(URI target, ParcelFileDescriptor parcelFd) {
+            LogInstanceDebug(TAG, "created Forwarder for fd=" + parcelFd.getFd() + " --> target=" + target.toString());
             mParcelFd = parcelFd;
             mTarget = target;
-            LogDebug(TAG, "created Forwarder for fd=" + parcelFd.getFd() + " --> target=" + target.toString());
         }
 
         @Override
@@ -660,13 +709,17 @@ public class SigmaEngine {
             ByteBuffer buffer = ByteBuffer.allocateDirect(4096);
             while (true) {
                 buffer.rewind();
+                // FIXME: The parcel file descriptor never triggers a close event, threads are left in phantom state!
                 SigmaJNI.waitForMessage(mParcelFd.getFd());
                 int len = SigmaJNI.recvMessage(mParcelFd.getFd(), buffer);
                 if (len <= 0) {
                     try {
                         mParcelFd.close();
                     } catch (IOException ex) {
+                        Log.e(TAG, "Forwarder : IOException");
                     }
+
+                    Log.d(TAG, "Forwarder closed");
 
                     SRequest request = (new SRequest.Builder())
                             .self(getBaseURI())
@@ -696,7 +749,7 @@ public class SigmaEngine {
                 mFactory.doTransaction(request);
             }
 
-            LogDebug(TAG, "File closed, forwarder shutting down...");
+            LogInstanceDebug(TAG, "File closed, forwarder shutting down...");
         }
     }
 

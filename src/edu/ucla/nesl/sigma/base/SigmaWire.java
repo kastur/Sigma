@@ -41,4 +41,8 @@ public class SigmaWire {
             return null;
         }
     }
+
+    public static String prettyURI(URI uri) {
+        return uri.name + "@" + uri.protocol.toString().toLowerCase() + "://" + uri.host;
+    }
 }
