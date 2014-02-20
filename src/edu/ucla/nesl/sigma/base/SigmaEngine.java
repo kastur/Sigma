@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.*;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
@@ -13,6 +14,7 @@ import edu.ucla.nesl.sigma.P.*;
 import edu.ucla.nesl.sigma.api.ISigmaManager;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -24,58 +26,44 @@ import static edu.ucla.nesl.sigma.base.SigmaDebug.throwUnexpected;
 public class SigmaEngine {
     public static final String TAG = SigmaEngine.class.getName();
 
-    protected class BinderRecord {
-        public String uuid;
-        public IBinder binder;
-        public ServiceConnection serviceConnection;
-        public IBinder.DeathRecipient deathRecipient;
-        public HashSet<URI> activeProxies;
-        public String _interface;
-    }
-
-    private void LogInstanceDebug(String TAG, String message) {
-        LogDebug(TAG, "_____" + mBaseURI.name + "_____" + message);
-    }
+    final Context mContext;
+    final URI mBaseURI;
+    final ISigmaManager mService;
+    final IBinder mServiceManager;
+    final SigmaParcelEncoder mEncoder;
 
     public static interface IRequestFactory {
         public SResponse doTransaction(SRequest request);
     }
-
     final IRequestFactory mFactory;
-
-    final HashBiMap<String, SigmaProxy> mProxyObjects;
-
-    final Context mContext;
-    final List<BinderRecord> mBinderRecords;
+    final List<BinderRecord> mServedBinders;
     final HashMap<String, BinderRecord> mUuidToRecord;
-    final HashMap<IBinder, BinderRecord> mBinderToRecord;
+    final WeakHashMap<IBinder, BinderRecord> mBinderToRecord;
+    final HashBiMap<String, WeakReference<SigmaProxy>> mProxyObjects;
     final HashBiMap<String, ParcelFileDescriptor> mServedFiles;
-
-    final SigmaParcelEncoder mEncoder;
-    final URI mBaseURI;
-    final ISigmaManager mService;
-    final IBinder mServiceManager;
-
 
     public SigmaEngine(Context context, URI baseURI, IRequestFactory requestFactory) {
         mContext = context;
+        mBaseURI = baseURI;
+        mFactory = requestFactory;
+        mEncoder = new SigmaParcelEncoder(this);
+
+        mServedBinders = new ArrayList<BinderRecord>();
+        mUuidToRecord = new HashMap<String, BinderRecord>();
+        mBinderToRecord = new WeakHashMap<IBinder, BinderRecord>();
+
+        mServedFiles = HashBiMap.create();
 
         mProxyObjects = HashBiMap.create();
-        mFactory = requestFactory;
 
-        mUuidToRecord = new HashMap<String, BinderRecord>();
-        mBinderRecords = new ArrayList<BinderRecord>();
-        mBinderToRecord = new HashMap<IBinder, BinderRecord>();
-        mEncoder = new SigmaParcelEncoder(this);
-        mServedFiles = HashBiMap.create();
-        mBaseURI = baseURI;
+        // Create and serve engine's binder service.
         mService = new SigmaManagerInternal(mContext, this);
         serveBinder(mService.asBinder(), null);
-        mServiceManager = new SigmaProxy(getServiceManagerInternal());
-    }
 
-    public ISigmaManager getManager() {
-        return mService;
+        // ServiceManager has an address of "0", so it parses as a null
+        // pointer when encoding / decoding into Parcels. To avoid this,
+        // serve the ServiceManager specially through a local proxy.
+        mServiceManager = new SigmaProxy(getServiceManagerInternal());
     }
 
     public URI getBaseURI() {
@@ -86,76 +74,128 @@ public class SigmaEngine {
         return serveBinder(mService.asBinder(), null);
     }
 
-    private void handleLocalBinderDied(String uuid) {
-        synchronized (mBinderRecords) {
-            if (!mUuidToRecord.containsKey(uuid)) {
-                return;
+    public ISigmaManager getManager() {
+        return mService;
+    }
+
+    public IBinder getServiceManager() {
+        return mServiceManager;
+    }
+
+    public ISigmaManager getRemoteManager(URI targetBaseURI) {
+        SRequest request = (new SRequest.Builder())
+                .self(getBaseURI())
+                .target(targetBaseURI)
+                .action(SRequest.ActionType.GET_SIGMA_MANAGER)
+                .build();
+        return ISigmaManager.Stub.asInterface(proxyBinder(mFactory.doTransaction(request).uri));
+    }
+
+    private class BinderRecord implements IBinder.DeathRecipient {
+        final public String uuid;
+        public IBinder localBinder;
+        public ServiceConnection serviceConnection;
+        public HashSet<URI> connectedProxies;
+        public String _interface;
+
+        public BinderRecord(String uuid, IBinder binder) {
+            this.uuid = uuid;
+            this.localBinder = binder;
+            this.connectedProxies = new HashSet<URI>();
+
+            try {
+                binder.linkToDeath(this, 0);
+            } catch (RemoteException ex) {
+                throwUnexpected(ex);
             }
 
-            BinderRecord record = mUuidToRecord.get(uuid);
-
-            // Tell all remote, active proxies about the death.
-            for (URI remote : record.activeProxies) {
-
-                URI target = (new URI.Builder(remote))
-                        .type(URI.ObjectType.BINDER)
-                        .uuid(uuid)
-                        .build();
-
-                SRequest request = (new SRequest.Builder())
-                        .action(SRequest.ActionType.BINDER_DIED)
-                        .self(getBaseURI())
-                        .target(target)
-                        .build();
-                SResponse unusedResponse = mFactory.doTransaction(request);
+            synchronized (mServedBinders) {
+                mServedBinders.add(this);
+                mUuidToRecord.put(uuid, this);
+                mBinderToRecord.put(binder, this);
             }
-
-            mUuidToRecord.remove(uuid);
-            mBinderToRecord.remove(record.binder);
-            mBinderRecords.remove(record);
         }
+
+        public void finalize() {
+            binderClose(this);
+        }
+
+        @Override
+        public void binderDied() {
+            binderClose(this);
+        }
+    }
+
+    private BinderRecord binderLookup(URI uri) {
+        String uuid = uri.uuid;
+        BinderRecord record = null;
+        synchronized (mServedBinders) {
+            if (mUuidToRecord.containsKey(uuid)) {
+                record = mUuidToRecord.get(uuid);
+            }
+        }
+        return record;
+    }
+
+    private void binderClose(BinderRecord record) {
+        synchronized (mServedBinders) {
+            mServedBinders.remove(record);
+            mUuidToRecord.remove(record.uuid);
+            mBinderToRecord.remove(record.localBinder);
+
+            // Remove as a DeathReceipient, should be safe to call
+            // even if binder is already dead.
+            record.localBinder.unlinkToDeath(record, 0);
+
+            // This should be the last and only strong reference to BinderProxy
+            // Nulling out will eventually finalize it.
+            record.localBinder = null;
+
+            if (record.serviceConnection != null) {
+                mContext.unbindService(record.serviceConnection);
+            }
+        }
+
+        // Tell all remote, active proxies about the death.
+        // Should only be needed if the binder dies locally.
+        for (URI remote : record.connectedProxies) {
+            URI target = (new URI.Builder(remote))
+                    .type(URI.ObjectType.BINDER)
+                    .uuid(record.uuid)
+                    .build();
+            SRequest request = (new SRequest.Builder())
+                    .action(SRequest.ActionType.BINDER_DIED)
+                    .self(getBaseURI())
+                    .target(target)
+                    .build();
+            SResponse unusedResponse = mFactory.doTransaction(request);
+        }
+
+        // !!Force garbage collection.
+        // Useful to immediately visualize effect with a command like:
+        // watch -n1 adb -d shell dumpsys meminfo .SigmaService{A|B}
+        System.gc();
     }
 
     public URI serveBinder(IBinder binder, ServiceConnection serviceConnection) {
         BinderRecord record = null;
-        synchronized (mBinderRecords) {
+        synchronized (mServedBinders) {
             if (mBinderToRecord.containsKey(binder)) {
                 record = mBinderToRecord.get(binder);
             }
 
             if (record == null) {
-                record = new BinderRecord();
-                record.binder = binder;
+                record = new BinderRecord(UUID.randomUUID().toString(), binder);
                 record.serviceConnection = serviceConnection;
-                record.uuid = UUID.randomUUID().toString();
 
-                class DeathRecipient implements IBinder.DeathRecipient {
-                    String uuid;
-
-                    public DeathRecipient(String uuid) {
-                        this.uuid = uuid;
-                    }
-
-                    @Override
-                    public void binderDied() {
-                        handleLocalBinderDied(uuid);
-                    }
-                }
-
-                record.deathRecipient = new DeathRecipient(record.uuid);
+                //record.deathRecipient = new DeathRecipient(record.uuid);
 
                 try {
                     record._interface = binder.getInterfaceDescriptor();
-                    binder.linkToDeath(record.deathRecipient, 0);
+                    //binder.linkToDeath(record.deathRecipient, 0);
                 } catch (RemoteException ex) {
                     throwUnexpected(ex);
                 }
-
-                record.activeProxies = new HashSet<URI>();
-
-                mBinderRecords.add(record);
-                mBinderToRecord.put(record.binder, record);
-                mUuidToRecord.put(record.uuid, record);
             }
         }
 
@@ -201,27 +241,6 @@ public class SigmaEngine {
         return uri;
     }
 
-    // TODO: Reinstate this function...
-    /*
-    public URI getServiceURI(Intent intent) {
-        Pair<IBinder, ServiceConnection> pair = getService(mContext, intent);
-        IBinder binder = pair.first;
-        ServiceConnection connection = pair.second;
-        return serveBinder(binder, connection);
-    }
-    */
-
-    private BinderRecord lookupRecord(URI uri) {
-        String uuid = uri.uuid;
-        BinderRecord record = null;
-        synchronized (mBinderRecords) {
-            if (mUuidToRecord.containsKey(uuid)) {
-                record = mUuidToRecord.get(uuid);
-            }
-        }
-        return record;
-    }
-
     public SResponse serve(SRequest request) {
         LogInstanceDebug(TAG, request.toString());
 
@@ -251,17 +270,18 @@ public class SigmaEngine {
             }
             case BINDER_CONNECTED: {
                 response = makeBooleanResponse(
-                        handleBinderConnected(request.self, request.target));
+                        handleProxyAttached(request.self, request.target));
                 break;
             }
             case BINDER_DISCONNECTED: {
                 response = makeBooleanResponse(
-                        handleBinderDisconnected(request.self, request.target));
+                        handleProxyDetached(request.self, request.target));
                 break;
             }
             case BINDER_DIED: {
                 response = makeBooleanResponse(
                         handleRemoteBinderDied(request.self, request.target));
+                break;
             }
             case BINDER_LINK_TO_DEATH: {
                 response = makeNotYetImplementedResponse();
@@ -292,12 +312,12 @@ public class SigmaEngine {
     public SResponse handleBinderTransact(SRequest request) {
         STransactionRequest txnInfo = request.transaction_request;
 
-        BinderRecord record = lookupRecord(request.target);
-        if (record == null || record.binder == null) {
+        BinderRecord record = binderLookup(request.target);
+        if (record == null || record.localBinder == null) {
             return makeBooleanResponse(false);
         }
 
-        IBinder binder = record.binder;
+        IBinder binder = record.localBinder;
 
         Parcel _data = Parcel.obtain();
         Parcel _reply = Parcel.obtain();
@@ -331,8 +351,8 @@ public class SigmaEngine {
         }
     }
 
-    public boolean handleBinderConnected(URI source, URI target) {
-        BinderRecord record = lookupRecord(target);
+    public boolean handleProxyAttached(URI source, URI target) {
+        BinderRecord record = binderLookup(target);
         if (record == null) {
             return false;
         }
@@ -341,27 +361,32 @@ public class SigmaEngine {
             throwUnexpected(new IllegalStateException("Expecting source of proxy connection to be BASE URI"));
         }
 
-        synchronized (mBinderRecords) {
-            record.activeProxies.add(source);
-            return true;
-        }
-    }
-
-    public boolean handleBinderDisconnected(URI source, URI target) {
-        BinderRecord record = lookupRecord(target);
-        if (record == null) {
-            return false;
-        }
-
-        if (source.type != URI.ObjectType.BASE) {
-            throwUnexpected(new IllegalStateException("Expecting source of proxy connection to be BASE URI"));
-        }
-
-        synchronized (mBinderRecords) {
-            record.activeProxies.remove(source);
-            cleanupBinder(record);
+        synchronized (mServedBinders) {
+            record.connectedProxies.add(source);
         }
         return true;
+    }
+
+    public boolean handleProxyDetached(URI source, URI target) {
+        BinderRecord record = binderLookup(target);
+        if (record == null) {
+            return false;
+        }
+
+        if (source.type != URI.ObjectType.BASE) {
+            throwUnexpected(new IllegalStateException("Expecting source of proxy connection to be BASE URI"));
+        }
+
+        synchronized (mServedBinders) {
+            record.connectedProxies.remove(source);
+        }
+
+        if (record.connectedProxies.isEmpty()) {
+            binderClose(record);
+        }
+
+        return true;
+
     }
 
     public boolean handleRemoteBinderDied(URI source, URI target) {
@@ -374,23 +399,6 @@ public class SigmaEngine {
 
             mProxyObjects.remove(target.uuid);
             return true;
-        }
-    }
-
-    private void cleanupBinder(BinderRecord record) {
-        // TODO: Synchronize this method...
-
-        if (record.activeProxies.isEmpty()) {
-            LogInstanceDebug(TAG, "record.activeProxies.isEmpty() -- Discarding BinderRecord" + record._interface);
-            mUuidToRecord.remove(record.uuid);
-            mBinderToRecord.remove(record.binder);
-            mBinderRecords.remove(record);
-            if (record.deathRecipient != null) {
-                record.binder.unlinkToDeath(record.deathRecipient, 0);
-            }
-            if (record.serviceConnection != null) {
-                mContext.unbindService(record.serviceConnection);
-            }
         }
     }
 
@@ -458,7 +466,7 @@ public class SigmaEngine {
             return (new SResponse.Builder())
                     .self(getBaseURI())
                     .type(SResponse.Type.ERROR)
-                    .error("UNSPECIFIED ERROR")
+                    .error("UNSPECIFIED ERROR\n" + TextUtils.join("\n", Thread.currentThread().getStackTrace()))
                     .build();
         }
     }
@@ -479,13 +487,236 @@ public class SigmaEngine {
                 .build();
     }
 
-    public IBinder getServiceManager() {
-        return mServiceManager;
+
+
+    public IBinder proxyBinder(URI uri) {
+        String uuid = uri.uuid;
+        synchronized (mProxyObjects) {
+            if (mProxyObjects.containsKey(uuid)) {
+                return mProxyObjects.get(uuid).get();
+            } else {
+                SigmaProxy proxy = new SigmaProxy(uri);
+                mProxyObjects.put(uuid, new WeakReference<SigmaProxy>(proxy));
+                return proxy;
+            }
+        }
     }
 
-    private static IBinder getServiceManagerInternal() {
+    private void proxyAttach(URI target) {
+        SRequest request = (new SRequest.Builder())
+                .self(getBaseURI())
+                .target(target)
+                .action(SRequest.ActionType.BINDER_CONNECTED)
+                .build();
+        mFactory.doTransaction(request);
+    }
+
+    private void proxyDetach(URI target) {
+        SRequest request = (new SRequest.Builder())
+                .action(SRequest.ActionType.BINDER_DISCONNECTED)
+                .self(getBaseURI())
+                .target(target)
+                .build();
+        mFactory.doTransaction(request);
+    }
+
+    public void destroy() {
+        /*
+        for (Map.Entry<String, SigmaProxy> entry : mProxyObjects.entrySet()) {
+            entry.getValue().destroy();
+        }
+        mProxyObjects.clear();
+        */
+    }
+
+    private class SigmaProxy extends Binder {
+        final URI mRemoteTarget;
+        final IBinder mLocalTarget;
+
+        public SigmaProxy(URI target) {
+            LogInstanceDebug(TAG, "Created a SigmaProxy ----> " + target.toString());
+            mRemoteTarget = target;
+            mLocalTarget = null;
+            proxyAttach(target);
+        }
+
+        public SigmaProxy(IBinder target) {
+            LogInstanceDebug(TAG, "Created a SigmaProxy ----> " + target.toString());
+            mLocalTarget = target;
+            mRemoteTarget = null;
+        }
+
+        public void finalize() {
+            destroy();
+        }
+
+
+        public void destroy() {
+            if (mRemoteTarget != null) {
+                proxyDetach(mRemoteTarget);
+            }
+        }
+
+        @Override
+        public String getInterfaceDescriptor() {
+            if (mRemoteTarget != null) {
+                return mRemoteTarget._interface;
+            } else {
+                try {
+                    return mLocalTarget.getInterfaceDescriptor();
+                } catch (RemoteException ex) {
+                    throwUnexpected(ex);
+                    return null;
+                }
+            }
+        }
+
+        @Override
+        public IInterface queryLocalInterface(String descriptor) {
+            return null;
+        }
+
+        @Override
+        protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+            try {
+
+                if (mRemoteTarget != null) {
+                    if (code == INTERFACE_TRANSACTION) {
+                        reply.writeString(mRemoteTarget._interface);
+                        return true;
+                    }
+                    SParcel _data = mEncoder.encodeParcel(mRemoteTarget, data);
+                    STransactionRequest transactionRequest =
+                            (new STransactionRequest.Builder())
+                                    .data(_data)
+                                    .code(code)
+                                    .flags(flags)
+                                    .build();
+                    SRequest request = (new SRequest.Builder())
+                            .self(getBaseURI())
+                            .target(mRemoteTarget)
+                            .action(SRequest.ActionType.BINDER_TRANSACTION)
+                            .transaction_request(transactionRequest)
+                            .build();
+                    SResponse response = mFactory.doTransaction(request);
+                    boolean _return = response.transaction_response._return;
+                    SParcel _reply = response.transaction_response.reply;
+                    mEncoder.decodeParcel(_reply, reply);
+                    //return _return;
+                    return true;
+                } else {
+                    if (code == INTERFACE_TRANSACTION) {
+                        reply.writeString(mLocalTarget.getInterfaceDescriptor());
+                        return true;
+                    }
+                    mLocalTarget.transact(code, data, reply, flags);
+                }
+            } catch (Exception ex) {
+                throwUnexpected(ex);
+            }
+
+            return true;
+        }
+    }
+
+
+    public ParcelFileDescriptor receiveAndForwardFile(URI uri) {
+        String uuid = uri.uuid;
+
+
+        int[] pipe = SigmaJNI.socketpair();
+        ParcelFileDescriptor serveFd = ParcelFileDescriptor.adoptFd(pipe[0]);
+        ParcelFileDescriptor returnFd = ParcelFileDescriptor.adoptFd(pipe[1]);
+
+        Thread fileForwarder = new Forwarder(uri, serveFd);
+        fileForwarder.start();
+
+        serveUnixSocket(serveFd, uuid);
+
+        return returnFd;
+    }
+
+    public URI receiveAndForwardFile(ParcelFileDescriptor parcelFd, URI remoteBaseURI) {
+        URI fileURI = serveUnixSocket(parcelFd, null);
+        URI target = (new URI.Builder(remoteBaseURI))
+                ._interface("")
+                .type(URI.ObjectType.UNIX_SOCKET)
+                .uuid(fileURI.uuid)
+                .build();
+        Thread fileForwarder = new Forwarder(target, parcelFd);
+        fileForwarder.start();
+
+        return fileURI;
+    }
+
+    private class Forwarder extends Thread {
+        final URI mTarget;
+        final ParcelFileDescriptor mParcelFd;
+
+        public Forwarder(URI target, ParcelFileDescriptor parcelFd) {
+            LogInstanceDebug(TAG, "created Forwarder for fd=" + parcelFd.getFd() + " --> target=" + target.toString());
+            mParcelFd = parcelFd;
+            mTarget = target;
+        }
+
+        @Override
+        public void run() {
+            ByteBuffer buffer = ByteBuffer.allocateDirect(4096);
+            while (true) {
+                buffer.rewind();
+                // FIXME: The parcel file descriptor never triggers a close event, threads are left in phantom state!
+                SigmaJNI.waitForMessage(mParcelFd.getFd());
+                int len = SigmaJNI.recvMessage(mParcelFd.getFd(), buffer);
+                if (len <= 0) {
+                    try {
+                        mParcelFd.close();
+                    } catch (IOException ex) {
+                        Log.e(TAG, "Forwarder : IOException");
+                    }
+
+                    Log.d(TAG, "Forwarder closed");
+
+                    SRequest request = (new SRequest.Builder())
+                            .self(getBaseURI())
+                            .target(mTarget)
+                            .action(SRequest.ActionType.FILE_CLOSE)
+                            .build();
+
+                    mFactory.doTransaction(request);
+                    break;
+                }
+
+                byte[] bytes = new byte[len];
+                buffer.get(bytes, 0, len);
+
+                SSocketDataReceived data_received =
+                        (new SSocketDataReceived.Builder())
+                                .bytes(Base64.encodeToString(bytes, Base64.DEFAULT))
+                                .build();
+
+                SRequest request = (new SRequest.Builder())
+                        .self(getBaseURI())
+                        .target(mTarget)
+                        .action(SRequest.ActionType.FILE_RECV)
+                        .socket_data_received(data_received)
+                        .build();
+
+                mFactory.doTransaction(request);
+            }
+
+            LogInstanceDebug(TAG, "File closed, forwarder shutting down...");
+        }
+    }
+
+
+    private void LogInstanceDebug(String TAG, String message) {
+        LogDebug(TAG, "_____" + mBaseURI.name + "_____" + message);
+    }
+
+
+    public static IBinder getServiceManagerInternal() {
         try {
-            IBinder binder = (IBinder)Class.forName("com.android.internal.os.BinderInternal")
+            IBinder binder = (IBinder) Class.forName("com.android.internal.os.BinderInternal")
                     .getMethod("getContextObject")
                     .invoke(null);
             return binder;
@@ -566,231 +797,6 @@ public class SigmaEngine {
                 .uuid(null)
                 ._interface(null)
                 .build();
-    }
-
-    // -- Methods to deal with connecting to remote binder objects
-
-    public ISigmaManager getRemoteManager(URI targetBaseURI) {
-        SRequest request = (new SRequest.Builder())
-                .self(getBaseURI())
-                .target(targetBaseURI)
-                .action(SRequest.ActionType.GET_SIGMA_MANAGER)
-                .build();
-        return ISigmaManager.Stub.asInterface(proxyBinder(mFactory.doTransaction(request).uri));
-    }
-
-    public IBinder proxyBinder(URI uri) {
-        String uuid = uri.uuid;
-        synchronized (mProxyObjects) {
-            if (mProxyObjects.containsKey(uuid)) {
-                return mProxyObjects.get(uuid);
-            } else {
-                SigmaProxy proxy = new SigmaProxy(uri);
-                mProxyObjects.put(uuid, proxy);
-                return proxy;
-            }
-        }
-    }
-
-    public ParcelFileDescriptor receiveAndForwardFile(URI uri) {
-        String uuid = uri.uuid;
-
-
-
-
-        int[] pipe = SigmaJNI.socketpair();
-        ParcelFileDescriptor serveFd = ParcelFileDescriptor.adoptFd(pipe[0]);
-        ParcelFileDescriptor returnFd = ParcelFileDescriptor.adoptFd(pipe[1]);
-
-        Thread fileForwarder = new Forwarder(uri, serveFd);
-        fileForwarder.start();
-
-        serveUnixSocket(serveFd, uuid);
-
-        return returnFd;
-    }
-
-    public URI receiveAndForwardFile(ParcelFileDescriptor parcelFd, URI remoteBaseURI) {
-        URI fileURI = serveUnixSocket(parcelFd, null);
-        URI target = (new URI.Builder(remoteBaseURI))
-                ._interface("")
-                .type(URI.ObjectType.UNIX_SOCKET)
-                .uuid(fileURI.uuid)
-                .build();
-        Thread fileForwarder = new Forwarder(target, parcelFd);
-        fileForwarder.start();
-
-        return fileURI;
-    }
-
-    private void notifyConnected(URI target) {
-        SRequest request = (new SRequest.Builder())
-                .self(getBaseURI())
-                .target(target)
-                .action(SRequest.ActionType.BINDER_CONNECTED)
-                .build();
-        mFactory.doTransaction(request);
-    }
-
-    private void notifyDisconnected(URI target) {
-        SRequest request = (new SRequest.Builder())
-                .action(SRequest.ActionType.BINDER_DISCONNECTED)
-                .self(getBaseURI())
-                .target(target)
-                .build();
-        mFactory.doTransaction(request);
-    }
-
-    public void destroy() {
-        for (Map.Entry<String, SigmaProxy> entry : mProxyObjects.entrySet()) {
-            entry.getValue().destroy();
-        }
-        mProxyObjects.clear();
-    }
-
-    private class SigmaProxy extends Binder {
-        final URI mRemoteTarget;
-        final IBinder mLocalTarget;
-
-        public SigmaProxy(URI target) {
-            LogInstanceDebug(TAG, "Created a SigmaProxy ----> " + target.toString());
-            mRemoteTarget = target;
-            mLocalTarget = null;
-            notifyConnected(target);
-        }
-
-        public SigmaProxy(IBinder target) {
-            LogInstanceDebug(TAG, "Created a SigmaProxy ----> " + target.toString());
-            mLocalTarget = target;
-            mRemoteTarget = null;
-        }
-
-
-        public void destroy() {
-            if (mRemoteTarget != null) {
-                notifyDisconnected(mRemoteTarget);
-            }
-        }
-
-        @Override
-        public String getInterfaceDescriptor() {
-            if (mRemoteTarget != null) {
-                return mRemoteTarget._interface;
-            } else {
-                try {
-                    return mLocalTarget.getInterfaceDescriptor();
-                } catch (RemoteException ex) {
-                    throwUnexpected(ex);
-                    return null;
-                }
-            }
-        }
-
-        @Override
-        public IInterface queryLocalInterface(String descriptor) {
-            return null;
-        }
-
-        @Override
-        protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
-            try {
-
-                if (mRemoteTarget != null) {
-                    if (code == INTERFACE_TRANSACTION) {
-                        reply.writeString(mRemoteTarget._interface);
-                        return true;
-                    }
-                    SParcel _data = mEncoder.encodeParcel(mRemoteTarget, data);
-                    STransactionRequest transactionRequest =
-                            (new STransactionRequest.Builder())
-                                    .data(_data)
-                                    .code(code)
-                                    .flags(flags)
-                                    .build();
-                    SRequest request = (new SRequest.Builder())
-                            .self(getBaseURI())
-                            .target(mRemoteTarget)
-                            .action(SRequest.ActionType.BINDER_TRANSACTION)
-                            .transaction_request(transactionRequest)
-                            .build();
-                    SResponse response = mFactory.doTransaction(request);
-                    boolean _return = response.transaction_response._return;
-                    SParcel _reply = response.transaction_response.reply;
-                    mEncoder.decodeParcel(_reply, reply);
-                    //return _return;
-                    return true;
-                } else {
-                    if (code == INTERFACE_TRANSACTION) {
-                        reply.writeString(mLocalTarget.getInterfaceDescriptor());
-                        return true;
-                    }
-                    mLocalTarget.transact(code, data, reply, flags);
-                }
-            } catch (Exception ex) {
-                throwUnexpected(ex);
-            }
-
-            return true;
-        }
-    }
-
-    private class Forwarder extends Thread {
-        final URI mTarget;
-        final ParcelFileDescriptor mParcelFd;
-
-        public Forwarder(URI target, ParcelFileDescriptor parcelFd) {
-            LogInstanceDebug(TAG, "created Forwarder for fd=" + parcelFd.getFd() + " --> target=" + target.toString());
-            mParcelFd = parcelFd;
-            mTarget = target;
-        }
-
-        @Override
-        public void run() {
-            ByteBuffer buffer = ByteBuffer.allocateDirect(4096);
-            while (true) {
-                buffer.rewind();
-                // FIXME: The parcel file descriptor never triggers a close event, threads are left in phantom state!
-                SigmaJNI.waitForMessage(mParcelFd.getFd());
-                int len = SigmaJNI.recvMessage(mParcelFd.getFd(), buffer);
-                if (len <= 0) {
-                    try {
-                        mParcelFd.close();
-                    } catch (IOException ex) {
-                        Log.e(TAG, "Forwarder : IOException");
-                    }
-
-                    Log.d(TAG, "Forwarder closed");
-
-                    SRequest request = (new SRequest.Builder())
-                            .self(getBaseURI())
-                            .target(mTarget)
-                            .action(SRequest.ActionType.FILE_CLOSE)
-                            .build();
-
-                    mFactory.doTransaction(request);
-                    break;
-                }
-
-                byte[] bytes = new byte[len];
-                buffer.get(bytes, 0, len);
-
-                SSocketDataReceived data_received =
-                        (new SSocketDataReceived.Builder())
-                                .bytes(Base64.encodeToString(bytes, Base64.DEFAULT))
-                                .build();
-
-                SRequest request = (new SRequest.Builder())
-                        .self(getBaseURI())
-                        .target(mTarget)
-                        .action(SRequest.ActionType.FILE_RECV)
-                        .socket_data_received(data_received)
-                        .build();
-
-                mFactory.doTransaction(request);
-            }
-
-            LogInstanceDebug(TAG, "File closed, forwarder shutting down...");
-        }
     }
 
 }
