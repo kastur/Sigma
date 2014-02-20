@@ -29,7 +29,7 @@ public class SigmaEngine {
         public IBinder binder;
         public ServiceConnection serviceConnection;
         public IBinder.DeathRecipient deathRecipient;
-        public HashSet<URI> activeConnections;
+        public HashSet<URI> activeProxies;
         public String _interface;
     }
 
@@ -93,6 +93,23 @@ public class SigmaEngine {
             }
 
             BinderRecord record = mUuidToRecord.get(uuid);
+
+            // Tell all remote, active proxies about the death.
+            for (URI remote : record.activeProxies) {
+
+                URI target = (new URI.Builder(remote))
+                        .type(URI.ObjectType.BINDER)
+                        .uuid(uuid)
+                        .build();
+
+                SRequest request = (new SRequest.Builder())
+                        .action(SRequest.ActionType.BINDER_DIED)
+                        .self(getBaseURI())
+                        .target(target)
+                        .build();
+                SResponse unusedResponse = mFactory.doTransaction(request);
+            }
+
             mUuidToRecord.remove(uuid);
             mBinderToRecord.remove(record.binder);
             mBinderRecords.remove(record);
@@ -134,7 +151,7 @@ public class SigmaEngine {
                     throwUnexpected(ex);
                 }
 
-                record.activeConnections = new HashSet<URI>();
+                record.activeProxies = new HashSet<URI>();
 
                 mBinderRecords.add(record);
                 mBinderToRecord.put(record.binder, record);
@@ -234,13 +251,17 @@ public class SigmaEngine {
             }
             case BINDER_CONNECTED: {
                 response = makeBooleanResponse(
-                        handleBinderConnected(request.target));
+                        handleBinderConnected(request.self, request.target));
                 break;
             }
             case BINDER_DISCONNECTED: {
                 response = makeBooleanResponse(
-                        handleBinderDisconnected(request.target));
+                        handleBinderDisconnected(request.self, request.target));
                 break;
+            }
+            case BINDER_DIED: {
+                response = makeBooleanResponse(
+                        handleRemoteBinderDied(request.self, request.target));
             }
             case BINDER_LINK_TO_DEATH: {
                 response = makeNotYetImplementedResponse();
@@ -310,48 +331,67 @@ public class SigmaEngine {
         }
     }
 
-    public boolean handleBinderConnected(URI uri) {
-        BinderRecord record = lookupRecord(uri);
+    public boolean handleBinderConnected(URI source, URI target) {
+        BinderRecord record = lookupRecord(target);
         if (record == null) {
             return false;
         }
 
+        if (source.type != URI.ObjectType.BASE) {
+            throwUnexpected(new IllegalStateException("Expecting source of proxy connection to be BASE URI"));
+        }
+
         synchronized (mBinderRecords) {
-            URI peer = (new URI.Builder(uri))
-                    .type(URI.ObjectType.BASE)
-                    .uuid(null)
-                    .build();
-            record.activeConnections.add(peer);
+            record.activeProxies.add(source);
             return true;
         }
     }
 
-    public boolean handleBinderDisconnected(URI uri) {
-        BinderRecord record = lookupRecord(uri);
+    public boolean handleBinderDisconnected(URI source, URI target) {
+        BinderRecord record = lookupRecord(target);
         if (record == null) {
             return false;
         }
 
+        if (source.type != URI.ObjectType.BASE) {
+            throwUnexpected(new IllegalStateException("Expecting source of proxy connection to be BASE URI"));
+        }
+
         synchronized (mBinderRecords) {
-            URI peer = (new URI.Builder(uri))
-                    .type(URI.ObjectType.BASE)
-                    .uuid(null)
-                    .build();
-            record.activeConnections.remove(peer);
-            if (record.activeConnections.isEmpty()) {
-                LogInstanceDebug(TAG, "record.activeConnections.isEmpty() -- Discarding BinderRecord" + record._interface);
-                mUuidToRecord.remove(record.uuid);
-                mBinderToRecord.remove(record.binder);
-                mBinderRecords.remove(record);
-                if (record.deathRecipient != null) {
-                    record.binder.unlinkToDeath(record.deathRecipient, 0);
-                }
-                if (record.serviceConnection != null) {
-                    mContext.unbindService(record.serviceConnection);
-                }
-            }
+            record.activeProxies.remove(source);
+            cleanupBinder(record);
         }
         return true;
+    }
+
+    public boolean handleRemoteBinderDied(URI source, URI target) {
+        String uuid = target.uuid;
+
+        synchronized (mProxyObjects) {
+            if (!mProxyObjects.containsKey(target.uuid)) {
+                return false;
+            }
+
+            mProxyObjects.remove(target.uuid);
+            return true;
+        }
+    }
+
+    private void cleanupBinder(BinderRecord record) {
+        // TODO: Synchronize this method...
+
+        if (record.activeProxies.isEmpty()) {
+            LogInstanceDebug(TAG, "record.activeProxies.isEmpty() -- Discarding BinderRecord" + record._interface);
+            mUuidToRecord.remove(record.uuid);
+            mBinderToRecord.remove(record.binder);
+            mBinderRecords.remove(record);
+            if (record.deathRecipient != null) {
+                record.binder.unlinkToDeath(record.deathRecipient, 0);
+            }
+            if (record.serviceConnection != null) {
+                mContext.unbindService(record.serviceConnection);
+            }
+        }
     }
 
     public boolean handleFileReceive(URI uri, byte[] bytes) {

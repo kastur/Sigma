@@ -77,9 +77,10 @@ message SRequest {
     BINDER_CONNECTED = 4;
     BINDER_DISCONNECTED = 5;
     BINDER_LINK_TO_DEATH = 6;
-    BINDER_UNLINK_TO_DEATH =7;
+    BINDER_UNLINK_TO_DEATH = 7;
     FILE_RECV = 8;
     FILE_CLOSE = 9;
+    BINDER_DIED = 10;
   }
 
   required URI self = 1;

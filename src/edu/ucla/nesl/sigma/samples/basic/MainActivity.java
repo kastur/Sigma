@@ -23,6 +23,7 @@ import edu.ucla.nesl.sigma.api.SigmaServiceConnection;
 import edu.ucla.nesl.sigma.base.SigmaManager;
 import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.base.SigmaServiceB;
+import edu.ucla.nesl.sigma.samples.location.NativeLocationPoster;
 
 import java.util.List;
 import java.util.Random;
@@ -111,10 +112,8 @@ public class MainActivity extends Activity {
         mContext = this;
 
         sigmaA = new SigmaServiceConnection(this, SigmaServiceA.class);
-        sigmaA.connect();
 
         sigmaB = new SigmaServiceConnection(this, SigmaServiceB.class);
-        sigmaB.connect();
 
         LinearLayout layout = new LinearLayout(mContext);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -147,7 +146,7 @@ public class MainActivity extends Activity {
                             //Log.d(TAG, lastLocation.toString());
                             remoteLocationManager.requestLocationUpdates("test", 0, 0, mLocationListener, MainActivity.this.getMainLooper());
 
-                            Intent intent = new Intent(mContext, PendingIntentLocationReceiver.class);
+                            Intent intent = new Intent(mContext, NativeLocationPoster.class);
                             PendingIntent pi = PendingIntent.getBroadcast(mContext, 0, intent,
                                     PendingIntent.FLAG_UPDATE_CURRENT);
                             remoteLocationManager.requestLocationUpdates("test", 0, 0, pi);

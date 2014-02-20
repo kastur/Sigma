@@ -29,6 +29,8 @@
         <activity android:name=".samples.sensor.SensorActivity" />
         <activity android:name=".samples.basic.MainActivity" />
         <activity android:name=".test.BasicTests"/>
+        <activity android:name=".samples.location.LocationActivity"/>
+        <activity android:name=".samples.location.LocationActivityXmpp"/>
 
 
         <service android:name=".base.SigmaServiceA" android:process=".SigmaServiceA"/>
@@ -46,7 +48,8 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".samples.basic.PendingIntentLocationReceiver" />
+        <receiver android:name=".samples.location.NativeLocationPoster"/>
+        <receiver android:name=".samples.location.RemoteLocationPoster"/>
 
     </application>
 </manifest>

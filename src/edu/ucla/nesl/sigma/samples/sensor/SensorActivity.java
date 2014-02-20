@@ -15,13 +15,12 @@ import edu.ucla.nesl.sigma.base.SigmaManager;
 import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.base.SigmaServiceB;
 import edu.ucla.nesl.sigma.samples.BunchOfButtonsActivity;
-import edu.ucla.nesl.sigma.samples.TestXmllUtils;
+import edu.ucla.nesl.sigma.samples.TestXmpp;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.XYSeries;
 
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static edu.ucla.nesl.sigma.base.SigmaDebug.LogDebug;
 
@@ -44,6 +43,7 @@ public class SensorActivity extends BunchOfButtonsActivity {
     class EventSample {
         public long nativeReceiveTime;
         public long remoteReceiveTime;
+
         public EventSample() {
             nativeReceiveTime = -1;
             remoteReceiveTime = -1;
@@ -124,9 +124,9 @@ public class SensorActivity extends BunchOfButtonsActivity {
                     yval -= 1;
                 }
                 */
-                double xval = sensorEvent.timestamp / (1000.0*1000.0) % LineChart.X_AXIS_MAX;
+                double xval = sensorEvent.timestamp / (1000.0 * 1000.0) % LineChart.X_AXIS_MAX;
                 series.remove(mIndex);
-                    series.add(mIndex, xval, yval);
+                series.add(mIndex, xval, yval);
                 mIndex = (mIndex + 1) % NUM_POINTS;
             }
 
@@ -138,7 +138,8 @@ public class SensorActivity extends BunchOfButtonsActivity {
         }
 
         @Override
-        public void onAccuracyChanged(Sensor sensor, int i) { }
+        public void onAccuracyChanged(Sensor sensor, int i) {
+        }
     }
 
     @Override
@@ -151,10 +152,8 @@ public class SensorActivity extends BunchOfButtonsActivity {
     @Override
     public void onCreateHook() {
         connA = new SigmaServiceConnection(this, SigmaServiceA.class);
-        connA.connect();
 
         connB = new SigmaServiceConnection(this, SigmaServiceB.class);
-        connB.connect();
 
         mChart = new LineChart(this);
 
@@ -216,9 +215,9 @@ public class SensorActivity extends BunchOfButtonsActivity {
             @Override
             public void run() {
                 Toast.makeText(SensorActivity.this, "Trying to login to XMPP", Toast.LENGTH_LONG).show();
-                sigmaA = connA.getImpl(TestXmllUtils.getXmppB(), TestXmllUtils.getPasswordBundeB());
+                sigmaA = connA.getImpl(TestXmpp.getXmppB(), TestXmpp.getPasswordBundeB());
                 Toast.makeText(SensorActivity.this, "Logged in as rr@", Toast.LENGTH_LONG).show();
-                sigmaB = connB.getImpl(TestXmllUtils.getXmppA(), TestXmllUtils.getPasswordBundleA());
+                sigmaB = connB.getImpl(TestXmpp.getXmppA(), TestXmpp.getPasswordBundleA());
                 Toast.makeText(SensorActivity.this, "Trying in as kk@", Toast.LENGTH_LONG).show();
                 SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
                 RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
@@ -253,7 +252,10 @@ public class SensorActivity extends BunchOfButtonsActivity {
                 sensorManager.unregisterListener(mNativeListener);
                 remoteSensorManager.unregisterListener(mRemoteListener);
 
-                try { Thread.sleep(2000); } catch (InterruptedException ex) { }
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                }
 
                 computeAndLogEventStats();
             }
@@ -305,9 +307,9 @@ public class SensorActivity extends BunchOfButtonsActivity {
 
         Log.i(TAG,
                 "numSamples=" + numSamples + "\n" +
-                "nativeNullt=" + nativeNull + "\n" +
-                "remoteNullt=" + remoteNull + "\n" +
-                "remoteNeverReceived=" + remoteNeverReceived + "\n");
+                        "nativeNullt=" + nativeNull + "\n" +
+                        "remoteNullt=" + remoteNull + "\n" +
+                        "remoteNeverReceived=" + remoteNeverReceived + "\n");
 
         StringBuilder sb = new StringBuilder();
         sb.append("--------------------------------------------------\n");
@@ -320,7 +322,7 @@ public class SensorActivity extends BunchOfButtonsActivity {
                 sb.append("\n");
             }
         }
-        sb.append("--------------------------------------------------\n");
+        sb.append("]\n--------------------------------------------------");
 
 
         System.out.println(sb.toString());

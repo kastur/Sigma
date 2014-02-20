@@ -2,16 +2,17 @@ package edu.ucla.nesl.sigma.samples;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Pair;
 import android.widget.Toast;
 import edu.ucla.nesl.sigma.api.SigmaServiceConnection;
 import edu.ucla.nesl.sigma.base.SigmaManager;
+import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.base.SigmaServiceB;
 import edu.ucla.nesl.sigma.impl.HttpSigmaServer;
-import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.samples.basic.MainActivity;
 import edu.ucla.nesl.sigma.samples.chat.PictureShareActivity;
+import edu.ucla.nesl.sigma.samples.location.LocationActivity;
+import edu.ucla.nesl.sigma.samples.location.LocationActivityXmpp;
 import edu.ucla.nesl.sigma.samples.pingpong.PingPongActivity;
 import edu.ucla.nesl.sigma.samples.sensor.SensorActivity;
 import edu.ucla.nesl.sigma.test.BasicTests;
@@ -23,31 +24,25 @@ import java.net.Socket;
 
 public class TestSuiteActivity extends BunchOfButtonsActivity {
     SigmaManager mHttp;
-    SigmaServiceConnection mSigma;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSigma = new SigmaServiceConnection(this, SigmaServiceA.class);
-        mSigma.connect();
-    }
+    SigmaServiceConnection sigmaA;
 
     @Override
     public void onCreateHook() {
+        sigmaA = new SigmaServiceConnection(this, SigmaServiceA.class);
 
         addButton("IP:" + HttpSigmaServer.getIPAddress(true), null);
 
-        addButton("PING:" + TestXmllUtils.getXmppA().host + ":" + TestXmllUtils.getXmppA().port, new Runnable() {
+        addButton("PING:" + TestXmpp.getXmppA().host + ":" + TestXmpp.getXmppA().port, new Runnable() {
             @Override
             public void run() {
-                pingXxmpp(TestXmllUtils.getXmppA().host, TestXmllUtils.getXmppA().port);
+                pingXxmpp(TestXmpp.getXmppA().host, TestXmpp.getXmppA().port);
             }
         });
 
-        addButton("PING:" + TestXmllUtils.getXmppA().host + ":80", new Runnable() {
+        addButton("PING:" + TestXmpp.getXmppA().host + ":80", new Runnable() {
             @Override
             public void run() {
-                pingXxmpp(TestXmllUtils.getXmppA().host, 80);
+                pingXxmpp(TestXmpp.getXmppA().host, 80);
             }
         });
 
@@ -70,8 +65,9 @@ public class TestSuiteActivity extends BunchOfButtonsActivity {
         addLaunchActivityButton(MainActivity.class);
         addLaunchActivityButton(PingPongActivity.class);
         addLaunchActivityButton(PictureShareActivity.class);
+        addLaunchActivityButton(LocationActivity.class);
+        addLaunchActivityButton(LocationActivityXmpp.class);
         addLaunchActivityButton(SensorActivity.class);
-
         addLaunchActivityButton(BasicTests.class);
     }
 
@@ -119,11 +115,14 @@ public class TestSuiteActivity extends BunchOfButtonsActivity {
     }
 
     private void startHttp() {
-        mHttp = mSigma.getImpl(SigmaServiceB.getLocalHttp(), null);
+        mHttp = sigmaA.getImpl(SigmaServiceB.getLocalHttp(), null);
     }
 
     @Override
     protected void onDestroy() {
-        mHttp.destroy();
+        if (mHttp != null) {
+            mHttp.destroy();
+        }
+        super.onDestroy();
     }
 }

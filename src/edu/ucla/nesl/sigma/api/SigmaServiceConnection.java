@@ -29,9 +29,17 @@ public class SigmaServiceConnection implements ServiceConnection {
         mServiceClass = serviceClass;
         mContext = context;
         mService = null;
+        connect();
     }
 
-    public SigmaManager getImpl(URI uri, Bundle extras) {
+    public void finalize() {
+        disconnect();
+    }
+
+    public synchronized SigmaManager getImpl(URI uri, Bundle extras) {
+        if (mService == null) {
+            throwUnexpected(new IllegalStateException("ISigmaServiceConnection is not set."));
+        }
         try {
             return new SigmaManager(mService.getImpl(uri.toByteArray(), extras));
         } catch (RemoteException ex) {
@@ -40,17 +48,24 @@ public class SigmaServiceConnection implements ServiceConnection {
         }
     }
 
-    public void connect() {
+    private synchronized void connect() {
+        if (mService != null) {
+            throwUnexpected(new IllegalStateException("ISigmaServiceConnection is already connected."));
+        }
         Intent intent = new Intent(mContext, mServiceClass);
         mContext.bindService(intent, SigmaServiceConnection.this, Context.BIND_AUTO_CREATE);
     }
 
-    public void disconnect() {
+    public synchronized void disconnect() {
         mContext.unbindService(this);
     }
 
     @Override
-    public void onServiceConnected(ComponentName componentName, IBinder binder) {
+    public synchronized void onServiceConnected(ComponentName componentName, IBinder binder) {
+        if (mService != null) {
+            throwUnexpected(new IllegalStateException("ISigmaServiceConnection is already connected."));
+        }
+
         String descriptor = "";
         try {
             descriptor = binder.getInterfaceDescriptor();
@@ -64,7 +79,7 @@ public class SigmaServiceConnection implements ServiceConnection {
     }
 
     @Override
-    public void onServiceDisconnected(ComponentName componentName) {
+    public synchronized void onServiceDisconnected(ComponentName componentName) {
         LogDebug(TAG, "onServiceDisconnected()");
         mService = null;
     }

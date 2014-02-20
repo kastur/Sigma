@@ -3,7 +3,7 @@ package edu.ucla.nesl.sigma.samples;
 import android.os.Bundle;
 import edu.ucla.nesl.sigma.P.URI;
 
-public class TestXmllUtils {
+public class TestXmpp {
 
     private static URI.Builder getUriXmppBuilder() {
         return (new URI.Builder())
@@ -11,10 +11,9 @@ public class TestXmllUtils {
                 .type(URI.ObjectType.BASE)
                         //.host("192.168.1.7")
                 .host("ec2-54-227-52-216.compute-1.amazonaws.com")
+                        //.host("192.168.1.7")
                 .port(5222)
                 .domain("localhost");
-        //.domain("quark");
-
     }
 
     public static URI getXmppA() {

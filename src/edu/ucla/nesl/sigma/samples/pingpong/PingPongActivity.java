@@ -1,20 +1,18 @@
 package edu.ucla.nesl.sigma.samples.pingpong;
 
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import edu.ucla.nesl.sigma.P.URI;
 import edu.ucla.nesl.sigma.api.SigmaServiceConnection;
 import edu.ucla.nesl.sigma.base.SigmaManager;
-import edu.ucla.nesl.sigma.impl.HttpSigmaServer;
 import edu.ucla.nesl.sigma.base.SigmaServiceA;
 import edu.ucla.nesl.sigma.base.SigmaServiceB;
-import edu.ucla.nesl.sigma.samples.TestXmllUtils;
-import edu.ucla.nesl.sigma.samples.TimeStats;
+import edu.ucla.nesl.sigma.impl.HttpSigmaServer;
 import edu.ucla.nesl.sigma.samples.BunchOfButtonsActivity;
+import edu.ucla.nesl.sigma.samples.TestXmpp;
+import edu.ucla.nesl.sigma.samples.TimeStats;
 
 import static edu.ucla.nesl.sigma.base.SigmaDebug.throwUnexpected;
 
@@ -32,25 +30,6 @@ public class PingPongActivity extends BunchOfButtonsActivity {
     Intent mPingPongServiceName;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        ipaddr = HttpSigmaServer.getIPAddress(true);
-        super.onCreate(savedInstanceState);
-        connA = new SigmaServiceConnection(this, SigmaServiceA.class);
-        connB = new SigmaServiceConnection(this, SigmaServiceB.class);
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                connA.connect();
-                connB.connect();
-                return null;
-            }
-        }.execute();
-
-        mPingPongServiceName = new Intent(kPingPongServerName);
-    }
-
-    @Override
     protected void onDestroy() {
         connA.disconnect();
         connB.disconnect();
@@ -58,6 +37,11 @@ public class PingPongActivity extends BunchOfButtonsActivity {
     }
 
     public void onCreateHook() {
+        ipaddr = HttpSigmaServer.getIPAddress(true);
+        connA = new SigmaServiceConnection(this, SigmaServiceA.class);
+        connB = new SigmaServiceConnection(this, SigmaServiceB.class);
+
+        mPingPongServiceName = new Intent(kPingPongServerName);
 
         addButton("\"Σ\" testNative", new Runnable() {
             @Override
@@ -125,8 +109,8 @@ public class PingPongActivity extends BunchOfButtonsActivity {
         int numReps = Math.max(5, NUM_TEST_REPS / 10);
         for (int ii = 0; ii < numReps; ++ii) {
             boolean lastRep = (ii == numReps - 1);
-            SigmaManager sigmaA = connA.getImpl(TestXmllUtils.getXmppA(), TestXmllUtils.getPasswordBundleA());
-            SigmaManager sigmaB = connB.getImpl(TestXmllUtils.getXmppB(), TestXmllUtils.getPasswordBundeB());
+            SigmaManager sigmaA = connA.getImpl(TestXmpp.getXmppA(), TestXmpp.getPasswordBundleA());
+            SigmaManager sigmaB = connB.getImpl(TestXmpp.getXmppB(), TestXmpp.getPasswordBundeB());
             runTest(sigmaA, sigmaB, "xmpp", (ii < 1), RUN_PROFILER_ON_LAST_REP && lastRep);
         }
     }
