@@ -78,9 +78,8 @@ public final class URI extends Message {
   public final String name;
 
   /**
-   * Causes HTTP transactions to be targetted here, the "target"
-   * in the message does not change. Used to have a proxy server
-   * that forwards requests. Used for testing only.
+   * Causes HTTP transactions to be targetted here, the "target" in the message does not change.
+   * Used to have a proxy server that forwards requests. Used for testing only.
    */
   @ProtoField(tag = 12, type = STRING)
   public final String proxyhost;
@@ -103,21 +102,25 @@ public final class URI extends Message {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) return true;
-    if (!(other instanceof URI)) return false;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof URI)) {
+      return false;
+    }
     URI o = (URI) other;
     return equals(protocol, o.protocol)
-        && equals(type, o.type)
-        && equals(uuid, o.uuid)
-        && equals(offset, o.offset)
-        && equals(className, o.className)
-        && equals(host, o.host)
-        && equals(port, o.port)
-        && equals(login, o.login)
-        && equals(domain, o.domain)
-        && equals(_interface, o._interface)
-        && equals(name, o.name)
-        && equals(proxyhost, o.proxyhost);
+           && equals(type, o.type)
+           && equals(uuid, o.uuid)
+           && equals(offset, o.offset)
+           && equals(className, o.className)
+           && equals(host, o.host)
+           && equals(port, o.port)
+           && equals(login, o.login)
+           && equals(domain, o.domain)
+           && equals(_interface, o._interface)
+           && equals(name, o.name)
+           && equals(proxyhost, o.proxyhost);
   }
 
   @Override
@@ -161,7 +164,9 @@ public final class URI extends Message {
 
     public Builder(URI message) {
       super(message);
-      if (message == null) return;
+      if (message == null) {
+        return;
+      }
       this.protocol = message.protocol;
       this.type = message.type;
       this.uuid = message.uuid;
@@ -250,9 +255,8 @@ public final class URI extends Message {
     }
 
     /**
-     * Causes HTTP transactions to be targetted here, the "target"
-     * in the message does not change. Used to have a proxy server
-     * that forwards requests. Used for testing only.
+     * Causes HTTP transactions to be targetted here, the "target" in the message does not change.
+     * Used to have a proxy server that forwards requests. Used for testing only.
      */
     public Builder proxyhost(String proxyhost) {
       this.proxyhost = proxyhost;

@@ -31,12 +31,16 @@ public final class STransactionRequest extends Message {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) return true;
-    if (!(other instanceof STransactionRequest)) return false;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof STransactionRequest)) {
+      return false;
+    }
     STransactionRequest o = (STransactionRequest) other;
     return equals(data, o.data)
-        && equals(code, o.code)
-        && equals(flags, o.flags);
+           && equals(code, o.code)
+           && equals(flags, o.flags);
   }
 
   @Override
@@ -62,7 +66,9 @@ public final class STransactionRequest extends Message {
 
     public Builder(STransactionRequest message) {
       super(message);
-      if (message == null) return;
+      if (message == null) {
+        return;
+      }
       this.data = message.data;
       this.code = message.code;
       this.flags = message.flags;

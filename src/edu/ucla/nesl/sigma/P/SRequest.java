@@ -11,146 +11,152 @@ import static com.squareup.wire.Message.Label.REQUIRED;
 
 public final class SRequest extends Message {
 
-    public static final ActionType DEFAULT_ACTION = ActionType.GET_SIGMA_MANAGER;
+  public static final ActionType DEFAULT_ACTION = ActionType.GET_SIGMA_MANAGER;
 
-    @ProtoField(tag = 1, label = REQUIRED)
-    public final URI self;
+  @ProtoField(tag = 1, label = REQUIRED)
+  public final URI self;
 
-    @ProtoField(tag = 2, label = REQUIRED)
-    public final URI target;
+  @ProtoField(tag = 2, label = REQUIRED)
+  public final URI target;
 
-    @ProtoField(tag = 3, type = ENUM, label = REQUIRED)
-    public final ActionType action;
+  @ProtoField(tag = 3, type = ENUM, label = REQUIRED)
+  public final ActionType action;
 
-    @ProtoField(tag = 4)
-    public final SIntent intent;
+  @ProtoField(tag = 4)
+  public final SIntent intent;
 
-    @ProtoField(tag = 5)
-    public final STransactionRequest transaction_request;
+  @ProtoField(tag = 5)
+  public final STransactionRequest transaction_request;
 
-    @ProtoField(tag = 6)
-    public final SSocketDataReceived socket_data_received;
+  @ProtoField(tag = 6)
+  public final SSocketDataReceived socket_data_received;
 
-    private SRequest(Builder builder) {
-        super(builder);
-        this.self = builder.self;
-        this.target = builder.target;
-        this.action = builder.action;
-        this.intent = builder.intent;
-        this.transaction_request = builder.transaction_request;
-        this.socket_data_received = builder.socket_data_received;
+  private SRequest(Builder builder) {
+    super(builder);
+    this.self = builder.self;
+    this.target = builder.target;
+    this.action = builder.action;
+    this.intent = builder.intent;
+    this.transaction_request = builder.transaction_request;
+    this.socket_data_received = builder.socket_data_received;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof SRequest)) {
+      return false;
+    }
+    SRequest o = (SRequest) other;
+    return equals(self, o.self)
+           && equals(target, o.target)
+           && equals(action, o.action)
+           && equals(intent, o.intent)
+           && equals(transaction_request, o.transaction_request)
+           && equals(socket_data_received, o.socket_data_received);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = hashCode;
+    if (result == 0) {
+      result = self != null ? self.hashCode() : 0;
+      result = result * 37 + (target != null ? target.hashCode() : 0);
+      result = result * 37 + (action != null ? action.hashCode() : 0);
+      result = result * 37 + (intent != null ? intent.hashCode() : 0);
+      result = result * 37 + (transaction_request != null ? transaction_request.hashCode() : 0);
+      result = result * 37 + (socket_data_received != null ? socket_data_received.hashCode() : 0);
+      hashCode = result;
+    }
+    return result;
+  }
+
+  public static final class Builder extends Message.Builder<SRequest> {
+
+    public URI self;
+    public URI target;
+    public ActionType action;
+    public SIntent intent;
+    public STransactionRequest transaction_request;
+    public SSocketDataReceived socket_data_received;
+
+    public Builder() {
+    }
+
+    public Builder(SRequest message) {
+      super(message);
+      if (message == null) {
+        return;
+      }
+      this.self = message.self;
+      this.target = message.target;
+      this.action = message.action;
+      this.intent = message.intent;
+      this.transaction_request = message.transaction_request;
+      this.socket_data_received = message.socket_data_received;
+    }
+
+    public Builder self(URI self) {
+      this.self = self;
+      return this;
+    }
+
+    public Builder target(URI target) {
+      this.target = target;
+      return this;
+    }
+
+    public Builder action(ActionType action) {
+      this.action = action;
+      return this;
+    }
+
+    public Builder intent(SIntent intent) {
+      this.intent = intent;
+      return this;
+    }
+
+    public Builder transaction_request(STransactionRequest transaction_request) {
+      this.transaction_request = transaction_request;
+      return this;
+    }
+
+    public Builder socket_data_received(SSocketDataReceived socket_data_received) {
+      this.socket_data_received = socket_data_received;
+      return this;
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == this) return true;
-        if (!(other instanceof SRequest)) return false;
-        SRequest o = (SRequest) other;
-        return equals(self, o.self)
-                && equals(target, o.target)
-                && equals(action, o.action)
-                && equals(intent, o.intent)
-                && equals(transaction_request, o.transaction_request)
-                && equals(socket_data_received, o.socket_data_received);
+    public SRequest build() {
+      checkRequiredFields();
+      return new SRequest(this);
     }
+  }
 
-    @Override
-    public int hashCode() {
-        int result = hashCode;
-        if (result == 0) {
-            result = self != null ? self.hashCode() : 0;
-            result = result * 37 + (target != null ? target.hashCode() : 0);
-            result = result * 37 + (action != null ? action.hashCode() : 0);
-            result = result * 37 + (intent != null ? intent.hashCode() : 0);
-            result = result * 37 + (transaction_request != null ? transaction_request.hashCode() : 0);
-            result = result * 37 + (socket_data_received != null ? socket_data_received.hashCode() : 0);
-            hashCode = result;
-        }
-        return result;
-    }
-
-    public static final class Builder extends Message.Builder<SRequest> {
-
-        public URI self;
-        public URI target;
-        public ActionType action;
-        public SIntent intent;
-        public STransactionRequest transaction_request;
-        public SSocketDataReceived socket_data_received;
-
-        public Builder() {
-        }
-
-        public Builder(SRequest message) {
-            super(message);
-            if (message == null) return;
-            this.self = message.self;
-            this.target = message.target;
-            this.action = message.action;
-            this.intent = message.intent;
-            this.transaction_request = message.transaction_request;
-            this.socket_data_received = message.socket_data_received;
-        }
-
-        public Builder self(URI self) {
-            this.self = self;
-            return this;
-        }
-
-        public Builder target(URI target) {
-            this.target = target;
-            return this;
-        }
-
-        public Builder action(ActionType action) {
-            this.action = action;
-            return this;
-        }
-
-        public Builder intent(SIntent intent) {
-            this.intent = intent;
-            return this;
-        }
-
-        public Builder transaction_request(STransactionRequest transaction_request) {
-            this.transaction_request = transaction_request;
-            return this;
-        }
-
-        public Builder socket_data_received(SSocketDataReceived socket_data_received) {
-            this.socket_data_received = socket_data_received;
-            return this;
-        }
-
-        @Override
-        public SRequest build() {
-            checkRequiredFields();
-            return new SRequest(this);
-        }
-    }
-
-    public enum ActionType {
-        @ProtoEnum(0)
-        GET_SIGMA_MANAGER,
-        @ProtoEnum(1)
-        GET_SERVICE_MANAGER,
-        @ProtoEnum(2)
-        GET_SERVICE,
-        @ProtoEnum(3)
-        BINDER_TRANSACTION,
-        @ProtoEnum(4)
-        BINDER_CONNECTED,
-        @ProtoEnum(5)
-        BINDER_DISCONNECTED,
-        @ProtoEnum(6)
-        BINDER_LINK_TO_DEATH,
-        @ProtoEnum(7)
-        BINDER_UNLINK_TO_DEATH,
-        @ProtoEnum(8)
-        FILE_RECV,
-        @ProtoEnum(9)
-        FILE_CLOSE,
-        @ProtoEnum(10)
-        BINDER_DIED,
-    }
+  public enum ActionType {
+    @ProtoEnum(0)
+    GET_SIGMA_MANAGER,
+    @ProtoEnum(1)
+    GET_SERVICE_MANAGER,
+    @ProtoEnum(2)
+    GET_SERVICE,
+    @ProtoEnum(3)
+    BINDER_TRANSACTION,
+    @ProtoEnum(4)
+    BINDER_CONNECTED,
+    @ProtoEnum(5)
+    BINDER_DISCONNECTED,
+    @ProtoEnum(6)
+    BINDER_LINK_TO_DEATH,
+    @ProtoEnum(7)
+    BINDER_UNLINK_TO_DEATH,
+    @ProtoEnum(8)
+    FILE_RECV,
+    @ProtoEnum(9)
+    FILE_CLOSE,
+    @ProtoEnum(10)
+    BINDER_DIED,
+  }
 }
