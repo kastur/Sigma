@@ -32,9 +32,12 @@
         <activity android:name=".samples.location.LocationActivity"/>
         <activity android:name=".samples.location.LocationActivityXmpp"/>
 
+        <service android:name=".impl.LocalSigmaServer" android:process=".LocalSigmaServer"/>
+        <service android:name=".impl.HttpSigmaServer" android:process=".HttpSigmaServer"/>
+        <service android:name=".impl.xmpp.XmppSigmaServer" android:process=".XmppSigmaServer"/>
 
-        <service android:name=".base.SigmaServiceA" android:process=".SigmaServiceA"/>
-        <service android:name=".base.SigmaServiceB" android:process=".SigmaServiceB"/>
+        <service android:name=".base.SigmaFactoryA" android:process=".SigmaServiceA"/>
+        <service android:name=".base.SigmaFactoryB" android:process=".SigmaServiceB"/>
 
         <service android:name=".samples.pingpong.PingPongServer" android:process=".PingPongServer">
             <intent-filter>

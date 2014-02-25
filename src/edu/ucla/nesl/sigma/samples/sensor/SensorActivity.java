@@ -9,114 +9,123 @@ import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import edu.ucla.nesl.sigma.api.RemoteContext;
-import edu.ucla.nesl.sigma.api.SigmaServiceConnection;
-import edu.ucla.nesl.sigma.base.SigmaManager;
-import edu.ucla.nesl.sigma.base.SigmaServiceA;
-import edu.ucla.nesl.sigma.base.SigmaServiceB;
-import edu.ucla.nesl.sigma.samples.BunchOfButtonsActivity;
-import edu.ucla.nesl.sigma.samples.TestXmpp;
+
 import org.achartengine.GraphicalView;
 import org.achartengine.model.XYSeries;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.TreeSet;
+
+import edu.ucla.nesl.sigma.api.RemoteContext;
+import edu.ucla.nesl.sigma.api.SigmaFactory;
+import edu.ucla.nesl.sigma.base.SigmaFactoryA;
+import edu.ucla.nesl.sigma.base.SigmaFactoryB;
+import edu.ucla.nesl.sigma.base.SigmaManager;
+import edu.ucla.nesl.sigma.samples.BunchOfButtonsActivity;
+import edu.ucla.nesl.sigma.samples.TestXmpp;
 
 import static edu.ucla.nesl.sigma.base.SigmaDebug.LogDebug;
 
 public class SensorActivity extends BunchOfButtonsActivity {
-    public static final boolean ENABLE_PLOTTING = true;
-    private static final String TAG = "SensorActivity";
 
-    SigmaServiceConnection connA, connB;
-    SigmaManager sigmaA, sigmaB;
-    SensorManager remoteSensorManager;
+  public static final boolean ENABLE_PLOTTING = true;
+  private static final String TAG = "SensorActivity";
 
-    PlottingSensorEventListener mNativeListener;
-    PlottingSensorEventListener mRemoteListener;
+  SigmaFactory connA, connB;
+  SigmaManager sigmaA, sigmaB;
+  SensorManager remoteSensorManager;
 
-    LineChart mChart;
+  PlottingSensorEventListener mNativeListener;
+  PlottingSensorEventListener mRemoteListener;
 
-    long mBaseTime = System.currentTimeMillis();
+  LineChart mChart;
+
+  long mBaseTime = System.currentTimeMillis();
 
 
-    class EventSample {
-        public long nativeReceiveTime;
-        public long remoteReceiveTime;
+  class EventSample {
 
-        public EventSample() {
-            nativeReceiveTime = -1;
-            remoteReceiveTime = -1;
-        }
+    public long nativeReceiveTime;
+    public long remoteReceiveTime;
+
+    public EventSample() {
+      nativeReceiveTime = -1;
+      remoteReceiveTime = -1;
+    }
+  }
+
+  final HashMap<Long, EventSample> mEventSamples = new HashMap<Long, EventSample>();
+
+
+  private class PlottingSensorEventListener implements SensorEventListener {
+
+    public static final String NATIVE_LISTENER = "native";
+    public static final String REMOTE_LISTENER = "remote";
+
+    public static final int NUM_POINTS = 10;
+
+    final String mName;
+    final XYSeries series;
+    final DecimalFormat mFormat;
+
+    int mIndex;
+    int nEvents;
+
+    public PlottingSensorEventListener(LineChart chart, String name, int color) {
+      mName = name;
+      series = chart.addSeries(name, color);
+      mFormat = new DecimalFormat("+#.###");
+      reset();
     }
 
-    final HashMap<Long, EventSample> mEventSamples = new HashMap<Long, EventSample>();
+    public synchronized void reset() {
+      mIndex = 0;
+      series.clear();
+      mChart.getView().repaint();
 
+      for (int ii = 0; ii < NUM_POINTS; ++ii) {
+        series.add(ii, ii, 0);
+      }
 
-    private class PlottingSensorEventListener implements SensorEventListener {
+      nEvents = 0;
+    }
 
-        public static final String NATIVE_LISTENER = "native";
-        public static final String REMOTE_LISTENER = "remote";
+    @Override
+    public synchronized void onSensorChanged(SensorEvent sensorEvent) {
+      nEvents++;
 
-        public static final int NUM_POINTS = 10;
+      if (nEvents % 100 == 0) {
+        Log.d(TAG, "SensorEventListener-" + mName + " received " + nEvents + " events");
+      }
 
-        final String mName;
-        final XYSeries series;
-        final DecimalFormat mFormat;
+      long eventTimestamp = sensorEvent.timestamp;
+      long receivedNanoTime = System.nanoTime();
 
-        int mIndex;
-        int nEvents;
-
-        public PlottingSensorEventListener(LineChart chart, String name, int color) {
-            mName = name;
-            series = chart.addSeries(name, color);
-            mFormat = new DecimalFormat("+#.###");
-            reset();
+      EventSample entry;
+      synchronized (mEventSamples) {
+        if (!mEventSamples.containsKey(eventTimestamp)) {
+          entry = new EventSample();
+          mEventSamples.put(eventTimestamp, entry);
+        } else {
+          entry = mEventSamples.get(eventTimestamp);
         }
 
-        public synchronized void reset() {
-            mIndex = 0;
-            series.clear();
-            mChart.getView().repaint();
-
-            for (int ii = 0; ii < NUM_POINTS; ++ii) {
-                series.add(ii, ii, 0);
-            }
-
-            nEvents = 0;
+        if (NATIVE_LISTENER.equals(mName)) {
+          entry.nativeReceiveTime = receivedNanoTime;
         }
 
-        @Override
-        public synchronized void onSensorChanged(SensorEvent sensorEvent) {
-            nEvents++;
+        if (REMOTE_LISTENER.equals(mName)) {
+          entry.remoteReceiveTime = receivedNanoTime;
+        }
+      }
 
-            if (nEvents % 100 == 0) {
-                Log.d(TAG, "SensorEventListener-" + mName + " received " + nEvents + " events");
-            }
-
-            long eventTimestamp = sensorEvent.timestamp;
-            long receivedNanoTime = System.nanoTime();
-
-            EventSample entry;
-            synchronized (mEventSamples) {
-                if (!mEventSamples.containsKey(eventTimestamp)) {
-                    entry = new EventSample();
-                    mEventSamples.put(eventTimestamp, entry);
-                } else {
-                    entry = mEventSamples.get(eventTimestamp);
-                }
-
-                if (NATIVE_LISTENER.equals(mName)) {
-                    entry.nativeReceiveTime = receivedNanoTime;
-                }
-
-                if (REMOTE_LISTENER.equals(mName)) {
-                    entry.remoteReceiveTime = receivedNanoTime;
-                }
-            }
-
-            if (ENABLE_PLOTTING) {
-                double yval = sensorEvent.values[0];
+      if (ENABLE_PLOTTING) {
+        double yval = sensorEvent.values[0];
                 /*
                 if (mName.equals(NATIVE_LISTENER)) {
                     yval += 1;
@@ -124,208 +133,215 @@ public class SensorActivity extends BunchOfButtonsActivity {
                     yval -= 1;
                 }
                 */
-                double xval = sensorEvent.timestamp / (1000.0 * 1000.0) % LineChart.X_AXIS_MAX;
-                series.remove(mIndex);
-                series.add(mIndex, xval, yval);
-                mIndex = (mIndex + 1) % NUM_POINTS;
-            }
+        double xval = sensorEvent.timestamp / (1000.0 * 1000.0) % LineChart.X_AXIS_MAX;
+        series.remove(mIndex);
+        series.add(mIndex, xval, yval);
+        mIndex = (mIndex + 1) % NUM_POINTS;
+      }
 
-            LogDebug(TAG, mName + " SENSOR_EVENT:" +
+      LogDebug(TAG, mName + " SENSOR_EVENT:" +
                     mFormat.format(sensorEvent.values[0]) + ", " +
                     mFormat.format(sensorEvent.values[1]) + ", " +
                     mFormat.format(sensorEvent.values[2]) + ", " +
                     sensorEvent.timestamp);
-        }
+    }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+    connA.disconnect();
+    connB.disconnect();
+    super.onDestroy();
+  }
+
+  @Override
+  public void onCreateHook() {
+    connA = new SigmaFactory(this, SigmaFactoryA.class);
+
+    connB = new SigmaFactory(this, SigmaFactoryB.class);
+
+    mChart = new LineChart(this);
+
+    if (ENABLE_PLOTTING) {
+      GraphicalView view = mChart.getView();
+      view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600));
+      getLayout().addView(view);
+      TimerTask task = new TimerTask() {
         @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
+        public void run() {
+          mChart.getView().repaint();
         }
+      };
+      Timer timer = new Timer();
+      timer.scheduleAtFixedRate(task, 500, 50);
     }
 
-    @Override
-    protected void onDestroy() {
-        connA.disconnect();
-        connB.disconnect();
-        super.onDestroy();
-    }
+    mNativeListener =
+        new PlottingSensorEventListener(mChart, PlottingSensorEventListener.NATIVE_LISTENER,
+                                        Color.GREEN);
+    mRemoteListener =
+        new PlottingSensorEventListener(mChart, PlottingSensorEventListener.REMOTE_LISTENER,
+                                        Color.RED);
 
-    @Override
-    public void onCreateHook() {
-        connA = new SigmaServiceConnection(this, SigmaServiceA.class);
+    addButton("ΣA & ΣB LOCAL", new Runnable() {
+      @Override
+      public void run() {
+        sigmaA = connA.newInstance(SigmaFactoryA.getURILocal(), null);
+        sigmaB = connB.newInstance(SigmaFactoryB.getURILocal(), null);
 
-        connB = new SigmaServiceConnection(this, SigmaServiceB.class);
+        SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
+        RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
+        remoteSensorManager =
+            (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
+      }
+    });
 
-        mChart = new LineChart(this);
+    addButton("ΣA & ΣB Local HTTP", new Runnable() {
+      @Override
+      public void run() {
+        sigmaA = connA.newInstance(SigmaFactoryA.getLocalHttp(), null);
+        sigmaB = connB.newInstance(SigmaFactoryB.getLocalHttp(), null);
 
-        if (ENABLE_PLOTTING) {
-            GraphicalView view = mChart.getView();
-            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600));
-            getLayout().addView(view);
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    mChart.getView().repaint();
-                }
-            };
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(task, 500, 50);
+        SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
+        RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
+        remoteSensorManager =
+            (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
+      }
+    });
+
+    addButton("ΣA & ΣB Proxy HTTP", new Runnable() {
+      @Override
+      public void run() {
+        sigmaA = connA.newInstance(SigmaFactoryA.getProxyHttp(), null);
+        sigmaB = connB.newInstance(SigmaFactoryB.getProxyHttp(), null);
+
+        SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
+        RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
+        remoteSensorManager =
+            (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
+      }
+    });
+
+    addButton("ΣA & ΣB XMPP", new Runnable() {
+      @Override
+      public void run() {
+        Toast.makeText(SensorActivity.this, "Trying to login to XMPP", Toast.LENGTH_LONG).show();
+        sigmaA = connA.newInstance(TestXmpp.getXmppB(), TestXmpp.getPasswordBundeB());
+        Toast.makeText(SensorActivity.this, "Logged in as rr@", Toast.LENGTH_LONG).show();
+        sigmaB = connB.newInstance(TestXmpp.getXmppA(), TestXmpp.getPasswordBundleA());
+        Toast.makeText(SensorActivity.this, "Trying in as kk@", Toast.LENGTH_LONG).show();
+        SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
+        RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
+        remoteSensorManager =
+            (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
+      }
+    });
+
+    addButton("Register native+remote sensor events", new Runnable() {
+      @Override
+      public void run() {
+        mNativeListener.reset();
+        mRemoteListener.reset();
+
+        {
+          SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+          Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+          sensorManager
+              .registerListener(mNativeListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
 
+        {
+          Sensor accelerometer = remoteSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+          remoteSensorManager
+              .registerListener(mRemoteListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        }
+      }
+    });
 
-        mNativeListener = new PlottingSensorEventListener(mChart, PlottingSensorEventListener.NATIVE_LISTENER, Color.GREEN);
-        mRemoteListener = new PlottingSensorEventListener(mChart, PlottingSensorEventListener.REMOTE_LISTENER, Color.RED);
+    addButton("Unregister remote+native", new Runnable() {
+      @Override
+      public void run() {
+        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorManager.unregisterListener(mNativeListener);
+        remoteSensorManager.unregisterListener(mRemoteListener);
 
-        addButton("ΣA & ΣB LOCAL", new Runnable() {
-            @Override
-            public void run() {
-                sigmaA = connA.getImpl(SigmaServiceA.getURILocal(), null);
-                sigmaB = connB.getImpl(SigmaServiceB.getURILocal(), null);
-
-                SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
-                RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
-                remoteSensorManager = (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
-            }
-        });
-
-        addButton("ΣA & ΣB Local HTTP", new Runnable() {
-            @Override
-            public void run() {
-                sigmaA = connA.getImpl(SigmaServiceA.getLocalHttp(), null);
-                sigmaB = connB.getImpl(SigmaServiceB.getLocalHttp(), null);
-
-                SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
-                RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
-                remoteSensorManager = (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
-            }
-        });
-
-        addButton("ΣA & ΣB Proxy HTTP", new Runnable() {
-            @Override
-            public void run() {
-                sigmaA = connA.getImpl(SigmaServiceA.getProxyHttp(), null);
-                sigmaB = connB.getImpl(SigmaServiceB.getProxyHttp(), null);
-
-                SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
-                RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
-                remoteSensorManager = (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
-            }
-        });
-
-        addButton("ΣA & ΣB XMPP", new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(SensorActivity.this, "Trying to login to XMPP", Toast.LENGTH_LONG).show();
-                sigmaA = connA.getImpl(TestXmpp.getXmppB(), TestXmpp.getPasswordBundeB());
-                Toast.makeText(SensorActivity.this, "Logged in as rr@", Toast.LENGTH_LONG).show();
-                sigmaB = connB.getImpl(TestXmpp.getXmppA(), TestXmpp.getPasswordBundleA());
-                Toast.makeText(SensorActivity.this, "Trying in as kk@", Toast.LENGTH_LONG).show();
-                SigmaManager remote = sigmaA.getRemoteManager(sigmaB.getBaseURI());
-                RemoteContext remoteContext = RemoteContext.getRemoteContext(SensorActivity.this, remote);
-                remoteSensorManager = (SensorManager) remoteContext.getSystemService(Context.SENSOR_SERVICE);
-            }
-        });
-
-
-        addButton("Register native+remote sensor events", new Runnable() {
-            @Override
-            public void run() {
-                mNativeListener.reset();
-                mRemoteListener.reset();
-
-                {
-                    SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-                    Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                    sensorManager.registerListener(mNativeListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-                }
-
-                {
-                    Sensor accelerometer = remoteSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                    remoteSensorManager.registerListener(mRemoteListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
-                }
-            }
-        });
-
-        addButton("Unregister remote+native", new Runnable() {
-            @Override
-            public void run() {
-                SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-                sensorManager.unregisterListener(mNativeListener);
-                remoteSensorManager.unregisterListener(mRemoteListener);
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex) {
-                }
-
-                computeAndLogEventStats();
-            }
-        });
-
-        addButton("Native unregister", new Runnable() {
-            @Override
-            public void run() {
-                SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-                sensorManager.unregisterListener(mNativeListener);
-            }
-        });
-    }
-
-    void computeAndLogEventStats() {
-        int numSamples = 0;
-        int nativeNull = 0;
-        int remoteNull = 0;
-        int remoteNeverReceived = 0;
-
-        ArrayList<Double> diffs = new ArrayList<Double>();
-
-        synchronized (mEventSamples) {
-            SortedSet<Long> keys = new TreeSet<Long>(mEventSamples.keySet());
-            for (Long key : keys) {
-                EventSample sample = mEventSamples.get(key);
-
-                numSamples++;
-
-                if (sample.nativeReceiveTime == -1) {
-                    nativeNull++;
-                }
-
-                if (sample.remoteReceiveTime == -1) {
-                    remoteNull++;
-                }
-
-                if (sample.nativeReceiveTime > -1 && sample.remoteReceiveTime == -1) {
-                    remoteNeverReceived++;
-                }
-
-                if (sample.nativeReceiveTime > -1 && sample.remoteReceiveTime > -1) {
-                    diffs.add(new Double(sample.remoteReceiveTime - sample.nativeReceiveTime));
-                } else {
-                    diffs.add(Double.NaN);
-                }
-            }
+        try {
+          Thread.sleep(2000);
+        } catch (InterruptedException ex) {
         }
 
-        Log.i(TAG,
-                "numSamples=" + numSamples + "\n" +
-                        "nativeNullt=" + nativeNull + "\n" +
-                        "remoteNullt=" + remoteNull + "\n" +
-                        "remoteNeverReceived=" + remoteNeverReceived + "\n");
+        computeAndLogEventStats();
+      }
+    });
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("--------------------------------------------------\n");
-        sb.append("diffsNano = [");
-        int ii = 0;
-        for (double diff : diffs) {
-            sb.append(diff).append(", ");
-            ii++;
-            if (ii % 100 == 0) {
-                sb.append("\n");
-            }
+    addButton("Native unregister", new Runnable() {
+      @Override
+      public void run() {
+        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorManager.unregisterListener(mNativeListener);
+      }
+    });
+  }
+
+  void computeAndLogEventStats() {
+    int numSamples = 0;
+    int nativeNull = 0;
+    int remoteNull = 0;
+    int remoteNeverReceived = 0;
+
+    ArrayList<Double> diffs = new ArrayList<Double>();
+
+    synchronized (mEventSamples) {
+      SortedSet<Long> keys = new TreeSet<Long>(mEventSamples.keySet());
+      for (Long key : keys) {
+        EventSample sample = mEventSamples.get(key);
+
+        numSamples++;
+
+        if (sample.nativeReceiveTime == -1) {
+          nativeNull++;
         }
-        sb.append("]\n--------------------------------------------------");
 
+        if (sample.remoteReceiveTime == -1) {
+          remoteNull++;
+        }
 
-        System.out.println(sb.toString());
+        if (sample.nativeReceiveTime > -1 && sample.remoteReceiveTime == -1) {
+          remoteNeverReceived++;
+        }
+
+        if (sample.nativeReceiveTime > -1 && sample.remoteReceiveTime > -1) {
+          diffs.add(new Double(sample.remoteReceiveTime - sample.nativeReceiveTime));
+        } else {
+          diffs.add(Double.NaN);
+        }
+      }
     }
+
+    Log.i(TAG,
+          "numSamples=" + numSamples + "\n" +
+          "nativeNullt=" + nativeNull + "\n" +
+          "remoteNullt=" + remoteNull + "\n" +
+          "remoteNeverReceived=" + remoteNeverReceived + "\n");
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("--------------------------------------------------\n");
+    sb.append("diffsNano = [");
+    int ii = 0;
+    for (double diff : diffs) {
+      sb.append(diff).append(", ");
+      ii++;
+      if (ii % 100 == 0) {
+        sb.append("\n");
+      }
+    }
+    sb.append("]\n--------------------------------------------------");
+
+    System.out.println(sb.toString());
+  }
 
 }

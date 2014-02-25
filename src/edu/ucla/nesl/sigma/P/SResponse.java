@@ -41,14 +41,18 @@ public final class SResponse extends Message {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) return true;
-    if (!(other instanceof SResponse)) return false;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof SResponse)) {
+      return false;
+    }
     SResponse o = (SResponse) other;
     return equals(type, o.type)
-        && equals(self, o.self)
-        && equals(error, o.error)
-        && equals(uri, o.uri)
-        && equals(transaction_response, o.transaction_response);
+           && equals(self, o.self)
+           && equals(error, o.error)
+           && equals(uri, o.uri)
+           && equals(transaction_response, o.transaction_response);
   }
 
   @Override
@@ -78,7 +82,9 @@ public final class SResponse extends Message {
 
     public Builder(SResponse message) {
       super(message);
-      if (message == null) return;
+      if (message == null) {
+        return;
+      }
       this.type = message.type;
       this.self = message.self;
       this.error = message.error;

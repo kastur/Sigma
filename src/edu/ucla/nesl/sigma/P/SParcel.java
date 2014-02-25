@@ -4,6 +4,7 @@ package edu.ucla.nesl.sigma.P;
 
 import com.squareup.wire.Message;
 import com.squareup.wire.ProtoField;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -30,11 +31,15 @@ public final class SParcel extends Message {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) return true;
-    if (!(other instanceof SParcel)) return false;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof SParcel)) {
+      return false;
+    }
     SParcel o = (SParcel) other;
     return equals(bytes, o.bytes)
-        && equals(objects, o.objects);
+           && equals(objects, o.objects);
   }
 
   @Override
@@ -58,7 +63,9 @@ public final class SParcel extends Message {
 
     public Builder(SParcel message) {
       super(message);
-      if (message == null) return;
+      if (message == null) {
+        return;
+      }
       this.bytes = message.bytes;
       this.objects = copyOf(message.objects);
     }

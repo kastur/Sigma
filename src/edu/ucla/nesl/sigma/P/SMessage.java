@@ -37,13 +37,17 @@ public final class SMessage extends Message {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) return true;
-    if (!(other instanceof SMessage)) return false;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof SMessage)) {
+      return false;
+    }
     SMessage o = (SMessage) other;
     return equals(type, o.type)
-        && equals(request, o.request)
-        && equals(response, o.response)
-        && equals(error, o.error);
+           && equals(request, o.request)
+           && equals(response, o.response)
+           && equals(error, o.error);
   }
 
   @Override
@@ -71,7 +75,9 @@ public final class SMessage extends Message {
 
     public Builder(SMessage message) {
       super(message);
-      if (message == null) return;
+      if (message == null) {
+        return;
+      }
       this.type = message.type;
       this.request = message.request;
       this.response = message.response;

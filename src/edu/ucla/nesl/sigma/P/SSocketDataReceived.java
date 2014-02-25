@@ -22,8 +22,12 @@ public final class SSocketDataReceived extends Message {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) return true;
-    if (!(other instanceof SSocketDataReceived)) return false;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof SSocketDataReceived)) {
+      return false;
+    }
     return equals(bytes, ((SSocketDataReceived) other).bytes);
   }
 
@@ -42,7 +46,9 @@ public final class SSocketDataReceived extends Message {
 
     public Builder(SSocketDataReceived message) {
       super(message);
-      if (message == null) return;
+      if (message == null) {
+        return;
+      }
       this.bytes = message.bytes;
     }
 

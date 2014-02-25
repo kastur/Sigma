@@ -1,69 +1,73 @@
 package edu.ucla.nesl.sigma.impl.xmpp;
 
-import android.content.Context;
-import edu.ucla.nesl.sigma.P.SRequest;
-import edu.ucla.nesl.sigma.P.SResponse;
-import edu.ucla.nesl.sigma.P.URI;
-import edu.ucla.nesl.sigma.api.ISigmaServer;
-import edu.ucla.nesl.sigma.base.SigmaEngine;
+import android.os.Bundle;
 
 import java.util.concurrent.Semaphore;
 
+import edu.ucla.nesl.sigma.P.SRequest;
+import edu.ucla.nesl.sigma.P.SResponse;
+import edu.ucla.nesl.sigma.P.URI;
+import edu.ucla.nesl.sigma.api.IRequestHandler;
+import edu.ucla.nesl.sigma.base.SigmaPeerFactory;
+import edu.ucla.nesl.sigma.base.SigmaWire;
+
 import static edu.ucla.nesl.sigma.base.SigmaDebug.throwUnexpected;
 
-public class XmppSigmaServer implements ISigmaServer, SigmaEngine.IRequestFactory {
-    public static final String TAG = XmppSigmaServer.class.getName();
-    final SigmaEngine mEngine;
-    final XmppClient mClient;
+public class XmppSigmaServer extends SigmaPeerFactory<XmppClient> {
 
-    private static XmppClient.XmppConfig getConfig(URI uri, String password) {
-        XmppClient.XmppConfig config = new XmppClient.XmppConfig(uri.host, uri.port, uri.domain, uri.login, password);
-        return config;
+  public static final String TAG = XmppSigmaServer.class.getName();
+
+  @Override
+  public XmppClient create(URI baseURI, IRequestHandler requestHandler, Bundle extras) {
+    String password = extras.getString("password");
+    final XmppClient client = new XmppClient(getConfig(baseURI, password), requestHandler);
+    return client;
+  }
+
+  @Override
+  public void start(final XmppClient inst) {
+    final Semaphore semaphore = new Semaphore(1);
+    try {
+      semaphore.acquire();
+    } catch (InterruptedException ex) {
+      throwUnexpected(ex);
     }
 
-    public XmppSigmaServer(Context context, URI uri, String password) {
-        XmppClient.InitializeWithContext(context);
-        mEngine = new SigmaEngine(context, uri, this);
-        mClient = new XmppClient(getConfig(uri, password), mEngine);
+    Thread t = new Thread() {
+      @Override
+      public void run() {
+        inst.login();
+        semaphore.release();
+      }
+    };
+
+    t.start();
+    try {
+      semaphore.acquire();
+    } catch (InterruptedException ex) {
+      throwUnexpected(ex);
     }
+  }
 
-    @Override
-    public SResponse doTransaction(SRequest request) {
-        return mClient.doTransaction(request);
-    }
+  @Override
+  public void stop(XmppClient inst) {
+    inst.disconnect();
+  }
 
-    @Override
-    public SigmaEngine getEngine() {
-        return mEngine;
-    }
+  @Override
+  public byte[] send(XmppClient inst, byte[] requestBytes) {
+    SRequest request = SigmaWire.getInstance().parseFrom(requestBytes, SRequest.class);
+    SResponse response = inst.send(request);
+    return response.toByteArray();
+  }
 
-    @Override
-    public void start() {
-        final Semaphore semaphore = new Semaphore(1);
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException ex) {
-            throwUnexpected(ex);
-        }
 
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                mClient.login();
-                semaphore.release();
-            }
-        };
-
-        t.start();
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException ex) {
-            throwUnexpected(ex);
-        }
-    }
-
-    @Override
-    public void stop() {
-        mClient.disconnect();
-    }
+  private static XmppClient.XmppConfig getConfig(URI uri, String password) {
+    XmppClient.XmppConfig
+        config =
+        new XmppClient.XmppConfig(uri.host, uri.port, uri.domain, uri.login, password);
+    return config;
+  }
 }
+
+

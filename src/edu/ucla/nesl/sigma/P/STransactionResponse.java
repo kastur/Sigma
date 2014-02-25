@@ -26,11 +26,15 @@ public final class STransactionResponse extends Message {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) return true;
-    if (!(other instanceof STransactionResponse)) return false;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof STransactionResponse)) {
+      return false;
+    }
     STransactionResponse o = (STransactionResponse) other;
     return equals(reply, o.reply)
-        && equals(_return, o._return);
+           && equals(_return, o._return);
   }
 
   @Override
@@ -54,7 +58,9 @@ public final class STransactionResponse extends Message {
 
     public Builder(STransactionResponse message) {
       super(message);
-      if (message == null) return;
+      if (message == null) {
+        return;
+      }
       this.reply = message.reply;
       this._return = message._return;
     }

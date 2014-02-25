@@ -21,8 +21,12 @@ public final class SIntent extends Message {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) return true;
-    if (!(other instanceof SIntent)) return false;
+    if (other == this) {
+      return true;
+    }
+    if (!(other instanceof SIntent)) {
+      return false;
+    }
     return equals(action, ((SIntent) other).action);
   }
 
@@ -41,7 +45,9 @@ public final class SIntent extends Message {
 
     public Builder(SIntent message) {
       super(message);
-      if (message == null) return;
+      if (message == null) {
+        return;
+      }
       this.action = message.action;
     }
 

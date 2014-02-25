@@ -8,19 +8,20 @@ import android.location.LocationManager;
 import android.util.Log;
 
 public abstract class LocationPoster extends BroadcastReceiver {
-    public static final String TAG = LocationPoster.class.getName();
-    public final String mName;
 
-    public LocationPoster(String name) {
-        mName = name;
-    }
+  public static final String TAG = LocationPoster.class.getName();
+  public final String mName;
 
-    public void onReceive(Context context, Intent intent) {
-        Location location = (Location) intent.getExtras().get(LocationManager.KEY_LOCATION_CHANGED);
-        Log.d(TAG, "----------> Received location update: " +
-                mName + " ------>(" +
-                location.getTime() + ", " +
-                location.getLatitude() + ", " +
-                location.getLongitude() + ")");
-    }
+  public LocationPoster(String name) {
+    mName = name;
+  }
+
+  public void onReceive(Context context, Intent intent) {
+    Location location = (Location) intent.getExtras().get(LocationManager.KEY_LOCATION_CHANGED);
+    Log.d(TAG, "----------> Received location update: " +
+               mName + " ------>(" +
+               location.getTime() + ", " +
+               location.getLatitude() + ", " +
+               location.getLongitude() + ")");
+  }
 }
