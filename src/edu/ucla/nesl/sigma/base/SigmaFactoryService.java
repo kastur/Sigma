@@ -4,13 +4,11 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 
 import java.util.HashMap;
-import java.util.concurrent.Semaphore;
 
 import edu.ucla.nesl.sigma.P.SRequest;
 import edu.ucla.nesl.sigma.P.SResponse;
@@ -29,6 +27,7 @@ import static edu.ucla.nesl.sigma.base.SigmaDebug.LogDebug;
 import static edu.ucla.nesl.sigma.base.SigmaDebug.throwUnexpected;
 
 public abstract class SigmaFactoryService extends Service {
+
   public static final String TAG = SigmaFactoryService.class.getSimpleName();
 
   final String mName;
@@ -44,15 +43,12 @@ public abstract class SigmaFactoryService extends Service {
 
   @Override
   public void onCreate() {
-    final Semaphore s = new Semaphore(3);
-    try { s.acquire(3); } catch(InterruptedException ex) { throwUnexpected(ex); }
-    bindTo(URI.Protocol.LOCAL, s);
-    bindTo(URI.Protocol.HTTP, s);
-    bindTo(URI.Protocol.XMPP, s);
-    try { s.acquire(); } catch(InterruptedException ex) { throwUnexpected(ex); }
+    bindTo(URI.Protocol.LOCAL);
+    bindTo(URI.Protocol.HTTP);
+    bindTo(URI.Protocol.XMPP);
   }
 
-  private void bindTo(final URI.Protocol protocol, final Semaphore s) {
+  private void bindTo(final URI.Protocol protocol) {
     Class serviceClass = null;
     switch (protocol) {
       case LOCAL:
@@ -75,7 +71,6 @@ public abstract class SigmaFactoryService extends Service {
         LogDebug(TAG, "PEER onServiceConnected");
         ISigmaPeerFactory peerFactory = ISigmaPeerFactory.Stub.asInterface(binder);
         mPeerFactories.put(protocol, peerFactory);
-        s.release();
       }
 
       @Override
@@ -84,14 +79,7 @@ public abstract class SigmaFactoryService extends Service {
       }
     };
 
-    new AsyncTask<Void, Void, Void>() {
-      @Override
-      protected Void doInBackground(Void... voids) {
-        bindService(service, conn, BIND_AUTO_CREATE | BIND_ABOVE_CLIENT);
-        return null;
-      }
-    }.execute();
-
+    bindService(service, conn, BIND_AUTO_CREATE | BIND_ABOVE_CLIENT);
   }
 
   class Holder<T> {

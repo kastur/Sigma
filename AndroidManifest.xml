@@ -5,14 +5,14 @@
           android:versionName="1.0">
     <uses-sdk android:minSdkVersion="17"/>
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
 
     <application android:label="Sigma">
 
@@ -23,11 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".samples.pingpong.PingPongActivity" />
-        <activity android:name=".samples.chat.PictureShareActivity" />
-        <activity android:name=".samples.chat.PictureViewActivity" />
-        <activity android:name=".samples.sensor.SensorActivity" />
-        <activity android:name=".samples.basic.MainActivity" />
+        <activity android:name=".samples.pingpong.PingPongActivity"/>
+        <activity android:name=".samples.chat.PictureShareActivity"/>
+        <activity android:name=".samples.chat.PictureViewActivity"/>
+        <activity android:name=".samples.sensor.SensorActivity"/>
+        <activity android:name=".samples.basic.MainActivity"/>
         <activity android:name=".test.BasicTests"/>
         <activity android:name=".samples.location.LocationActivity"/>
         <activity android:name=".samples.location.LocationActivityXmpp"/>
@@ -45,7 +45,8 @@
             </intent-filter>
         </service>
 
-        <service android:name=".samples.chat.PictureChatService" android:process=".PictureChatService">
+        <service android:name=".samples.chat.PictureChatService"
+                 android:process=".PictureChatService">
             <intent-filter>
                 <action android:name="edu.ucla.nesl.sigma.samples.chat.PictureChatService"/>
             </intent-filter>

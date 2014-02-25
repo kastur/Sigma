@@ -11,7 +11,6 @@ import android.os.RemoteException;
 import java.util.concurrent.Semaphore;
 
 import edu.ucla.nesl.sigma.P.URI;
-import edu.ucla.nesl.sigma.base.SigmaEngine;
 import edu.ucla.nesl.sigma.base.SigmaFactoryService;
 import edu.ucla.nesl.sigma.base.SigmaManager;
 
@@ -56,8 +55,7 @@ public class SigmaFactory implements ServiceConnection {
       throwUnexpected(new IllegalStateException("ISigmaServiceConnection is already connected."));
     }
     Intent intent = new Intent(mContext, mFactoryClass);
-    //mContext.bindService(intent, SigmaFactory.this, Context.BIND_AUTO_CREATE);
-    mFactory = ISigmaFactory.Stub.asInterface(SigmaEngine.getService(mContext, intent).first);
+    mContext.bindService(intent, SigmaFactory.this, Context.BIND_AUTO_CREATE);
   }
 
   public synchronized void disconnect() {

@@ -217,7 +217,7 @@ public class PingPongActivity extends BunchOfButtonsActivity {
       }
 
       try {
-        pingPongB.ping(pingPongA, 20);
+        pingPongB.ping(pingPongA, 4);
       } catch (RemoteException ex) {
         throwUnexpected(ex);
       }

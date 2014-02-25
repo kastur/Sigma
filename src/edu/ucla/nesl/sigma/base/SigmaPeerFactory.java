@@ -34,7 +34,7 @@ public abstract class SigmaPeerFactory<T> extends Service {
 
   @Override
   public IBinder onBind(Intent intent) {
-    return null;
+    return mBinder;
   }
 
   public IBinder mBinder = new ISigmaPeerFactory.Stub() {

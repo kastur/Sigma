@@ -12,7 +12,7 @@
 
 #define TAG "sigmalib"
 
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #ifdef DEBUG_MODE
   #define ALOGD(x...)  __android_log_print(ANDROID_LOG_INFO, TAG, x)
